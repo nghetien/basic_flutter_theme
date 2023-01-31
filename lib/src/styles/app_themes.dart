@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 import 'main_style/main_style.dart';
@@ -9,30 +8,53 @@ class BasicAppThemes {
   const BasicAppThemes._();
 
   static final ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: BasicAppColors.white,
-    primaryColor: BasicAppColors.primary,
-    primaryColorDark: BasicAppColors.primary,
-    errorColor: Colors.red,
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: BasicAppColors().bgPrimaryThemeLight,
+    primaryColor: BasicAppColors().primary,
+    primaryColorDark: BasicAppColors().primaryDark,
+    primaryColorLight: BasicAppColors().primaryLight,
+    errorColor: BasicAppColors.red,
     hoverColor: Colors.white54,
-    dividerColor: BasicAppColors.viewLine,
-    fontFamily: GoogleFonts.openSans().fontFamily,
-    appBarTheme: const AppBarTheme(
-      color: BasicAppColors.white,
-      iconTheme: IconThemeData(color: BasicAppColors.textPrimary),
-      systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
+    dividerColor: Colors.white54,
+    fontFamily: BasicFonts.defaultFont,
+    appBarTheme: AppBarTheme(
+      color: BasicAppColors().primary,
+      iconTheme: const IconThemeData(color: BasicAppColors.white),
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
+      titleTextStyle: BasicTextStyles.titleLarge.copyWith(color: BasicAppColors.white),
     ),
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
-    colorScheme: const ColorScheme.light(primary: BasicAppColors.primary),
-    cardTheme: const CardTheme(color: Colors.white),
-    cardColor: Colors.white,
-    iconTheme: const IconThemeData(color: BasicAppColors.textPrimary),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: BasicAppColors.white),
-    textTheme: const TextTheme(
-      button: TextStyle(color: BasicAppColors.primary),
-      headline6: TextStyle(color: BasicAppColors.textPrimary),
-      subtitle2: TextStyle(color: BasicAppColors.textSecondary),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: BasicAppColors.black,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
+      labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
+      errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
+      fillColor: BasicAppColors.white,
+    ),
+    cardTheme: CardTheme(color: BasicAppColors().cardThemeLight),
+    cardColor: BasicAppColors().cardThemeLight,
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors().bgPrimaryThemeLight),
+    iconTheme: const IconThemeData(color: BasicAppColors.black),
+    textTheme: TextTheme(
+      subtitle1: BasicTextStyles.body.copyWith(color: BasicAppColors.black),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(BasicAppColors().primary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      checkColor: MaterialStateProperty.all(BasicAppColors().primary),
+      side: BorderSide(width: 1, color: BasicAppColors().primary),
+      splashRadius: 0,
+    ),
+    toggleableActiveColor: BasicAppColors().primary,
+    colorScheme: ColorScheme.light(
+      primary: BasicAppColors().primary,
+      onPrimary: BasicAppColors.white,
+      onSurface: BasicAppColors.black,
+    ),
   ).copyWith(
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -45,40 +67,54 @@ class BasicAppThemes {
   );
 
   static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: BasicAppColors.appBackgroundDark,
-    primaryColor: BasicAppColors.primaryBlack,
-    primaryColorDark: BasicAppColors.primaryBlack,
-    errorColor: const Color(0xFFCF6676),
-    hoverColor: Colors.black12,
-    dividerColor: const Color(0xFFDADADA).withOpacity(0.3),
-    highlightColor: BasicAppColors.appBackgroundDark,
-    fontFamily: GoogleFonts.openSans().fontFamily,
-    appBarTheme: const AppBarTheme(
-      color: BasicAppColors.appBackgroundDark,
-      iconTheme: IconThemeData(color: BasicAppColors.black),
-      systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: BasicAppColors().bgPrimaryThemeDark,
+    primaryColor: BasicAppColors().primary,
+    primaryColorDark: BasicAppColors().primaryDark,
+    primaryColorLight: BasicAppColors().primaryLight,
+    errorColor: BasicAppColors.red,
+    dividerColor: Colors.white54,
+    fontFamily: BasicFonts.defaultFont,
+    appBarTheme: AppBarTheme(
+      color: BasicAppColors().bgPrimaryThemeDark,
+      iconTheme: const IconThemeData(color: BasicAppColors.white),
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
+      titleTextStyle: BasicTextStyles.titleLarge.copyWith(color: BasicAppColors.white),
     ),
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.white),
-    primaryTextTheme: TextTheme(
-      headline6: BasicTextStyles.textMediumDefault.copyWith(color: Colors.white),
-      overline: BasicTextStyles.textMediumDefault.copyWith(color: Colors.white),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: BasicAppColors().primary,
     ),
-    cardTheme: const CardTheme(color: BasicAppColors.cardBackgroundBlackDark),
-    cardColor: BasicAppColors.appSecondaryBackground,
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
+      labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
+      errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
+      fillColor: BasicAppColors().bgSecondaryThemeDark,
+    ),
+    cardTheme: CardTheme(color: BasicAppColors().cardThemeDark),
+    cardColor: BasicAppColors().cardThemeDark,
+    canvasColor: BasicAppColors().bgSecondaryThemeDark,
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors().bgPrimaryThemeDark),
     iconTheme: const IconThemeData(color: BasicAppColors.white),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: BasicAppColors.appBackgroundDark),
-    textTheme: const TextTheme(
-      button: TextStyle(color: BasicAppColors.primaryBlack),
-      headline6: TextStyle(color: BasicAppColors.white),
-      subtitle2: TextStyle(color: Colors.white54),
-    ),
-    colorScheme: const ColorScheme.dark(
-      primary: BasicAppColors.appBackgroundDark,
-      onPrimary: BasicAppColors.cardBackgroundBlackDark,
-    ).copyWith(
-      secondary: BasicAppColors.white,
+    textTheme: TextTheme(
+      subtitle1: BasicTextStyles.body.copyWith(color: BasicAppColors.grey),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    dialogBackgroundColor: BasicAppColors().bgSecondaryThemeDark,
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(BasicAppColors().primary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      checkColor: MaterialStateProperty.all(BasicAppColors().primary),
+      side: BorderSide(width: 1, color: BasicAppColors().primary),
+      splashRadius: 0,
+    ),
+    toggleableActiveColor: BasicAppColors().primary,
+    colorScheme: ColorScheme.dark(
+      primary: BasicAppColors().primary,
+      surface: BasicAppColors().bgPrimaryThemeDark,
+      onSurface: BasicAppColors.white,
+    ),
   ).copyWith(
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{

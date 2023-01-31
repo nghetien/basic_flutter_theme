@@ -1,19 +1,23 @@
 class BasicPaddings {
-  const BasicPaddings._();
+  BasicPaddings._privateConstructor();
 
-  static double _paddingScale = 1;
+  static final BasicPaddings _instance = BasicPaddings._privateConstructor();
 
-  static void setScale(double value) => _paddingScale = value;
+  factory BasicPaddings() => _instance;
 
-  static double get scale => _paddingScale;
+  double _paddingScale = 1;
 
-  static double get xs => 4 * _paddingScale;
+  void setScale(double value) => _paddingScale = value;
 
-  static double get sm => 8 * _paddingScale;
+  double get scale => _paddingScale;
 
-  static double get med => 12 * _paddingScale;
+  double get p4 => 4 * _paddingScale;
 
-  static double get lg => 18 * _paddingScale;
+  double get p8 => 8 * _paddingScale;
 
-  static double get xl => 32 * _paddingScale;
+  double get p12 => 12 * _paddingScale;
+
+  double get p18 => 18 * _paddingScale;
+
+  double get p32 => 32 * _paddingScale;
 }

@@ -53,8 +53,8 @@ class BasicConfigResponsive {
   void onResponsiveUpdate(double width) {
     setScreenDevice(getScreenDeviceFromWidth(width));
     setScale(getScaleFromScreenDevice());
-    BasicFontSizes.setScale(scale);
-    BasicIconSizes.setScale(scale);
-    BasicPaddings.setScale(scale);
+    BasicFontSizes().setScale(scale);
+    BasicIconSizes().setScale(scale);
+    BasicPaddings().setScale(scale);
   }
 }
