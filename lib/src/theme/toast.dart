@@ -1,9 +1,10 @@
+import 'package:basic_flutter_theme/src/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../styles/styles.dart';
+class BasicToast {
+  const BasicToast._();
 
-class CustomToast {
   static Future<bool?> toast({
     required String msg,
     Color backgroundColor = Colors.black,

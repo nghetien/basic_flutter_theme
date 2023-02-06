@@ -31,7 +31,7 @@ class BasicAppColors {
   /// The background color of the app.
   Color _bgPrimaryThemeDark = const Color(0xFF1F1D2C);
   Color _bgSecondaryThemeDark = const Color(0xFF262837);
-  Color _bgPrimaryThemeLight = const Color(0xFFF5F5F5);
+  Color _bgPrimaryThemeLight = const Color(0xFFF0F2F5);
   Color _bgSecondaryThemeLight = white;
 
   Color get bgPrimaryThemeDark => _bgPrimaryThemeDark;
@@ -67,4 +67,6 @@ class BasicAppColors {
   static const yellow = Color(0xFFFFA000);
   static const blueLight = Colors.lightBlue;
   static const green = Color(0xFF4AB178);
+
+  static final Color greyOpacity01 = grey.withOpacity(0.1);
 }

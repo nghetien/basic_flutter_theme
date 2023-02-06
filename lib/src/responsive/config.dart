@@ -1,7 +1,6 @@
 import 'package:basic_flutter_theme/src/styles/styles.dart';
 import 'package:basic_flutter_theme/src/utils/utils.dart';
 
-
 import 'screen_device.dart';
 import 'screen_width.dart';
 

@@ -11,13 +11,13 @@ class BasicIconSizes {
 
   double get scale => _iconSizeScale;
 
-  double get xs => 14 * _iconSizeScale;
+  double get s14 => 14 * _iconSizeScale;
 
-  double get sm => 18 * _iconSizeScale;
+  double get s18 => 18 * _iconSizeScale;
 
-  double get med => 24 * _iconSizeScale;
+  double get s24 => 24 * _iconSizeScale;
 
-  double get lg => 32 * _iconSizeScale;
+  double get s32 => 32 * _iconSizeScale;
 
-  double get xl => 40 * _iconSizeScale;
+  double get s40 => 40 * _iconSizeScale;
 }

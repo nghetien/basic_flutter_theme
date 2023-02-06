@@ -1,6 +1,5 @@
+import 'package:basic_flutter_theme/basic_flutter_theme.dart';
 import 'package:flutter/material.dart';
-
-import '../styles/main_style/main_style.dart';
 
 class VSpace extends StatelessWidget {
   final double size;
