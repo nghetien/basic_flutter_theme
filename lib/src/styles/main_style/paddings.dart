@@ -17,6 +17,8 @@ class BasicPaddings {
 
   double get p12 => 12 * _paddingScale;
 
+  double get p14 => 14 * _paddingScale;
+
   double get p18 => 18 * _paddingScale;
 
   double get p32 => 32 * _paddingScale;

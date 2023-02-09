@@ -1,11 +1,11 @@
 export 'app_refresher.dart';
 export 'button_switches/button_switches.dart';
 export 'buttons/buttons.dart';
-export 'cards.dart';
+export 'card.dart';
 export 'dialogs.dart';
 export 'expansions.dart';
 export 'images.dart';
-export 'inputs.dart';
+export 'inputs/inputs.dart';
 export 'loading.dart';
 export 'remove_show_behavior.dart';
 export 'select_boxes.dart';

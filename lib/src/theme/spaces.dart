@@ -15,6 +15,8 @@ class VSpace extends StatelessWidget {
 
   static VSpace get p12 => VSpace(BasicPaddings().p12);
 
+  static VSpace get p14 => VSpace(BasicPaddings().p14);
+
   static VSpace get p18 => VSpace(BasicPaddings().p18);
 
   static VSpace get p32 => VSpace(BasicPaddings().p32);
@@ -33,6 +35,8 @@ class HSpace extends StatelessWidget {
   static HSpace get p8 => HSpace(BasicPaddings().p8);
 
   static HSpace get p12 => HSpace(BasicPaddings().p12);
+
+  static HSpace get p14 => HSpace(BasicPaddings().p14);
 
   static HSpace get p18 => HSpace(BasicPaddings().p18);
 

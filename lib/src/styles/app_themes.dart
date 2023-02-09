@@ -34,10 +34,51 @@ class BasicAppThemes {
       cursorColor: BasicAppColors.black,
     ),
     inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      isDense: true,
+      fillColor: BasicAppColors.white,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: BasicPaddings().p8,
+        vertical: BasicPaddings().p14,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.greyOpacity04,
+          width: BasicBorders.thin,
+        ),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.greyOpacity04,
+          width: BasicBorders.thin,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors().primary,
+          width: BasicBorders.thin,
+        ),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.red,
+          width: BasicBorders.thin,
+        ),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.red,
+          width: BasicBorders.thin,
+        ),
+      ),
       floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
       labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
       errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
-      fillColor: BasicAppColors.white,
     ),
     cardTheme: CardTheme(color: BasicAppColors().cardThemeLight),
     cardColor: BasicAppColors().cardThemeLight,
@@ -106,10 +147,51 @@ class BasicAppThemes {
       cursorColor: BasicAppColors().primary,
     ),
     inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      isDense: true,
+      fillColor: BasicAppColors().bgPrimaryThemeDark,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: BasicPaddings().p8,
+        vertical: BasicPaddings().p14,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors().bgPrimaryThemeDark,
+          width: BasicBorders.thin,
+        ),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.greyOpacity04,
+          width: BasicBorders.thin,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors().primary,
+          width: BasicBorders.thin,
+        ),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.red,
+          width: BasicBorders.thin,
+        ),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        borderSide: BorderSide(
+          color: BasicAppColors.red,
+          width: BasicBorders.thin,
+        ),
+      ),
       floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
       labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
       errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
-      fillColor: BasicAppColors().bgSecondaryThemeDark,
     ),
     cardTheme: CardTheme(color: BasicAppColors().cardThemeDark),
     cardColor: BasicAppColors().cardThemeDark,
