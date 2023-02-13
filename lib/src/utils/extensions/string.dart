@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 extension BasicStringExtension on String {
   String get percentEncode {
@@ -20,6 +21,22 @@ extension BasicStringExtension on String {
   }
 
   DateTime get toDateTime => DateTime.parse(this);
+
+  DateTime? get toDateTimeOrNull {
+    try {
+      return toDateTime;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  DateTime? toDateTimeFromFormat(String format) {
+    try {
+      return DateFormat(format).parse(this);
+    } catch (e) {
+      return null;
+    }
+  }
 
   TimeOfDay get toTimeOfDay => TimeOfDay.fromDateTime(toDateTime);
 

@@ -4,14 +4,15 @@ import 'package:flutter/services.dart';
 
 import 'basic_input_decoration.dart';
 
-class BasicInput extends StatelessWidget {
+class BasicInput extends StatefulWidget {
   const BasicInput({
     Key? key,
     this.width,
     this.height,
-    this.initialValue = '',
+    this.initialValue,
     this.controller,
     this.focusNode,
+    this.onFocusChange,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
     this.textInputAction,
@@ -58,7 +59,8 @@ class BasicInput extends StatelessWidget {
   final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final String initialValue;
+  final Function(bool)? onFocusChange;
+  final String? initialValue;
   final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final TextAlignVertical? textAlignVertical;
@@ -71,7 +73,7 @@ class BasicInput extends StatelessWidget {
   final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
-  final FormFieldValidator? validator;
+  final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
@@ -101,61 +103,77 @@ class BasicInput extends StatelessWidget {
   final TextStyle? errorStyle;
 
   @override
+  State<BasicInput> createState() => _BasicInputState();
+}
+
+class _BasicInputState extends State<BasicInput> {
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode?.addListener(
+      () {
+        if (widget.onFocusChange != null) {
+          widget.onFocusChange!(widget.focusNode!.hasFocus);
+        }
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) => SizedBox(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: widget.width,
         child: TextFormField(
-          key: key,
-          controller: controller,
-          focusNode: focusNode,
-          initialValue: initialValue,
-          textAlign: textAlign,
-          textInputAction: textInputAction,
-          textAlignVertical: textAlignVertical,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          minLines: minLines,
-          maxLength: maxLength,
-          enabled: enabled,
-          obscureText: obscureText,
-          cursorColor: cursorColor,
-          scrollPadding: scrollPadding ??
+          controller: widget.controller,
+          focusNode: widget.focusNode,
+          initialValue: widget.initialValue,
+          textAlign: widget.textAlign,
+          textInputAction: widget.textInputAction,
+          textAlignVertical: widget.textAlignVertical,
+          keyboardType: widget.keyboardType,
+          maxLines: widget.maxLines,
+          minLines: widget.minLines,
+          maxLength: widget.maxLength,
+          enabled: widget.enabled,
+          obscureText: widget.obscureText,
+          cursorColor: widget.cursorColor,
+          scrollPadding: widget.scrollPadding ??
               EdgeInsets.symmetric(
                 horizontal: BasicPaddings().p18,
                 vertical: BasicPaddings().p12,
               ),
-          autovalidateMode: autoValidateMode,
-          validator: validator,
-          inputFormatters: inputFormatters,
-          onChanged: onChanged,
-          onTap: onTap,
-          onEditingComplete: onEditingComplete,
-          onFieldSubmitted: onFieldSubmitted,
-          onSaved: onSaved,
+          autovalidateMode: widget.autoValidateMode,
+          validator: widget.validator,
+          inputFormatters: widget.inputFormatters,
+          onChanged: widget.onChanged,
+          onTap: widget.onTap,
+          onEditingComplete: widget.onEditingComplete,
+          onFieldSubmitted: widget.onFieldSubmitted,
+          onSaved: widget.onSaved,
           decoration: basicInputDecoration(
             context,
-            enabled: enabled,
-            isDense: isDense,
-            filled: filled,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            contentPadding: contentPadding,
-            focusedBorder: focusedBorder,
-            enabledBorder: enabledBorder,
-            disabledBorder: disabledBorder,
-            errorBorder: errorBorder,
-            focusedErrorBorder: focusedErrorBorder,
-            fillColor: fillColor,
-            hoverColor: hoverColor,
-            labelText: labelText,
-            labelStyle: labelStyle,
-            floatingLabelStyle: floatingLabelStyle,
-            floatingLabelBehavior: floatingLabelBehavior,
-            hintText: hintText,
-            hintStyle: hintStyle,
-            errorText: errorText,
-            errorMaxLines: errorMaxLines,
-            errorStyle: errorStyle,
+            enabled: widget.enabled,
+            isDense: widget.isDense,
+            filled: widget.filled,
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.suffixIcon,
+            contentPadding: widget.contentPadding,
+            focusedBorder: widget.focusedBorder,
+            enabledBorder: widget.enabledBorder,
+            disabledBorder: widget.disabledBorder,
+            errorBorder: widget.errorBorder,
+            focusedErrorBorder: widget.focusedErrorBorder,
+            fillColor: widget.fillColor,
+            hoverColor: widget.hoverColor,
+            labelText: widget.labelText,
+            labelStyle: widget.labelStyle,
+            floatingLabelStyle: widget.floatingLabelStyle,
+            floatingLabelBehavior: widget.floatingLabelBehavior,
+            hintText: widget.hintText,
+            hintStyle: widget.hintStyle,
+            errorText: widget.errorText,
+            errorMaxLines: widget.errorMaxLines,
+            errorStyle: widget.errorStyle,
           ),
         ),
       );

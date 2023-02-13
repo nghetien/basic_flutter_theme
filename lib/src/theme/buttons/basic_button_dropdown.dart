@@ -173,7 +173,7 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
               : BasicButton(
                   onPressed: () => widget.onPressedItem(index),
                   isFullColor: widget.isFullColor,
-                  width: widget.width,
+                  width: widget.width ?? double.infinity,
                   height: widget.height,
                   padding: widget.padding,
                   background: widget.children[index].backgroundColor ?? mainColor,
@@ -182,11 +182,11 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
                   shape: widget.shape,
                   textColor: widget.textColor,
                   fontSize: widget.fontSize,
-                  textStyle: widget.textStyle,
-                  textAlign: widget.textAlign,
-                  maxLines: widget.maxLines,
-                  alignment: widget.alignment,
-                  child: widget.children[index].child,
+            textStyle: widget.textStyle,
+            textAlign: widget.textAlign,
+            maxLines: widget.maxLines,
+            alignment: widget.alignment,
+            child: widget.children[index].child,
                 );
         }
         return const SizedBox.shrink();

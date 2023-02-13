@@ -15,6 +15,8 @@ class BasicIconSizes {
 
   double get s18 => 18 * _iconSizeScale;
 
+  double get s20 => 20 * _iconSizeScale;
+
   double get s24 => 24 * _iconSizeScale;
 
   double get s32 => 32 * _iconSizeScale;

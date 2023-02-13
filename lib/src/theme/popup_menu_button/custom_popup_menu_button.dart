@@ -170,6 +170,8 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
 /// See [showButtonMenu] for a way to programmatically open the popup menu
 /// of your button state.
 class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
+  bool popupIsOpen = false;
+
   /// A method to show a popup menu with the items supplied to
   /// [PopupMenuButton.itemBuilder] at the position of your [PopupMenuButton].
   ///
@@ -202,6 +204,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
     final List<PopupMenuEntry<T>> items = widget.itemBuilder(context);
     // Only show the menu if there is something to show
     if (items.isNotEmpty) {
+      popupIsOpen = true;
       showMenu<T?>(
         context: context,
         elevation: widget.elevation ?? popupMenuTheme.elevation,
@@ -212,6 +215,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
         color: widget.color ?? popupMenuTheme.color,
         constraints: widget.constraints,
       ).then<void>((T? newValue) {
+        popupIsOpen = false;
         if (!mounted) {
           return null;
         }

@@ -37,6 +37,7 @@ class BasicAppThemes {
       filled: true,
       isDense: true,
       fillColor: BasicAppColors.white,
+      suffixIconColor: BasicAppColors.black,
       contentPadding: EdgeInsets.symmetric(
         horizontal: BasicPaddings().p8,
         vertical: BasicPaddings().p14,
@@ -116,6 +117,12 @@ class BasicAppThemes {
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+    ),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -150,6 +157,7 @@ class BasicAppThemes {
       filled: true,
       isDense: true,
       fillColor: BasicAppColors().bgPrimaryThemeDark,
+      suffixIconColor: BasicAppColors.white,
       contentPadding: EdgeInsets.symmetric(
         horizontal: BasicPaddings().p8,
         vertical: BasicPaddings().p14,
@@ -226,6 +234,12 @@ class BasicAppThemes {
     popupMenuTheme: PopupMenuThemeData(
       color: BasicAppColors().bgSecondaryThemeDark,
       elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.cornerBorder5,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+    ),
+    dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
