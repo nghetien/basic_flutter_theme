@@ -23,7 +23,7 @@ class BasicAppThemes {
     splashColor: BasicAppColors().primary.withOpacity(0.1),
     highlightColor: BasicAppColors().primary.withOpacity(0.1),
     dividerColor: Colors.transparent,
-    fontFamily: BasicFonts.defaultFont,
+    fontFamily: BasicFonts().defaultFont,
     appBarTheme: AppBarTheme(
       backgroundColor: BasicAppColors.white,
       iconTheme: const IconThemeData(color: BasicAppColors.black),
@@ -143,7 +143,7 @@ class BasicAppThemes {
     splashColor: BasicAppColors().primary.withOpacity(0.1),
     highlightColor: BasicAppColors().primary.withOpacity(0.1),
     dividerColor: Colors.transparent,
-    fontFamily: BasicFonts.defaultFont,
+    fontFamily: BasicFonts().defaultFont,
     appBarTheme: AppBarTheme(
       backgroundColor: BasicAppColors().bgSecondaryThemeDark,
       iconTheme: const IconThemeData(color: BasicAppColors.white),

@@ -1,5 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
-
 class BasicFonts {
   BasicFonts._privateConstructor();
 
@@ -7,13 +5,16 @@ class BasicFonts {
 
   factory BasicFonts() => _instance;
 
-  static final String defaultFont = GoogleFonts.poppins().fontFamily!;
+  static const String roboto = 'Roboto';
 
-  String _body = defaultFont;
-  String _label = defaultFont;
-  String _title = defaultFont;
-  String _headline = defaultFont;
-  String _display = defaultFont;
+  String _defaultFont = roboto;
+  String _body = roboto;
+  String _label = roboto;
+  String _title = roboto;
+  String _headline = roboto;
+  String _display = roboto;
+
+  String get defaultFont => _defaultFont;
 
   String get body => _body;
 
@@ -24,6 +25,8 @@ class BasicFonts {
   String get headline => _headline;
 
   String get display => _display;
+
+  void setDefaultFont(String value) => _defaultFont = value;
 
   void setBody(String value) => _body = value;
 
