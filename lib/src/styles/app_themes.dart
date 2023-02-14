@@ -91,11 +91,8 @@ class BasicAppThemes {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.all(BasicAppColors().primary),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
       checkColor: MaterialStateProperty.all(BasicAppColors().primary),
-      side: BorderSide(width: 1, color: BasicAppColors().primary),
+      side: BorderSide(width: BasicBorders.med, color: BasicAppColors().primary),
       splashRadius: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -213,11 +210,8 @@ class BasicAppThemes {
     dialogBackgroundColor: BasicAppColors().bgSecondaryThemeDark,
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.all(BasicAppColors().primary),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
       checkColor: MaterialStateProperty.all(BasicAppColors().primary),
-      side: BorderSide(width: 1, color: BasicAppColors().primary),
+      side: BorderSide(width: BasicBorders.med, color: BasicAppColors().primary),
       splashRadius: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

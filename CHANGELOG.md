@@ -1,3 +1,5 @@
+## 0.0.4
+* Add select boxes and custom image.
 ## 0.0.3
 * Remove google_font and add custom font.
 ## 0.0.2
