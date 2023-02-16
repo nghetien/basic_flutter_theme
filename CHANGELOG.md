@@ -1,3 +1,5 @@
+## 0.0.5
+* Add animation for dropdown and upgrade pubspec.
 ## 0.0.4
 * Add select boxes and custom image.
 ## 0.0.3

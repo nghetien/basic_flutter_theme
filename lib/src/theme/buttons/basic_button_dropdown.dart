@@ -72,6 +72,7 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
+  late final Animation<double> _rotateAnimation;
   final double _heightButton = 52.scaleSize;
   late final double _heightDropdown;
 
@@ -86,6 +87,15 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
     _animation = Tween<double>(
       begin: widget.isShowDropdown ? _heightDropdown : 0,
       end: widget.isShowDropdown ? 0 : _heightDropdown,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.bounceInOut,
+      ),
+    );
+    _rotateAnimation = Tween<double>(
+      begin: widget.isShowDropdown ? 0.25 : 0,
+      end: widget.isShowDropdown ? 0 : 0.25,
     ).animate(
       CurvedAnimation(
         parent: _controller,
@@ -143,11 +153,12 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
                   Expanded(
                     child: widget.titleButton,
                   ),
-                  Icon(
-                    _animation.value >= _heightDropdown
-                        ? Icons.expand_more_rounded
-                        : Icons.chevron_right,
-                    color: widget.colorIconDropdown,
+                  RotationTransition(
+                    turns: _rotateAnimation,
+                    child: Icon(
+                      Icons.chevron_right,
+                      color: widget.colorIconDropdown,
+                    ),
                   ),
                 ],
               ),

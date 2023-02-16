@@ -113,18 +113,30 @@ class BasicInputDropdown<T> extends StatefulWidget {
   State<BasicInputDropdown<T>> createState() => _BasicInputDropdownState<T>();
 }
 
-class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>> {
+class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
+    with SingleTickerProviderStateMixin {
   final GlobalKey _popupMenuButtonKey = GlobalKey<CustomPopupMenuButtonState>();
   final GlobalKey _widgetKey = GlobalKey();
   late final FocusNode _focusNode;
   late final TextEditingController _controller;
+  late AnimationController _animationController;
+  late Animation<double> _rotateAnimation;
 
   double? _widthElement;
-  bool _popupIsOpen = false;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _rotateAnimation = Tween(begin: 0.0, end: 0.5).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
     _focusNode = widget.focusNode ?? FocusNode();
     _controller = widget.controller ?? TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback(
@@ -133,6 +145,14 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>> {
         setState(() => _widthElement = box.size.width);
       },
     );
+  }
+
+  void _setPopupIsOpen(bool value) {
+    if (value) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
   }
 
   @override
@@ -151,7 +171,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>> {
                     _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;
                 if (hasFocus) FocusManager.instance.primaryFocus?.unfocus();
                 if (!state.popupIsOpen) {
-                  setState(() => _popupIsOpen = true);
+                  _setPopupIsOpen(true);
                   state.showButtonMenu();
                 }
               }
@@ -202,32 +222,33 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>> {
   }
 
   Widget _getSuffixIcon() {
-    IconData iconData = Icons.expand_more_rounded;
-    if (_popupIsOpen) iconData = Icons.expand_less_rounded;
     return CustomPopupMenuButton<T>(
       key: _popupMenuButtonKey,
       offset: Offset(0, 50.scaleSize),
       constraints: BoxConstraints.tightFor(width: _widthElement),
       onCanceled: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        setState(() => _popupIsOpen = false);
+        _setPopupIsOpen(false);
       },
       onSelected: (dataSelected) {
-        setState(() => _popupIsOpen = false);
+        _setPopupIsOpen(false);
         FocusManager.instance.primaryFocus?.unfocus();
         if (widget.onSelected != null) widget.onSelected!(dataSelected);
       },
       itemBuilder: widget.itemBuilder,
       child: InkWell(
         onTap: () {
-          setState(() => _popupIsOpen = true);
+          _setPopupIsOpen(true);
           final CustomPopupMenuButtonState state =
               _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;
           state.showButtonMenu();
         },
-        child: Icon(
-          iconData,
-          size: BasicIconSizes().s24,
+        child: RotationTransition(
+          turns: _rotateAnimation,
+          child: Icon(
+            Icons.expand_more_rounded,
+            size: BasicIconSizes().s24,
+          ),
         ),
       ),
     );
