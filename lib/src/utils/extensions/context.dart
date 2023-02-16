@@ -9,9 +9,9 @@ extension BasicContextExtensions on BuildContext {
 
   ThemeData get theme => Theme.of(this);
 
-  double get width => MediaQuery.of(this).size.width;
+  double get widthScreen => MediaQuery.of(this).size.width;
 
-  double get height => MediaQuery.of(this).size.height;
+  double get heightScreen => MediaQuery.of(this).size.height;
 
   void popNavigator<T extends Object?>([T? result]) => Navigator.pop(this, result);
 

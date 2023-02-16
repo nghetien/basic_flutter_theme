@@ -26,7 +26,7 @@ class BasicDialogs {
     BorderRadiusGeometry? borderRadius,
     required Widget content,
   }) {
-    final widthDefault = min<double>(context.width, 350.scaleSize);
+    final widthDefault = min<double>(context.widthScreen, 350.scaleSize);
     return showDialog(
       context: context,
       barrierDismissible: barrierDismissible,

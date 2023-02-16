@@ -32,6 +32,7 @@ class BasicConfigResponsive {
       if(BasicPlatform.isWeb) return BasicScreenDevice.desktop;
       return BasicScreenDevice.tablet;
     } else if (width >= BasicScreenWidth().widthTablet) {
+      if(BasicPlatform.isWeb) return BasicScreenDevice.desktop;
       return BasicScreenDevice.tablet;
     } else {
       return BasicScreenDevice.mobile;
