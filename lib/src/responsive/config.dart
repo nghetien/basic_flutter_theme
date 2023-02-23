@@ -14,6 +14,7 @@ class BasicConfigResponsive {
   List<double> _scales = [1, 1.05, 1.1];
   double _scale = 1;
   BasicScreenDevice _screenDevice = BasicScreenDevice.mobile;
+  double _currentWidth = 0;
 
   List<double> get scales => _scales;
 
@@ -21,18 +22,32 @@ class BasicConfigResponsive {
 
   BasicScreenDevice get screenDevice => _screenDevice;
 
+  double get currentWidth => _currentWidth;
+
   void setScales(List<double> value) => _scales = value;
 
   void setScale(double value) => _scale = value;
 
   void setScreenDevice(BasicScreenDevice value) => _screenDevice = value;
 
-  BasicScreenDevice getScreenDeviceFromWidth(double width) {
-    if (width >= BasicScreenWidth().widthDesktop) {
-      if(BasicPlatform.isWeb) return BasicScreenDevice.desktop;
+  void setCurrentWidth(double value) => _currentWidth = value;
+
+  BasicScreenDevice getScreenDeviceFromWidth() {
+    if (currentWidth >= BasicScreenWidth().widthDesktop) {
+      return BasicScreenDevice.desktop;
+    } else if (currentWidth >= BasicScreenWidth().widthTablet) {
       return BasicScreenDevice.tablet;
-    } else if (width >= BasicScreenWidth().widthTablet) {
-      if(BasicPlatform.isWeb) return BasicScreenDevice.desktop;
+    } else {
+      return BasicScreenDevice.mobile;
+    }
+  }
+
+  BasicScreenDevice getRealScreenDeviceLayout() {
+    if (currentWidth >= BasicScreenWidth().widthDesktop) {
+      if (BasicPlatform.isWeb) return BasicScreenDevice.desktop;
+      return BasicScreenDevice.tablet;
+    } else if (currentWidth >= BasicScreenWidth().widthTablet) {
+      if (BasicPlatform.isWeb) return BasicScreenDevice.desktop;
       return BasicScreenDevice.tablet;
     } else {
       return BasicScreenDevice.mobile;
@@ -51,7 +66,8 @@ class BasicConfigResponsive {
   }
 
   void onResponsiveUpdate(double width) {
-    setScreenDevice(getScreenDeviceFromWidth(width));
+    setCurrentWidth(width);
+    setScreenDevice(getScreenDeviceFromWidth());
     setScale(getScaleFromScreenDevice());
     BasicFontSizes().setScale(scale);
     BasicIconSizes().setScale(scale);

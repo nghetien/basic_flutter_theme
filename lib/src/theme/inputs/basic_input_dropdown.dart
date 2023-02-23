@@ -11,6 +11,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.autoOpenDropdown = true,
     required this.itemBuilder,
     required this.onSelected,
+    this.offset,
     this.width,
     this.height,
     this.initialValue,
@@ -62,6 +63,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final bool autoOpenDropdown;
   final PopupMenuItemBuilder<T> itemBuilder;
   final PopupMenuItemSelected<T>? onSelected;
+  final Offset? offset;
   final double? width;
   final double? height;
   final TextEditingController? controller;
@@ -224,7 +226,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   Widget _getSuffixIcon() {
     return CustomPopupMenuButton<T>(
       key: _popupMenuButtonKey,
-      offset: Offset(0, 50.scaleSize),
+      offset: widget.offset ?? Offset(0, 50.scaleSize),
       constraints: BoxConstraints.tightFor(width: _widthElement),
       onCanceled: () {
         FocusManager.instance.primaryFocus?.unfocus();

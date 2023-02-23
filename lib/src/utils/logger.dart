@@ -15,7 +15,7 @@ class BasicLogger {
 
   static void debugLog(dynamic message) => _logger.d(message);
 
-  static void infoLog(dynamic message) => _logger.w(message);
+  static void infoLog(dynamic message) => _logger.i(message);
 
   static void warningLog(dynamic message) => _logger.w(message);
 

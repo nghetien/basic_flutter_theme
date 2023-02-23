@@ -1,3 +1,5 @@
+## 0.0.7
+* Add basic Data Table.
 ## 0.0.6
 * Add basic Input Password and Transaction Navigation.
 ## 0.0.5
