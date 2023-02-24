@@ -1,6 +1,7 @@
 part of '../data_table.dart';
 
 typedef TableItemWidget<T> = Widget Function(
+  BuildContext context,
   dynamic value,
   T rowData,
   String columnKey,

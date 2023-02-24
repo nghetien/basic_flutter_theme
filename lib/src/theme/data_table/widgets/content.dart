@@ -99,6 +99,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
         int index = entry.key;
         T rowData = entry.value;
         return DataRowItemWidget<T>(
+          tableColumnsForScreenWidth: tableColumnsForScreenWidth,
           controller: widget.controller,
           index: index,
           rowData: rowData,

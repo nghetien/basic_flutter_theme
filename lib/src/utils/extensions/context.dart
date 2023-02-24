@@ -13,7 +13,8 @@ extension BasicContextExtensions on BuildContext {
 
   double get heightScreen => MediaQuery.of(this).size.height;
 
-  void popNavigator<T extends Object?>([T? result]) => Navigator.pop(this, result);
+  void popNavigator<T extends Object?>([T? result]) =>
+      Navigator.of(this, rootNavigator: true).pop(result);
 
   void popUntilNavigator<T extends Object?>(RoutePredicate predicate) => Navigator.popUntil(this, predicate);
 }

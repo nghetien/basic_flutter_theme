@@ -3,6 +3,7 @@ part of '../data_table.dart';
 class DataRowItemWidget<T> extends StatelessWidget {
   const DataRowItemWidget({
     Key? key,
+    required this.tableColumnsForScreenWidth,
     required this.controller,
     required this.index,
     required this.rowData,
@@ -11,6 +12,7 @@ class DataRowItemWidget<T> extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
+  final List<DataTableColumn<T>> tableColumnsForScreenWidth;
   final DataTableController<T> controller;
   final int index;
   final T rowData;
@@ -28,7 +30,7 @@ class DataRowItemWidget<T> extends StatelessWidget {
     return column.width;
   }
 
-  Widget _getWidgetRowItem(DataTableColumn<T> column) {
+  Widget _getWidgetRowItem(BuildContext context, DataTableColumn<T> column) {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
       return CheckBoxRowItem(
         index: index,
@@ -41,6 +43,7 @@ class DataRowItemWidget<T> extends StatelessWidget {
     }
     if (column.customizeItemWidget != null) {
       return column.customizeItemWidget!(
+        context,
         (rowData as dynamic).toJson()[column.key],
         rowData,
         column.key,
@@ -50,7 +53,7 @@ class DataRowItemWidget<T> extends StatelessWidget {
       );
     }
     return _defaultRowItem(
-      value: (rowData as dynamic).toJson()[column.name],
+      value: (rowData as dynamic).toJson()[column.key],
       rowData: rowData,
     );
   }
@@ -61,14 +64,14 @@ class DataRowItemWidget<T> extends StatelessWidget {
       children: <Widget>[
         _wrapContent(
           child: Row(
-            children: controller.tableColumns
+            children: tableColumnsForScreenWidth
                 .map<Widget>(
                   (column) => wrapItemWithOutBorder(
                     flex: column.flex,
                     width: _getWidthRowItem(column),
                     child: Padding(
                       padding: EdgeInsets.all(BasicPaddings().p4),
-                      child: _getWidgetRowItem(column),
+                      child: _getWidgetRowItem(context, column),
                     ),
                   ),
                 )
