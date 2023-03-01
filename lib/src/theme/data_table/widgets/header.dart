@@ -1,57 +1,76 @@
 part of '../data_table.dart';
 
-class DataTableHeaderWidget<T> extends StatefulWidget {
+class DataTableHeaderWidget<T> extends StatelessWidget {
   const DataTableHeaderWidget({
     Key? key,
+    required this.tableColumns,
+    this.fixedColumn = FixedColumn.none,
     required this.controller,
     this.sortDataVoid,
     required this.dataTableOptionUI,
     required this.additionFilter,
   }) : super(key: key);
 
+  final List<DataTableColumn<T>> tableColumns;
+  final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final SortDataVoid? sortDataVoid;
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
 
-  @override
-  DataTableHeaderWidgetState<T> createState() => DataTableHeaderWidgetState<T>();
-}
-
-class DataTableHeaderWidgetState<T> extends State<DataTableHeaderWidget<T>> {
   static final double defaultHeightHeader = 40.scaleSize;
 
   @override
-  Widget build(BuildContext context) {
-    final List<DataTableColumn<T>> tableColumnsForScreenWidth =
-        getListColumnForScreenDevice(widget.controller.tableColumns);
-    List<Widget> headers = [];
-    for (int index = 0; index < tableColumnsForScreenWidth.length; index++) {
-      if (tableColumnsForScreenWidth[index].key == DataTableAdditionColumn.numbered.toString()) {
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (_, __) => _generateHeaderItem(),
+      );
+
+  Radius _getRadiusRight() {
+    if (controller.haveFixedColumnsRight && fixedColumn == FixedColumn.none) {
+      return Radius.zero;
+    }
+    if (fixedColumn == FixedColumn.left) {
+      return Radius.zero;
+    }
+    return BasicCorners.cornerRadius8;
+  }
+
+  Radius _getRadiusLeft() {
+    if (controller.haveFixedColumnsLeft && fixedColumn == FixedColumn.none) {
+      return Radius.zero;
+    }
+    if (fixedColumn == FixedColumn.right) {
+      return Radius.zero;
+    }
+    return BasicCorners.cornerRadius8;
+  }
+
+  Widget _generateHeaderItem() {
+    final List<Widget> headers = [];
+    for (int index = 0; index < tableColumns.length; index++) {
+      if (tableColumns[index].key == DataTableAdditionColumn.numbered.toString()) {
         headers.add(_numberedColumn());
-      } else if (tableColumnsForScreenWidth[index].key ==
-          DataTableAdditionColumn.checkbox.toString()) {
+      } else if (tableColumns[index].key == DataTableAdditionColumn.checkbox.toString()) {
         headers.add(_checkboxColumn());
       } else {
-        headers.add(
-          wrapItem(
-            index: index,
-            flex: tableColumnsForScreenWidth[index].flex,
-            width: tableColumnsForScreenWidth[index].width,
-            child: _headerItem(
-              key: tableColumnsForScreenWidth[index].key,
-              text: tableColumnsForScreenWidth[index].name,
+        if (isShowInScreen(tableColumns[index].showOnScreens)) {
+          headers.add(
+            DataTableHeaderItemWidget(
+              controller: controller,
+              column: tableColumns[index],
+              dataTableOptionUI: dataTableOptionUI,
+              additionFilter: additionFilter,
             ),
-          ),
-        );
+          );
+        }
       }
     }
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topRight: BasicCorners.cornerRadius8,
-          topLeft: BasicCorners.cornerRadius8,
+        borderRadius: BorderRadius.only(
+          topRight: _getRadiusRight(),
+          topLeft: _getRadiusLeft(),
         ),
         color: BasicAppColors().primary,
       ),
@@ -62,9 +81,21 @@ class DataTableHeaderWidgetState<T> extends State<DataTableHeaderWidget<T>> {
   }
 
   Widget _numberedColumn() => Container(
-        width: getWithAdditionColumn(widget.controller.additionColumn),
+    width: getWithAdditionColumn(DataTableAdditionColumn.numbered),
         height: defaultHeightHeader,
         alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              width: 0,
+              color: BasicAppColors.white,
+            ),
+            right: BorderSide(
+              width: 0,
+              color: BasicAppColors.white,
+            ),
+          ),
+        ),
         child: Text(
           'No.',
           textAlign: TextAlign.center,
@@ -75,91 +106,23 @@ class DataTableHeaderWidgetState<T> extends State<DataTableHeaderWidget<T>> {
         ),
       );
 
-  Widget _checkboxColumn() => SizedBox(
-        width: getWithAdditionColumn(widget.controller.additionColumn),
+  Widget _checkboxColumn() => Container(
+        width: getWithAdditionColumn(DataTableAdditionColumn.checkbox),
         height: defaultHeightHeader,
-        child: CheckBoxColumn(
-          controller: widget.controller,
+        decoration: const BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              width: 0,
+              color: BasicAppColors.white,
+            ),
+            right: BorderSide(
+              width: 0,
+              color: BasicAppColors.white,
+            ),
+          ),
         ),
-      );
-
-  Widget _headerItem({
-    required String text,
-    required String key,
-  }) =>
-      Align(
-        alignment: Alignment.center,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: defaultHeightHeader,
-              alignment: Alignment.center,
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: BasicTextStyles.body.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: BasicAppColors.white,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: CustomPopupMenuButton<String>(
-                itemBuilder: (BuildContext context) {
-                  return <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
-                      value: DataTableSortType.desc.toString(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.dataTableOptionUI.customizeSortDesc),
-                          HSpace.p8,
-                          const Icon(
-                            EvaIcons.arrowIosDownwardOutline,
-                          ),
-                        ],
-                      ),
-                      onTap: () => widget.sortDataVoid?.call(
-                        keyColumn: key,
-                        typeSort: DataTableSortType.desc,
-                      ),
-                    ),
-                    PopupMenuItem<String>(
-                      value: DataTableSortType.asc.toString(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.dataTableOptionUI.customizeSortAsc),
-                          HSpace.p8,
-                          const Icon(
-                            EvaIcons.arrowIosUpwardOutline,
-                          ),
-                        ],
-                      ),
-                      onTap: () => widget.sortDataVoid?.call(
-                        keyColumn: key,
-                        typeSort: DataTableSortType.asc,
-                      ),
-                    ),
-                    if (widget.additionFilter[key] != null) ...widget.additionFilter[key]!,
-                  ];
-                },
-                offset: Offset(0, defaultHeightHeader),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
-                  child: Icon(
-                    EvaIcons.menu,
-                    color: BasicAppColors.white,
-                    size: BasicIconSizes().s18,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        child: CheckBoxColumn(
+          controller: controller,
         ),
       );
 }

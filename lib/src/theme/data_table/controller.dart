@@ -2,8 +2,9 @@ part of 'data_table.dart';
 
 class DataTableController<T> extends ChangeNotifier {
   late final DataTableState<T> _state;
-  List<DataTableColumn<T>> tableColumns = [];
-  DataTableAdditionColumn additionColumn = DataTableAdditionColumn.none;
+  List<DataTableColumn<T>> initTableColumns = [];
+  List<DataTableAdditionColumn> additionColumns = [];
+  final reloadFixedColumnStreamController = StreamController<EventReloadFixedColumn>.broadcast();
 
   DataTableController({
     List<T>? dataSources,
@@ -25,12 +26,57 @@ class DataTableController<T> extends ChangeNotifier {
     _state.dataSelected = dataSelected ?? _state.dataSelected;
   }
 
+  void clearDataTable() {
+    this.initTableColumns = [];
+    this.additionColumns = [];
+    _state.fixedColumnsLeft = [];
+    _state.fixedColumnsRight = [];
+    _state.tableColumnsContent = [];
+    _state.widthOfAllColumns = null;
+  }
+
   void initDataTable({
-    List<DataTableColumn<T>>? tableColumns,
-    DataTableAdditionColumn? additionColumn,
+    List<DataTableColumn<T>>? initTableColumns,
+    List<DataTableAdditionColumn> additionColumns = const [],
   }) {
-    this.tableColumns = tableColumns ?? this.tableColumns;
-    this.additionColumn = additionColumn ?? this.additionColumn;
+    clearDataTable();
+    this.initTableColumns = initTableColumns ?? this.initTableColumns;
+    this.additionColumns = additionColumns;
+    final List<DataTableColumn<T>> tableColumnsContent = [];
+    for (var element in this.initTableColumns) {
+      if (element.fixedColumn == FixedColumn.left) {
+        _state.fixedColumnsLeft.add(element);
+      } else if (element.fixedColumn == FixedColumn.right) {
+        _state.fixedColumnsRight.add(element);
+      } else {
+        tableColumnsContent.add(element);
+      }
+    }
+    if (this.additionColumns.isNotEmpty) {
+      for (var element in this.additionColumns) {
+        if (haveFixedColumnsLeft) {
+          _state.fixedColumnsLeft.insert(
+            0,
+            DataTableColumn<T>(
+              name: '',
+              key: element.toString(),
+              width: getWithAdditionColumn(element),
+            ),
+          );
+        } else {
+          tableColumnsContent.insert(
+            0,
+            DataTableColumn<T>(
+              name: '',
+              key: element.toString(),
+              width: getWithAdditionColumn(element),
+            ),
+          );
+        }
+      }
+    }
+    _state.tableColumnsContent = tableColumnsContent;
+    _state.widthOfAllColumns = getWidthOfColumn(this.initTableColumns);
   }
 
   List<T> get dataSources => _state.dataSources;
@@ -38,6 +84,24 @@ class DataTableController<T> extends ChangeNotifier {
   int get totalRecords => _state.totalRecords;
 
   DataTablePagination get pagination => _state.pagination;
+
+  double? get widthOfAllColumns => _state.widthOfAllColumns;
+
+  List<DataTableColumn<T>> get tableColumnsContent => _state.tableColumnsContent;
+
+  List<DataTableColumn<T>> get fixedColumnsLeft => _state.fixedColumnsLeft;
+
+  List<DataTableColumn<T>> get fixedColumnsRight => _state.fixedColumnsRight;
+
+  bool get haveFixedColumnsLeft => _state.fixedColumnsLeft.isNotEmpty;
+
+  bool get haveFixedColumnsRight => _state.fixedColumnsRight.isNotEmpty;
+
+  Map<int, double?> get mapIndexToWidthOfEachRow => _state.mapIndexToWidthOfEachRow;
+
+  double? get widthOfLeftColumns => getWidthOfColumn(_state.fixedColumnsLeft);
+
+  double? get widthOfRightColumns => getWidthOfColumn(_state.fixedColumnsRight);
 
   void setDataSources(List<T> dataSources) {
     _state.dataSources = dataSources;
@@ -62,7 +126,7 @@ class DataTableController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setTableColumns(List<DataTableColumn<T>> tableColumns) => this.tableColumns = tableColumns;
+  // void setTableColumns(List<DataTableColumn<T>> tableColumns) => this.tableColumns = tableColumns;
 
   void initPagination({
     List<int>? initListItemsPerPage,
@@ -120,4 +184,26 @@ class DataTableController<T> extends ChangeNotifier {
     _state.dataSelected = {};
     notifyListeners();
   }
+
+  bool canEditWidthOfEachRow(int index, double? value) {
+    if (value != _state.mapIndexToWidthOfEachRow[index]) {
+      _state.mapIndexToWidthOfEachRow[index] = value;
+      return true;
+    }
+    return false;
+  }
+
+  double? getWidthOfColumn(List<DataTableColumn<T>> columns) {
+    double widthOfAllColumns = 0;
+    for (final column in columns) {
+      if (column.width == null && column.minWidth == null) {
+        return null;
+      }
+      widthOfAllColumns += column.width ?? column.minWidth!;
+    }
+    return widthOfAllColumns;
+  }
+
+  void reloadHeightFixedContent() =>
+      reloadFixedColumnStreamController.add(EventReloadFixedColumn());
 }

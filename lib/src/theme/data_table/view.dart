@@ -5,7 +5,7 @@ class BasicDataTable<T> extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.tableColumns,
-    this.additionColumn = DataTableAdditionColumn.none,
+    this.additionColumns = const [],
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
@@ -18,7 +18,7 @@ class BasicDataTable<T> extends StatefulWidget {
 
   final DataTableController<T> controller;
   final List<DataTableColumn<T>> tableColumns;
-  final DataTableAdditionColumn additionColumn;
+  final List<DataTableAdditionColumn> additionColumns;
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
@@ -34,14 +34,13 @@ class BasicDataTable<T> extends StatefulWidget {
 
 class BasicDataTableState<T> extends State<BasicDataTable<T>> {
   late DataTableController<T> _webDataTableController;
-  List<DataTableColumn<T>> _tableColumns = [];
 
   @override
   void initState() {
     _webDataTableController = widget.controller;
     _webDataTableController.initDataTable(
-      tableColumns: widget.tableColumns,
-      additionColumn: widget.additionColumn,
+      initTableColumns: widget.tableColumns,
+      additionColumns: widget.additionColumns,
     );
     _webDataTableController.addListener(
       () {
@@ -59,6 +58,23 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       ),
       'Tất cả các đối tượng dataSources phải có thuộc tính id dạng int và là số dương',
     );
+    assert(
+      _webDataTableController.initTableColumns.every((element) =>
+          element.fixedColumn == FixedColumn.none ||
+          (element.fixedColumn != FixedColumn.none &&
+              widget.topContent == null &&
+              widget.bottomContent == null &&
+              widget.showerMoreContentIntoRowWidget == null)),
+      'Nếu DataTable có FixedColumn thí sẽ không được thêm top hoặc bottom hoặc showMoreContent content',
+    );
+    assert(
+      _webDataTableController.initTableColumns.every(
+        (element) =>
+            element.fixedColumn == FixedColumn.none ||
+            (element.fixedColumn != FixedColumn.none && element.width != null),
+      ),
+      'Tất cả các cột nếu set FixedColumn left hoặc right đều phải có width',
+    );
     super.initState();
   }
 
@@ -70,63 +86,51 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _saveAndInsertAdditionColumn() {
-    _tableColumns = [...widget.tableColumns];
-    if (widget.additionColumn != DataTableAdditionColumn.none) {
-      _tableColumns.insert(
-        0,
-        DataTableColumn<T>(
-          name: '',
-          key: widget.additionColumn.toString(),
-          width: getWithAdditionColumn(widget.additionColumn),
-        ),
-      );
-    }
-    _webDataTableController.setTableColumns(_tableColumns);
-  }
-
   @override
   Widget build(BuildContext context) {
-    _saveAndInsertAdditionColumn();
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BasicCorners.cornerBorder8,
-        color: context.theme.colorScheme.background,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          DataTableHeaderWidget<T>(
-            controller: _webDataTableController,
-            sortDataVoid: widget.sortDataVoid,
-            dataTableOptionUI: widget.dataTableOptionUI,
-            additionFilter: widget.additionFilter,
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final widthAllColumn = widget.controller.widthOfAllColumns == null ||
+                widget.controller.widthOfAllColumns! <= constraints.maxWidth
+            ? constraints.maxWidth
+            : widget.controller.widthOfAllColumns!;
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BasicCorners.cornerBorder8,
+            color: context.theme.colorScheme.background,
           ),
-          widget.dataTableOptionUI.fixTableInAScreen
-              ? Expanded(
-                  child: SingleChildScrollView(
-                    child: DataTableContentWidget<T>(
-                      controller: _webDataTableController,
-                      topContent: widget.topContent,
-                      bottomContent: widget.bottomContent,
-                      showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
-                    ),
-                  ),
-                )
-              : DataTableContentWidget<T>(
-                  controller: _webDataTableController,
-                  topContent: widget.topContent,
-                  bottomContent: widget.bottomContent,
-                  showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
-                ),
-          DataTablePaginationWidget(
-            controller: _webDataTableController,
-            initListItemsPerPage: widget.listItemsPerPage,
-            handleChangeData: widget.handleChangeData,
-            dataTableOptionUI: widget.dataTableOptionUI,
-          ),
-        ],
-      ),
+          child: _genContentTable(widthAllColumn),
+        );
+      },
+    );
+  }
+
+  Widget _genContentTable(double widthAllColumn) {
+    if (widget.dataTableOptionUI.fixTableInAScreen) {
+      return FixedDataTableWidget<T>(
+        controller: _webDataTableController,
+        sortDataVoid: widget.sortDataVoid,
+        dataTableOptionUI: widget.dataTableOptionUI,
+        additionFilter: widget.additionFilter,
+        widthAllColumn: widthAllColumn,
+        topContent: widget.topContent,
+        bottomContent: widget.bottomContent,
+        showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
+        listItemsPerPage: widget.listItemsPerPage,
+        handleChangeData: widget.handleChangeData,
+      );
+    }
+    return DefaultDataTableWidget(
+      controller: _webDataTableController,
+      sortDataVoid: widget.sortDataVoid,
+      dataTableOptionUI: widget.dataTableOptionUI,
+      additionFilter: widget.additionFilter,
+      widthAllColumn: widthAllColumn,
+      topContent: widget.topContent,
+      bottomContent: widget.bottomContent,
+      showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
+      listItemsPerPage: widget.listItemsPerPage,
+      handleChangeData: widget.handleChangeData,
     );
   }
 }

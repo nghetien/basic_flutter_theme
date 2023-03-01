@@ -1,24 +1,62 @@
 part of '../data_table.dart';
 
-class DataRowItemWidget<T> extends StatelessWidget {
-  const DataRowItemWidget({
+class DataTableRowItemWidget<T> extends StatelessWidget {
+  const DataTableRowItemWidget({
     Key? key,
-    required this.tableColumnsForScreenWidth,
-    required this.controller,
     required this.index,
     required this.rowData,
-    this.isShowMore = false,
-    this.showerMoreContentRowWidget,
-    required this.onPressed,
+    required this.controller,
+    required this.column,
   }) : super(key: key);
 
-  final List<DataTableColumn<T>> tableColumnsForScreenWidth;
-  final DataTableController<T> controller;
   final int index;
   final T rowData;
-  final bool isShowMore;
-  final VoidCallback onPressed;
-  final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
+  final DataTableController<T> controller;
+  final DataTableColumn<T> column;
+
+  @override
+  Widget build(BuildContext context) {
+    return _wrapItemWithOutBorder(
+      flex: column.flex,
+      width: _getWidthRowItem(column),
+      child: Padding(
+        padding: EdgeInsets.all(BasicPaddings().p4),
+        child: _getWidgetRowItem(context, column),
+      ),
+    );
+  }
+
+  Widget _wrapItemWithOutBorder({
+    required Widget child,
+    double? width,
+    int? flex,
+  }) {
+    return width != null
+        ? SizedBox(
+            width: width,
+            child: child,
+          )
+        : Expanded(
+            flex: flex ?? 1,
+            child: LayoutBuilder(
+              builder: (_, BoxConstraints constraints) {
+                if (column.maxWidth != null && (constraints.maxWidth > column.maxWidth!)) {
+                  return SizedBox(
+                    width: column.maxWidth,
+                    child: child,
+                  );
+                }
+                if (column.minWidth != null && constraints.maxWidth < column.minWidth!) {
+                  return SizedBox(
+                    width: column.minWidth,
+                    child: child,
+                  );
+                }
+                return child;
+              },
+            ),
+          );
+  }
 
   double? _getWidthRowItem(DataTableColumn<T> column) {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
@@ -33,7 +71,6 @@ class DataRowItemWidget<T> extends StatelessWidget {
   Widget _getWidgetRowItem(BuildContext context, DataTableColumn<T> column) {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
       return CheckBoxRowItem(
-        index: index,
         rowData: rowData,
         controller: controller,
       );
@@ -57,59 +94,6 @@ class DataRowItemWidget<T> extends StatelessWidget {
       rowData: rowData,
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _wrapContent(
-          child: Row(
-            children: tableColumnsForScreenWidth
-                .map<Widget>(
-                  (column) => wrapItemWithOutBorder(
-                    flex: column.flex,
-                    width: _getWidthRowItem(column),
-                    child: Padding(
-                      padding: EdgeInsets.all(BasicPaddings().p4),
-                      child: _getWidgetRowItem(context, column),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-        if (isShowMore)
-          _wrapShowMore(
-            child: showerMoreContentRowWidget!(rowData),
-          )
-      ],
-    );
-  }
-
-  Widget _wrapContent({required Widget child}) => Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-          ),
-        ),
-        child: BasicButton(
-          onPressed: onPressed,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-          padding: EdgeInsets.zero,
-          child: child,
-        ),
-      );
-
-  Widget _wrapShowMore({required Widget child}) => Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-            right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-            left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-          ),
-        ),
-        child: child,
-      );
 
   Widget _defaultRowItem({required dynamic value, required T rowData}) => Text(value.toString());
 

@@ -6,6 +6,7 @@ class DataTableOptionUI {
     this.textAlign = TextAlign.left,
     this.customizeItemPerPage = 'Item per page',
     this.customizeFromToItemInPage,
+    this.isShowSortFilter = false,
     this.customizeSortDesc = 'Sort Desc',
     this.customizeSortAsc = 'Sort Asc',
   });
@@ -14,6 +15,7 @@ class DataTableOptionUI {
   final TextAlign textAlign;
   final String customizeItemPerPage;
   final String Function(int, int, int)? customizeFromToItemInPage;
+  final bool isShowSortFilter;
   final String customizeSortDesc;
   final String customizeSortAsc;
 }

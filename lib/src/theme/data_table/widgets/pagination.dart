@@ -37,7 +37,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
   void _handleChangeDataPageNumber(int pageNumber) {
     if (pageNumber == pagination.currentPage) return;
     widget.controller.setCurrentPage(pageNumber);
-    if (widget.controller.additionColumn == DataTableAdditionColumn.checkbox) {
+    if (widget.controller.additionColumns.contains(DataTableAdditionColumn.checkbox)) {
       widget.controller.clearSelected();
     }
     widget.handleChangeData(

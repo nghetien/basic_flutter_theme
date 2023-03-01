@@ -3,12 +3,10 @@ part of '../data_table.dart';
 class CheckBoxRowItem<T> extends StatelessWidget {
   const CheckBoxRowItem({
     Key? key,
-    required this.index,
     required this.rowData,
     required this.controller,
   }) : super(key: key);
 
-  final int index;
   final T rowData;
   final DataTableController<T> controller;
 
