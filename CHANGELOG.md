@@ -1,3 +1,5 @@
+## 0.1.2
+* Fix bug out of scroll in `DataTable`, add size for Image, Button, Input, Title.
 ## 0.1.1
 * Big update DataTable: DataTable can use fixed column (maxWidth and minWidth) and have context in customize row item.
 ## 0.0.7

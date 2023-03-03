@@ -25,4 +25,6 @@ class DataTableState<T> {
   // double? widthOfRightColumns;
 
   Map<int, double?> mapIndexToWidthOfEachRow = {};
+
+  bool isLoading = false;
 }

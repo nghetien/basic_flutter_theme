@@ -1,9 +1,9 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:flutter/material.dart';
+part of 'images.dart';
 
 class BasicAssetImage extends StatelessWidget {
   const BasicAssetImage({
     Key? key,
+    this.type = BasicImageType.medium,
     this.path,
     this.width,
     this.height,
@@ -19,6 +19,7 @@ class BasicAssetImage extends StatelessWidget {
         ),
         super(key: key);
 
+  final BasicImageType type;
   final String? path;
   final double? width;
   final double? height;
@@ -32,8 +33,8 @@ class BasicAssetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
+      width: width ?? type.size,
+      height: height ?? type.size,
       decoration: BoxDecoration(
         border: Border.all(
           width: borderWidth ?? BasicBorders.thin,

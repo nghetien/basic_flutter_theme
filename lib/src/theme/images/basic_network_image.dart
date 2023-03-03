@@ -1,14 +1,9 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
-
-import 'basic_asset_image.dart';
+part of 'images.dart';
 
 class BasicNetworkImage extends StatelessWidget {
   const BasicNetworkImage({
     Key? key,
+    this.type = BasicImageType.medium,
     required this.path,
     this.width,
     this.height,
@@ -19,6 +14,7 @@ class BasicNetworkImage extends StatelessWidget {
     this.boxFit = BoxFit.cover,
   }) : super(key: key);
 
+  final BasicImageType type;
   final String path;
   final double? width;
   final double? height;
@@ -29,8 +25,8 @@ class BasicNetworkImage extends StatelessWidget {
   final BoxFit boxFit;
 
   Widget _error() => Container(
-        width: width,
-        height: height,
+        width: width ?? type.size,
+        height: height ?? type.size,
         decoration: BoxDecoration(
           color: BasicAppColors.greyOpacity04,
           border: Border.all(
@@ -46,8 +42,8 @@ class BasicNetworkImage extends StatelessWidget {
         baseColor: Colors.black12,
         highlightColor: context.theme.colorScheme.background,
         child: Container(
-          width: width,
-          height: height,
+          width: width ?? type.size,
+          height: height ?? type.size,
           decoration: BoxDecoration(
             color: BasicAppColors.greyOpacity01,
             border: Border.all(
@@ -64,8 +60,8 @@ class BasicNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) => CachedNetworkImage(
         imageUrl: path,
         imageBuilder: (_, imageProvider) => BasicAssetImage(
-          width: width,
-          height: height,
+          width: width ?? type.size,
+          height: height ?? type.size,
           borderWidth: borderWidth,
           borderColor: borderColor,
           shape: shape,

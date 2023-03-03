@@ -1,7 +1,4 @@
-import 'package:basic_flutter_theme/src/src.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+part of 'inputs.dart';
 
 enum BasicInputDateTimeType {
   date,
@@ -19,8 +16,8 @@ class BasicInputDateTime extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.currentDate,
+    this.inputType,
     this.width,
-    this.height,
     this.controller,
     this.focusNode,
     this.onFocusChange,
@@ -73,8 +70,8 @@ class BasicInputDateTime extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
   final DateTime? currentDate;
+  final BasicInputType? inputType;
   final double? width;
-  final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(bool)? onFocusChange;
@@ -124,14 +121,31 @@ class BasicInputDateTime extends StatefulWidget {
 }
 
 class _BasicInputDateTimeState extends State<BasicInputDateTime> {
-  late final FocusNode _focusNode;
-  late final TextEditingController _controller;
+  late FocusNode _focusNode;
+  late TextEditingController _controller;
+
+  void _onFocusChange() {
+    if (widget.autoOpenSelectDate && _focusNode.hasFocus) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      _onSelectDate();
+    }
+    widget.onFocusChange?.call(_focusNode.hasFocus);
+  }
 
   @override
   void initState() {
     super.initState();
     _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   TextInputFormatter _getFormatter() {
@@ -233,8 +247,12 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
         );
         break;
     }
-    _controller.text =
-        date != null ? DateFormat(_getDateTimeValidator()).format(date!) : _controller.text;
+    if (date != null) {
+      _controller.text = DateFormat(_getDateTimeValidator()).format(date!);
+      _controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: _controller.text.length),
+      );
+    }
     FocusManager.instance.primaryFocus?.unfocus();
     widget.onDateChanged(
       date ??
@@ -244,19 +262,16 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
     );
   }
 
+  void _onChanged(String value) {
+    widget.onChanged?.call(value);
+  }
+
   @override
   Widget build(BuildContext context) => BasicInput(
+        inputType: widget.inputType,
         width: widget.width,
-        height: widget.height,
         controller: _controller,
         focusNode: _focusNode,
-        onFocusChange: widget.onFocusChange ??
-            (bool hasFocus) {
-              if (widget.autoOpenSelectDate && hasFocus) {
-                FocusManager.instance.primaryFocus?.unfocus();
-                _onSelectDate();
-              }
-            },
         textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
         textInputAction: widget.textInputAction,
@@ -266,7 +281,6 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
         maxLength: widget.maxLength,
         enabled: widget.enabled,
         obscureText: widget.obscureText,
-        scrollPadding: widget.scrollPadding,
         cursorColor: widget.cursorColor,
         autoValidateMode: widget.autoValidateMode,
         validator: widget.validator ??
@@ -277,7 +291,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
               ],
             ),
         inputFormatters: widget.inputFormatters ?? [_getFormatter()],
-        onChanged: widget.onChanged,
+        onChanged: _onChanged,
         onTap: widget.onTap,
         onEditingComplete: widget.onEditingComplete,
         onFieldSubmitted: widget.onFieldSubmitted,
@@ -306,16 +320,16 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
       );
 
   Widget _getIcon() {
-    IconData iconData = Icons.calendar_today_rounded;
+    IconData iconData = EvaIcons.calendarOutline;
     switch (widget.type) {
       case BasicInputDateTimeType.date:
-        iconData = Icons.calendar_today_rounded;
+        iconData = EvaIcons.calendarOutline;
         break;
       case BasicInputDateTimeType.time:
-        iconData = Icons.access_time_rounded;
+        iconData = EvaIcons.clockOutline;
         break;
       case BasicInputDateTimeType.dateTime:
-        iconData = Icons.calendar_today_rounded;
+        iconData = EvaIcons.calendarOutline;
     }
     return InkWell(
       onTap: () => _onSelectDate(),

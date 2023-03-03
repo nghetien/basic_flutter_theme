@@ -103,6 +103,8 @@ class DataTableController<T> extends ChangeNotifier {
 
   double? get widthOfRightColumns => getWidthOfColumn(_state.fixedColumnsRight);
 
+  bool get isLoading => _state.isLoading;
+
   void setDataSources(List<T> dataSources) {
     _state.dataSources = dataSources;
     notifyListeners();
@@ -206,4 +208,14 @@ class DataTableController<T> extends ChangeNotifier {
 
   void reloadHeightFixedContent() =>
       reloadFixedColumnStreamController.add(EventReloadFixedColumn());
+
+  void setLoading(bool value) {
+    _state.isLoading = value;
+    notifyListeners();
+  }
+
+  void toggleLoading() {
+    _state.isLoading = !_state.isLoading;
+    notifyListeners();
+  }
 }

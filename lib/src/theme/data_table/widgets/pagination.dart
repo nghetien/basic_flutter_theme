@@ -150,6 +150,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
       child: BasicButton(
         height: sizePageNumber,
         width: sizePageNumber,
+        buttonType: BasicButtonType.medium,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         text: number > 0 ? number.toString() : '...',
@@ -220,23 +221,24 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          BasicInputDropdown<int>(
+          SizedBox(
             height: sizePageNumber + 2,
-            width: 75.scaleSize,
-            controller: _itemPerPageValueController,
-            itemBuilder: (_) => [
-              for (final item in pagination.listItemsPerPage)
-                PopupMenuItem<int>(
-                  value: item,
-                  child: Text(item.toString()),
-                ),
-            ],
-            onSelected: (value) {
-              _itemPerPageValueController.text = value.toString();
-              _handleChangeItemPerPage(value);
-            },
-            offset: const Offset(0, 0),
-            contentPadding: EdgeInsets.only(left: BasicPaddings().p8),
+            child: BasicInputDropdown<int>(
+              width: 75.scaleSize,
+              controller: _itemPerPageValueController,
+              contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
+              itemBuilder: (_) => [
+                for (final item in pagination.listItemsPerPage)
+                  PopupMenuItem<int>(
+                    value: item,
+                    child: Text(item.toString()),
+                  ),
+              ],
+              onSelected: (value) {
+                _itemPerPageValueController.text = value.toString();
+                _handleChangeItemPerPage(value);
+              },
+            ),
           ),
           if (BasicConfigResponsive().screenDevice.isDesktop)
             Flexible(

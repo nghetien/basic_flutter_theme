@@ -25,4 +25,6 @@ extension BasicDateTimeExtension on DateTime {
   String get dateStr => DateFormat('dd/MM/yyyy').format(this);
 
   String get dateTimeStr => DateFormat('dd/MM/yyyy HH:mm').format(this);
+
+  String get dayOfMonthOfYear => DateFormat.yMMMEd().format(this);
 }

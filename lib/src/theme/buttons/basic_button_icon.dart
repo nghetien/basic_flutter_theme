@@ -1,11 +1,15 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:flutter/material.dart';
+part of 'buttons.dart';
 
-import 'basic_button.dart';
+class BasicButtonIconType extends BasicButtonType {
+  const BasicButtonIconType(double height) : super(height);
+
+  static const BasicButtonIconType large = BasicButtonIconType(42);
+}
 
 class BasicButtonIcon extends StatelessWidget {
   const BasicButtonIcon({
     Key? key,
+    this.buttonIconType,
     this.isFullColor = false,
     required this.onPressed,
     this.text,
@@ -28,6 +32,7 @@ class BasicButtonIcon extends StatelessWidget {
     this.spaceBetweenIconAndText,
   }) : super(key: key);
 
+  final BasicButtonIconType? buttonIconType;
   final bool isFullColor;
   final VoidCallback onPressed;
   final String? text;
@@ -54,6 +59,7 @@ class BasicButtonIcon extends StatelessWidget {
     if (icon == null) {
       return BasicButton(
         key: key,
+        buttonType: buttonIconType,
         isFullColor: isFullColor,
         onPressed: onPressed,
         width: width,
@@ -106,6 +112,7 @@ class BasicButtonIcon extends StatelessWidget {
     }
     return BasicButton(
       key: key,
+      buttonType: buttonIconType,
       isFullColor: isFullColor,
       onPressed: onPressed,
       width: width,

@@ -1,6 +1,11 @@
-import 'package:basic_flutter_theme/src/theme/buttons/buttons.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+part of 'buttons.dart';
+
+/// Phát triển lại trong tương lai
+class BasicButtonDropdownType extends BasicButtonType {
+  const BasicButtonDropdownType(double height) : super(height);
+
+  static const BasicButtonDropdownType large = BasicButtonDropdownType(42);
+}
 
 class BasicButtonDropdownModel {
   const BasicButtonDropdownModel({
@@ -19,6 +24,7 @@ class BasicButtonDropdownModel {
 class BasicButtonDropdown extends StatefulWidget {
   const BasicButtonDropdown({
     Key? key,
+    this.basicButtonDropdownType,
     required this.titleButton,
     this.children = const [],
     this.onPressedTitleButton,
@@ -42,6 +48,7 @@ class BasicButtonDropdown extends StatefulWidget {
     this.colorIconDropdown,
   }) : super(key: key);
 
+  final BasicButtonDropdownType? basicButtonDropdownType;
   final Widget titleButton;
   final List<BasicButtonDropdownModel> children;
   final VoidCallback? onPressedTitleButton;
@@ -129,6 +136,7 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
         return Column(
           children: [
             BasicButton(
+              buttonType: widget.basicButtonDropdownType,
               onPressed: () {
                 _toggle();
                 if (widget.onPressedTitleButton != null) widget.onPressedTitleButton!();
@@ -182,6 +190,7 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
           return widget.children[index].isButtonDropdown
               ? widget.children[index].child
               : BasicButton(
+            buttonType: widget.basicButtonDropdownType,
                   onPressed: () => widget.onPressedItem(index),
                   isFullColor: widget.isFullColor,
                   width: widget.width ?? double.infinity,
@@ -193,11 +202,11 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
                   shape: widget.shape,
                   textColor: widget.textColor,
                   fontSize: widget.fontSize,
-            textStyle: widget.textStyle,
-            textAlign: widget.textAlign,
-            maxLines: widget.maxLines,
-            alignment: widget.alignment,
-            child: widget.children[index].child,
+                  textStyle: widget.textStyle,
+                  textAlign: widget.textAlign,
+                  maxLines: widget.maxLines,
+                  alignment: widget.alignment,
+                  child: widget.children[index].child,
                 );
         }
         return const SizedBox.shrink();

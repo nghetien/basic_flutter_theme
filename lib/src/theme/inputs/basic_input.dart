@@ -1,28 +1,104 @@
-import 'package:basic_flutter_theme/src/styles/main_style/main_style.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+part of 'inputs.dart';
 
-import 'basic_input_decoration.dart';
+class BasicInputType {
+  const BasicInputType(
+      double height, EdgeInsets padding, TextStyle textStyle, TextStyle hintStyle, int? maxLines)
+      : _height = height,
+        _padding = padding,
+        _textStyle = textStyle,
+        _hintStyle = hintStyle,
+        _maxLines = maxLines;
 
-class BasicInput extends StatefulWidget {
+  final double _height;
+  final EdgeInsets _padding;
+  final TextStyle _textStyle;
+  final TextStyle _hintStyle;
+  final int? _maxLines;
+
+  double get height => _height;
+
+  EdgeInsets get padding => _padding;
+
+  TextStyle get textStyle => _textStyle;
+
+  TextStyle get hintStyle => _hintStyle;
+
+  int? get maxLines => _maxLines;
+
+  static final BasicInputType large = BasicInputType(
+    42,
+    const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 14.5,
+    ),
+    BasicTextStyles.body,
+    BasicTextStyles.body,
+    1,
+  );
+
+  static final BasicInputType medium = BasicInputType(
+    35,
+    const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12.5,
+    ),
+    BasicTextStyles.label,
+    BasicTextStyles.label,
+    1,
+  );
+
+  static final BasicInputType areaSmall = BasicInputType(
+    60,
+    const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 13,
+    ),
+    BasicTextStyles.body,
+    BasicTextStyles.body,
+    2,
+  );
+
+  static final BasicInputType areaMedium = BasicInputType(
+    80,
+    const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12.5,
+    ),
+    BasicTextStyles.body,
+    BasicTextStyles.body,
+    3,
+  );
+
+  static final BasicInputType areaLarge = BasicInputType(
+    100,
+    const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12,
+    ),
+    BasicTextStyles.body,
+    BasicTextStyles.body,
+    4,
+  );
+}
+
+class BasicInput extends StatelessWidget {
   const BasicInput({
     Key? key,
+    this.inputType,
     this.width,
-    this.height,
     this.initialValue,
     this.controller,
     this.focusNode,
-    this.onFocusChange,
+    this.textStyle,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
     this.textInputAction,
     this.keyboardType,
-    this.maxLines = 1,
+    this.maxLines,
     this.minLines,
     this.maxLength,
     this.enabled,
     this.obscureText = false,
-    this.scrollPadding,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
@@ -55,22 +131,21 @@ class BasicInput extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final BasicInputType? inputType;
   final double? width;
-  final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final Function(bool)? onFocusChange;
   final String? initialValue;
+  final TextStyle? textStyle;
   final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final TextAlignVertical? textAlignVertical;
   final TextInputType? keyboardType;
-  final int maxLines;
+  final int? maxLines;
   final int? minLines;
   final int? maxLength;
   final bool? enabled;
   final bool obscureText;
-  final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
@@ -103,77 +178,55 @@ class BasicInput extends StatefulWidget {
   final TextStyle? errorStyle;
 
   @override
-  State<BasicInput> createState() => _BasicInputState();
-}
-
-class _BasicInputState extends State<BasicInput> {
-  @override
-  void initState() {
-    super.initState();
-    widget.focusNode?.addListener(
-      () {
-        if (widget.onFocusChange != null) {
-          widget.onFocusChange!(widget.focusNode!.hasFocus);
-        }
-      },
-    );
-  }
-
-  @override
   Widget build(BuildContext context) => SizedBox(
-        height: widget.height,
-        width: widget.width,
+    width: width,
         child: TextFormField(
-          controller: widget.controller,
-          focusNode: widget.focusNode,
-          initialValue: widget.initialValue,
-          textAlign: widget.textAlign,
-          textInputAction: widget.textInputAction,
-          textAlignVertical: widget.textAlignVertical,
-          keyboardType: widget.keyboardType,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          maxLength: widget.maxLength,
-          enabled: widget.enabled,
-          obscureText: widget.obscureText,
-          cursorColor: widget.cursorColor,
-          scrollPadding: widget.scrollPadding ??
-              EdgeInsets.symmetric(
-                horizontal: BasicPaddings().p18,
-                vertical: BasicPaddings().p12,
-              ),
-          autovalidateMode: widget.autoValidateMode,
-          validator: widget.validator,
-          inputFormatters: widget.inputFormatters,
-          onChanged: widget.onChanged,
-          onTap: widget.onTap,
-          onEditingComplete: widget.onEditingComplete,
-          onFieldSubmitted: widget.onFieldSubmitted,
-          onSaved: widget.onSaved,
+          controller: controller,
+          focusNode: focusNode,
+          initialValue: initialValue,
+          style: textStyle ?? inputType?.textStyle,
+          textAlign: textAlign,
+          textInputAction: textInputAction,
+          textAlignVertical: textAlignVertical,
+          keyboardType: keyboardType,
+          maxLines: maxLines ?? inputType?.maxLines,
+          minLines: minLines,
+          maxLength: maxLength,
+          enabled: enabled,
+          obscureText: obscureText,
+          cursorColor: cursorColor,
+          autovalidateMode: autoValidateMode,
+          validator: validator,
+          inputFormatters: inputFormatters,
+          onChanged: onChanged,
+          onTap: onTap,
+          onEditingComplete: onEditingComplete,
+          onFieldSubmitted: onFieldSubmitted,
+          onSaved: onSaved,
           decoration: basicInputDecoration(
             context,
-            enabled: widget.enabled,
-            isDense: widget.isDense,
-            filled: widget.filled,
-            prefixIcon: widget.prefixIcon,
-            suffixIcon: widget.suffixIcon,
-            contentPadding: widget.contentPadding,
-            focusedBorder: widget.focusedBorder,
-            enabledBorder: widget.enabledBorder,
-            disabledBorder: widget.disabledBorder,
-            errorBorder: widget.errorBorder,
-            focusedErrorBorder: widget.focusedErrorBorder,
-            fillColor: widget.fillColor,
-            hoverColor: widget.hoverColor,
-            labelText: widget.labelText,
-            labelStyle: widget.labelStyle,
-            floatingLabelStyle: widget.floatingLabelStyle,
-            floatingLabelBehavior: widget.floatingLabelBehavior,
-            hintText: widget.hintText,
-            hintStyle: widget.hintStyle,
-            errorText: widget.errorText,
-            errorMaxLines: widget.errorMaxLines,
-            errorStyle: widget.errorStyle,
+            enabled: enabled,
+            isDense: isDense,
+            filled: filled,
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            contentPadding: contentPadding ?? inputType?.padding ?? BasicInputType.large.padding,
+            focusedBorder: focusedBorder,
+            enabledBorder: enabledBorder,
+            disabledBorder: disabledBorder,
+            errorBorder: errorBorder,
+            focusedErrorBorder: focusedErrorBorder,
+            fillColor: fillColor,
+            hoverColor: hoverColor,
+            labelText: labelText,
+            labelStyle: labelStyle,
+            floatingLabelStyle: floatingLabelStyle,
+            floatingLabelBehavior: floatingLabelBehavior,
+            hintText: hintText,
+            hintStyle: hintStyle ?? inputType?.hintStyle,
+            errorText: errorText,
+            errorMaxLines: errorMaxLines,
+            errorStyle: errorStyle,
           ),
         ),
       );

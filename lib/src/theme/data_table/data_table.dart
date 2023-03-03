@@ -34,5 +34,6 @@ part 'widgets/fixed_data_table.dart';
 part 'widgets/header.dart';
 part 'widgets/header_item.dart';
 part 'widgets/pagination.dart';
+part 'widgets/loading.dart';
 part 'widgets/row.dart';
 part 'widgets/row_item.dart';

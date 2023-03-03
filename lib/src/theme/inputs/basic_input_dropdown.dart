@@ -1,9 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/theme/inputs/inputs.dart';
-import 'package:basic_flutter_theme/src/theme/popup_menu_button/popup_menu_button.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+part of 'inputs.dart';
 
 class BasicInputDropdown<T> extends StatefulWidget {
   const BasicInputDropdown({
@@ -12,8 +7,9 @@ class BasicInputDropdown<T> extends StatefulWidget {
     required this.itemBuilder,
     required this.onSelected,
     this.offset,
+    this.heightPopup,
+    this.inputType,
     this.width,
-    this.height,
     this.initialValue,
     this.controller,
     this.focusNode,
@@ -64,8 +60,9 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final PopupMenuItemBuilder<T> itemBuilder;
   final PopupMenuItemSelected<T>? onSelected;
   final Offset? offset;
+  final double? heightPopup;
+  final BasicInputType? inputType;
   final double? width;
-  final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(bool)? onFocusChange;
@@ -126,6 +123,19 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
 
   double? _widthElement;
 
+  void _onFocusChange() {
+    if (widget.autoOpenDropdown) {
+      final CustomPopupMenuButtonState state =
+          _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;
+      if (_focusNode.hasFocus) FocusManager.instance.primaryFocus?.unfocus();
+      if (!state.popupIsOpen) {
+        _setPopupIsOpen(true);
+        state.showButtonMenu();
+      }
+    }
+    widget.onFocusChange?.call(_focusNode.hasFocus);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -140,6 +150,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
       ),
     );
     _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
@@ -147,6 +158,14 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
         setState(() => _widthElement = box.size.width);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   void _setPopupIsOpen(bool value) {
@@ -162,22 +181,10 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     return SizedBox(
       key: _widgetKey,
       child: BasicInput(
+        inputType: widget.inputType,
         width: widget.width,
-        height: widget.height,
         controller: _controller,
         focusNode: _focusNode,
-        onFocusChange: widget.onFocusChange ??
-            (bool hasFocus) {
-              if (widget.autoOpenDropdown) {
-                final CustomPopupMenuButtonState state =
-                    _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;
-                if (hasFocus) FocusManager.instance.primaryFocus?.unfocus();
-                if (!state.popupIsOpen) {
-                  _setPopupIsOpen(true);
-                  state.showButtonMenu();
-                }
-              }
-            },
         initialValue: widget.initialValue,
         textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
@@ -188,7 +195,6 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
         maxLength: widget.maxLength,
         enabled: widget.enabled,
         obscureText: widget.obscureText,
-        scrollPadding: widget.scrollPadding,
         cursorColor: widget.cursorColor,
         autoValidateMode: widget.autoValidateMode,
         validator: widget.validator,
@@ -227,7 +233,10 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     return CustomPopupMenuButton<T>(
       key: _popupMenuButtonKey,
       offset: widget.offset ?? Offset(0, 50.scaleSize),
-      constraints: BoxConstraints.tightFor(width: _widthElement),
+      constraints: BoxConstraints.tightFor(
+        width: _widthElement,
+        height: widget.heightPopup,
+      ),
       onCanceled: () {
         FocusManager.instance.primaryFocus?.unfocus();
         _setPopupIsOpen(false);

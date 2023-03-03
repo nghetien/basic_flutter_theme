@@ -1,10 +1,20 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+part of 'buttons.dart';
+
+class BasicButtonType {
+  const BasicButtonType(double height) : _height = height;
+  final double _height;
+
+  double get height => _height;
+
+  static const BasicButtonType large = BasicButtonType(42);
+  static const BasicButtonType medium = BasicButtonType(35);
+  static const BasicButtonType small = BasicButtonType(26);
+}
 
 class BasicButton extends StatelessWidget {
   const BasicButton({
     Key? key,
+    this.buttonType,
     this.isFullColor = false,
     required this.onPressed,
     this.text,
@@ -24,6 +34,7 @@ class BasicButton extends StatelessWidget {
     this.alignment,
   }) : super(key: key);
 
+  final BasicButtonType? buttonType;
   final bool isFullColor;
   final VoidCallback onPressed;
   final String? text;
@@ -44,9 +55,9 @@ class BasicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.zero,
+    padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
-        height: height,
+        height: height ?? buttonType?.height,
         width: width,
         decoration: BoxDecoration(boxShadow: boxShadow),
         child: ElevatedButton(
@@ -61,11 +72,11 @@ class BasicButton extends StatelessWidget {
             elevation: 0,
             minimumSize: Size.zero,
           ),
-          child: Padding(
+          child: Container(
             padding: padding ??
                 EdgeInsets.symmetric(
-                  horizontal: BasicPaddings().p18,
-                  vertical: BasicPaddings().p12,
+                  horizontal: BasicPaddings().p14,
+                  vertical: BasicPaddings().p8,
                 ),
             child: child ??
                 Text(

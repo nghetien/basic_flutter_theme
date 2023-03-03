@@ -94,12 +94,24 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
                 widget.controller.widthOfAllColumns! <= constraints.maxWidth
             ? constraints.maxWidth
             : widget.controller.widthOfAllColumns!;
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BasicCorners.cornerBorder8,
-            color: context.theme.colorScheme.background,
-          ),
-          child: _genContentTable(widthAllColumn),
+        return Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BasicCorners.cornerBorder8,
+                color: context.theme.colorScheme.background,
+              ),
+              child: _genContentTable(widthAllColumn),
+            ),
+            if (_webDataTableController.isLoading)
+              const Positioned(
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
+                child: DataTableLoadingWidget(),
+              ),
+          ],
         );
       },
     );

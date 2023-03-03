@@ -1,27 +1,24 @@
-import 'package:basic_flutter_theme/basic_flutter_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+part of 'inputs.dart';
 
 class BasicInputPassword extends StatefulWidget {
   const BasicInputPassword({
     Key? key,
     this.iconPasswordColor,
     this.iconPasswordSize,
+    this.inputType,
     this.width,
-    this.height,
     this.initialValue,
     this.controller,
     this.focusNode,
-    this.onFocusChange,
+    this.textStyle,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
     this.textInputAction,
     this.keyboardType,
-    this.maxLines = 1,
+    this.maxLines,
     this.minLines,
     this.maxLength,
     this.enabled,
-    this.scrollPadding,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
@@ -56,21 +53,20 @@ class BasicInputPassword extends StatefulWidget {
 
   final double? iconPasswordSize;
   final Color? iconPasswordColor;
+  final BasicInputType? inputType;
   final double? width;
-  final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final Function(bool)? onFocusChange;
   final String? initialValue;
+  final TextStyle? textStyle;
   final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final TextAlignVertical? textAlignVertical;
   final TextInputType? keyboardType;
-  final int maxLines;
+  final int? maxLines;
   final int? minLines;
   final int? maxLength;
   final bool? enabled;
-  final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
@@ -125,12 +121,12 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   @override
   Widget build(BuildContext context) => BasicInput(
+        inputType: widget.inputType,
         width: widget.width,
-        height: widget.height,
         controller: widget.controller,
         focusNode: widget.focusNode,
-        onFocusChange: widget.onFocusChange,
         initialValue: widget.initialValue,
+        textStyle: widget.textStyle,
         textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
         textInputAction: widget.textInputAction,
@@ -140,7 +136,6 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
         maxLength: widget.maxLength,
         enabled: widget.enabled,
         obscureText: _getObscureText(),
-        scrollPadding: widget.scrollPadding,
         cursorColor: widget.cursorColor,
         autoValidateMode: widget.autoValidateMode,
         validator: widget.validator,

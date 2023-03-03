@@ -3,6 +3,101 @@ import 'package:intl/intl.dart';
 class BasicDateTimeValidator {
   const BasicDateTimeValidator._();
 
+  static bool isValidDate({
+    required int year,
+    required int month,
+    required int day,
+  }) {
+    try {
+      DateTime(year, month, day);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidYear({
+    required int year,
+    int? month,
+    int? day,
+  }) {
+    try {
+      if (month != null && day != null) {
+        DateTime(year, month, day);
+      } else if (month != null) {
+        DateTime(year, month);
+      } else {
+        DateTime(year);
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidMonth({
+    required int month,
+    int? day,
+  }) {
+    try {
+      final DateTime now = DateTime.now();
+      if (day != null) {
+        DateTime(now.year, month, day);
+      } else {
+        DateTime(now.year, month);
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidDay({
+    required int day,
+  }) {
+    try {
+      final DateTime now = DateTime.now();
+      DateTime(now.year, now.month, day);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidHour({
+    required int hour,
+  }) {
+    try {
+      final DateTime now = DateTime.now();
+      DateTime(now.year, now.month, now.day, hour);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidMinute({
+    required int minute,
+  }) {
+    try {
+      final DateTime now = DateTime.now();
+      DateTime(now.year, now.month, now.day, now.hour, minute);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidTime(int hour, int minute) {
+    try {
+      final DateTime now = DateTime.now();
+      DateTime(now.year, now.month, now.day, hour, minute);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   static bool isDateTime(
     String str, {
     String? validator,

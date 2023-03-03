@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'inputs.dart';
 
 class BasicInputTypeAhead extends StatefulWidget {
   const BasicInputTypeAhead({Key? key}) : super(key: key);

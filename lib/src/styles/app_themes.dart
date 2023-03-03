@@ -41,8 +41,9 @@ class BasicAppThemes {
       suffixIconColor: BasicAppColors.black,
       contentPadding: EdgeInsets.symmetric(
         horizontal: BasicPaddings().p8,
-        vertical: BasicPaddings().p14,
+        vertical: BasicPaddings().p12,
       ),
+      // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
         borderRadius: BasicCorners.cornerBorder5,
         borderSide: BorderSide(
@@ -167,8 +168,9 @@ class BasicAppThemes {
       suffixIconColor: BasicAppColors.white,
       contentPadding: EdgeInsets.symmetric(
         horizontal: BasicPaddings().p8,
-        vertical: BasicPaddings().p14,
+        vertical: BasicPaddings().p12,
       ),
+      // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
         borderRadius: BasicCorners.cornerBorder5,
         borderSide: BorderSide(

@@ -1,5 +1,4 @@
-import 'package:basic_flutter_theme/basic_flutter_theme.dart';
-import 'package:flutter/material.dart';
+part of 'inputs.dart';
 
 InputDecoration basicInputDecoration(
   BuildContext context, {

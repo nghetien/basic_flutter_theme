@@ -10,6 +10,7 @@ class BasicCard extends StatelessWidget {
     this.margin,
     this.padding,
     this.backgroundColor,
+    this.borderRadius,
     this.border,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class BasicCard extends StatelessWidget {
   final EdgeInsets? margin;
   final EdgeInsets? padding;
   final Color? backgroundColor;
+  final BorderRadius? borderRadius;
   final BoxBorder? border;
 
   @override
@@ -29,7 +31,7 @@ class BasicCard extends StatelessWidget {
         padding: padding ?? EdgeInsets.all(BasicPaddings().p18),
         decoration: BoxDecoration(
           color: backgroundColor ?? context.theme.colorScheme.background,
-          borderRadius: BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
           border: border ??
               Border.all(
                 color: Colors.transparent,

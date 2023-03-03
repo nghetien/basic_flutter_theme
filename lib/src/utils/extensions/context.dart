@@ -16,5 +16,6 @@ extension BasicContextExtensions on BuildContext {
   void popNavigator<T extends Object?>([T? result]) =>
       Navigator.of(this, rootNavigator: true).pop(result);
 
-  void popUntilNavigator<T extends Object?>(RoutePredicate predicate) => Navigator.popUntil(this, predicate);
+  void popUntilNavigator<T extends Object?>(RoutePredicate predicate) =>
+      Navigator.of(this, rootNavigator: true).popUntil(predicate);
 }

@@ -3,6 +3,9 @@ part of '../data_table.dart';
 class DataTableHeaderItemWidget<T> extends StatelessWidget {
   const DataTableHeaderItemWidget({
     Key? key,
+    required this.index,
+    required this.lengthOfColumn,
+    this.fixedColumn = FixedColumn.none,
     required this.controller,
     this.sortDataVoid,
     required this.column,
@@ -10,6 +13,9 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
     required this.additionFilter,
   }) : super(key: key);
 
+  final int index;
+  final int lengthOfColumn;
+  final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
   final DataTableOptionUI dataTableOptionUI;
@@ -143,15 +149,19 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
     required Widget child,
   }) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          left: BorderSide(
-            width: 0,
-            color: BasicAppColors.white,
+          left: DataTableHeaderWidget.getBorderLeft(
+            index: index,
+            fixedColumn: fixedColumn,
+            lengthOfColumn: lengthOfColumn,
+            haveFixedColumnsLeft: controller.haveFixedColumnsLeft,
           ),
-          right: BorderSide(
-            width: 0,
-            color: BasicAppColors.white,
+          right: DataTableHeaderWidget.getBorderRight(
+            index: index,
+            fixedColumn: fixedColumn,
+            lengthOfColumn: lengthOfColumn,
+            haveFixedColumnsRight: controller.haveFixedColumnsRight,
           ),
         ),
       ),
