@@ -1,8 +1,10 @@
 export 'app_refresher.dart';
+export 'badge.dart';
 export 'buttons/buttons.dart';
 export 'card.dart';
 export 'data_table/data_table.dart';
 export 'dialogs.dart';
+export 'divider.dart';
 export 'expansions.dart';
 export 'icon_buttons/icon_buttons.dart';
 export 'images/images.dart';

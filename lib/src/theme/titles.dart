@@ -7,7 +7,9 @@ enum BasicTitleType {
   level2,
   level3,
   level4,
-  level5;
+  level5,
+  level6,
+  ;
 
   TextStyle get textStyle {
     switch (this) {
@@ -33,6 +35,10 @@ enum BasicTitleType {
         return BasicTextStyles.titleMedium.copyWith(
           fontWeight: FontWeight.w500,
         );
+      case BasicTitleType.level6:
+        return BasicTextStyles.body.copyWith(
+          fontWeight: FontWeight.w500,
+        );
     }
   }
 }
@@ -42,6 +48,10 @@ class BasicTitle extends StatelessWidget {
     this.text, {
     Key? key,
     required this.titleType,
+    this.fontWeight,
+    this.fontSize,
+    this.color,
+    this.height,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
@@ -58,6 +68,10 @@ class BasicTitle extends StatelessWidget {
 
   final String text;
   final BasicTitleType titleType;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final Color? color;
+  final double? height;
   final StrutStyle? strutStyle;
   final TextAlign? textAlign;
   final TextDirection? textDirection;
@@ -73,8 +87,13 @@ class BasicTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        text,
-        style: titleType.textStyle,
+    text,
+        style: titleType.textStyle.copyWith(
+          fontWeight: fontWeight,
+          fontSize: fontSize,
+          color: color,
+          height: height,
+        ),
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,

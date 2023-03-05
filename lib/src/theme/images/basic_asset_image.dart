@@ -41,7 +41,8 @@ class BasicAssetImage extends StatelessWidget {
           color: borderColor ?? BasicAppColors().primary,
         ),
         shape: shape,
-        borderRadius: borderRadius,
+        borderRadius:
+            borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
         image: DecorationImage(
           image: imageProvider ?? AssetImage(path ?? ''),
           fit: boxFit,

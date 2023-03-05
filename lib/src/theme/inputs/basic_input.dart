@@ -28,7 +28,7 @@ class BasicInputType {
   static final BasicInputType large = BasicInputType(
     42,
     const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 12,
       vertical: 14.5,
     ),
     BasicTextStyles.body,
@@ -39,7 +39,7 @@ class BasicInputType {
   static final BasicInputType medium = BasicInputType(
     35,
     const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 12,
       vertical: 12.5,
     ),
     BasicTextStyles.label,
@@ -50,7 +50,7 @@ class BasicInputType {
   static final BasicInputType areaSmall = BasicInputType(
     60,
     const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 12,
       vertical: 13,
     ),
     BasicTextStyles.body,
@@ -61,7 +61,7 @@ class BasicInputType {
   static final BasicInputType areaMedium = BasicInputType(
     80,
     const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 12,
       vertical: 12.5,
     ),
     BasicTextStyles.body,
@@ -72,7 +72,7 @@ class BasicInputType {
   static final BasicInputType areaLarge = BasicInputType(
     100,
     const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 12,
       vertical: 12,
     ),
     BasicTextStyles.body,

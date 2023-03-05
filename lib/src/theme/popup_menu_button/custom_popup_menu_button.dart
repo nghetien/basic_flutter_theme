@@ -23,6 +23,7 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
     this.enabled = true,
     this.shape,
     this.color,
+    this.hoverColor,
     this.enableFeedback,
     this.constraints,
     this.position = PopupMenuPosition.over,
@@ -114,6 +115,8 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
   /// If [PopupMenuThemeData.color] is also null, then
   /// Theme.of(context).cardColor is used.
   final Color? color;
+
+  final Color? hoverColor;
 
   /// Whether detected gestures should provide acoustic and/or haptic feedback.
   ///
@@ -254,6 +257,9 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
           canRequestFocus: _canRequestFocus,
           radius: widget.splashRadius,
           enableFeedback: enableFeedback,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           child: widget.child,
         ),
       );
@@ -266,6 +272,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
         shape: BasicOutlineBorder.none,
         background: widget.backgroundIconColor,
         padding: widget.iconPadding,
+        hoverColor: widget.hoverColor,
         onPressed: widget.enabled ? showButtonMenu : () {},
         child: widget.icon,
       ),

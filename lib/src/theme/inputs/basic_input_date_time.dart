@@ -143,8 +143,6 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-    _controller.dispose();
     super.dispose();
   }
 

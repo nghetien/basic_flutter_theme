@@ -23,8 +23,10 @@ class BasicButton extends StatelessWidget {
     this.height,
     this.padding,
     this.background,
+    this.hoverColor,
     this.shadowColor = Colors.transparent,
     this.boxShadow,
+    this.splashFactory,
     this.shape,
     this.textColor,
     this.fontSize,
@@ -43,7 +45,9 @@ class BasicButton extends StatelessWidget {
   final double? height;
   final EdgeInsets? padding;
   final Color? background;
+  final Color? hoverColor;
   final Color shadowColor;
+  final InteractiveInkFeatureFactory? splashFactory;
   final List<BoxShadow>? boxShadow;
   final OutlinedBorder? shape;
   final Color? textColor;
@@ -71,6 +75,8 @@ class BasicButton extends StatelessWidget {
             shadowColor: shadowColor,
             elevation: 0,
             minimumSize: Size.zero,
+            foregroundColor: hoverColor,
+            splashFactory: splashFactory,
           ),
           child: Container(
             padding: padding ??

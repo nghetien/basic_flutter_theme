@@ -14,7 +14,7 @@ class BasicResponsive {
       );
 
   static Widget responsiveBuilder({
-    required Widget children,
+    Widget? children,
     Widget? mobile,
     Widget? tablet,
     Widget? desktop,
@@ -23,12 +23,28 @@ class BasicResponsive {
         builder: (_, __) {
           switch (BasicConfigResponsive().screenDevice) {
             case BasicScreenDevice.desktop:
-              return desktop ?? children;
+              return desktop ?? children!;
             case BasicScreenDevice.tablet:
-              return tablet ?? children;
+              return tablet ?? children!;
             default:
-              return mobile ?? children;
+              return mobile ?? children!;
           }
         },
       );
+
+  static Widget responsiveBuilderWithOutLayoutBuilder({
+    Widget? children,
+    Widget? mobile,
+    Widget? tablet,
+    Widget? desktop,
+  }) {
+    switch (BasicConfigResponsive().screenDevice) {
+      case BasicScreenDevice.desktop:
+        return desktop ?? children!;
+      case BasicScreenDevice.tablet:
+        return tablet ?? children!;
+      default:
+        return mobile ?? children!;
+    }
+  }
 }

@@ -1,3 +1,5 @@
+## 0.1.3
+* Add customize dialog, badge,... Fix bug dispose input controller.
 ## 0.1.2
 * Fix bug out of scroll in `DataTable`, add size for Image, Button, Input, Title.
 ## 0.1.1

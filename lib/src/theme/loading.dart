@@ -47,11 +47,15 @@ class BasicLoading {
     EasyLoading.dismiss();
   }
 
+  static int _loadingCount = 0;
+
   static Future<T?> openAndDismissLoading<T>(AsyncValueGetter<T?> callback) async {
     try {
+      _loadingCount += 1;
       show();
       final T? result = await callback();
-      dismiss();
+      _loadingCount -= 1;
+      if (_loadingCount == 0) dismiss();
       return result;
     } catch (e) {
       BasicLogger.debugLog('openAndDismissLoading: $e');

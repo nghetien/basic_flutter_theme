@@ -129,6 +129,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
           _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;
       if (_focusNode.hasFocus) FocusManager.instance.primaryFocus?.unfocus();
       if (!state.popupIsOpen) {
+        _setWidthDropdown();
         _setPopupIsOpen(true);
         state.showButtonMenu();
       }
@@ -154,8 +155,8 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     _controller = widget.controller ?? TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        final RenderBox box = _widgetKey.currentContext?.findRenderObject() as RenderBox;
-        setState(() => _widthElement = box.size.width);
+        _setWidthDropdown();
+        setState(() {});
       },
     );
   }
@@ -163,10 +164,11 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-    _controller.dispose();
     super.dispose();
   }
+
+  void _setWidthDropdown({double? value}) =>
+      _widthElement = (value ?? _widgetKey.currentContext!.size!.width) - 2;
 
   void _setPopupIsOpen(bool value) {
     if (value) {
@@ -178,54 +180,59 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      key: _widgetKey,
-      child: BasicInput(
-        inputType: widget.inputType,
-        width: widget.width,
-        controller: _controller,
-        focusNode: _focusNode,
-        initialValue: widget.initialValue,
-        textAlign: widget.textAlign,
-        textAlignVertical: widget.textAlignVertical,
-        textInputAction: widget.textInputAction,
-        keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        maxLength: widget.maxLength,
-        enabled: widget.enabled,
-        obscureText: widget.obscureText,
-        cursorColor: widget.cursorColor,
-        autoValidateMode: widget.autoValidateMode,
-        validator: widget.validator,
-        inputFormatters: widget.inputFormatters,
-        onChanged: widget.onChanged,
-        onTap: widget.onTap,
-        onEditingComplete: widget.onEditingComplete,
-        onFieldSubmitted: widget.onFieldSubmitted,
-        onSaved: widget.onSaved,
-        isDense: widget.isDense,
-        filled: widget.filled,
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: _getSuffixIcon(),
-        contentPadding: widget.contentPadding,
-        focusedBorder: widget.focusedBorder,
-        enabledBorder: widget.enabledBorder,
-        disabledBorder: widget.disabledBorder,
-        errorBorder: widget.errorBorder,
-        focusedErrorBorder: widget.focusedErrorBorder,
-        fillColor: widget.fillColor,
-        hoverColor: widget.hoverColor,
-        labelText: widget.labelText,
-        labelStyle: widget.labelStyle,
-        floatingLabelStyle: widget.floatingLabelStyle,
-        floatingLabelBehavior: widget.floatingLabelBehavior,
-        hintText: widget.hintText,
-        hintStyle: widget.hintStyle,
-        errorText: widget.errorText,
-        errorMaxLines: widget.errorMaxLines,
-        errorStyle: widget.errorStyle,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        _setWidthDropdown(value: constraints.maxWidth);
+        return SizedBox(
+          key: _widgetKey,
+          child: BasicInput(
+            inputType: widget.inputType,
+            width: widget.width,
+            controller: _controller,
+            focusNode: _focusNode,
+            initialValue: widget.initialValue,
+            textAlign: widget.textAlign,
+            textAlignVertical: widget.textAlignVertical,
+            textInputAction: widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.maxLines,
+            minLines: widget.minLines,
+            maxLength: widget.maxLength,
+            enabled: widget.enabled,
+            obscureText: widget.obscureText,
+            cursorColor: widget.cursorColor,
+            autoValidateMode: widget.autoValidateMode,
+            validator: widget.validator,
+            inputFormatters: widget.inputFormatters,
+            onChanged: widget.onChanged,
+            onTap: widget.onTap,
+            onEditingComplete: widget.onEditingComplete,
+            onFieldSubmitted: widget.onFieldSubmitted,
+            onSaved: widget.onSaved,
+            isDense: widget.isDense,
+            filled: widget.filled,
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: _getSuffixIcon(),
+            contentPadding: widget.contentPadding,
+            focusedBorder: widget.focusedBorder,
+            enabledBorder: widget.enabledBorder,
+            disabledBorder: widget.disabledBorder,
+            errorBorder: widget.errorBorder,
+            focusedErrorBorder: widget.focusedErrorBorder,
+            fillColor: widget.fillColor,
+            hoverColor: widget.hoverColor,
+            labelText: widget.labelText,
+            labelStyle: widget.labelStyle,
+            floatingLabelStyle: widget.floatingLabelStyle,
+            floatingLabelBehavior: widget.floatingLabelBehavior,
+            hintText: widget.hintText,
+            hintStyle: widget.hintStyle,
+            errorText: widget.errorText,
+            errorMaxLines: widget.errorMaxLines,
+            errorStyle: widget.errorStyle,
+          ),
+        );
+      },
     );
   }
 
@@ -249,6 +256,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
       itemBuilder: widget.itemBuilder,
       child: InkWell(
         onTap: () {
+          _setWidthDropdown();
           _setPopupIsOpen(true);
           final CustomPopupMenuButtonState state =
               _popupMenuButtonKey.currentState as CustomPopupMenuButtonState;

@@ -34,8 +34,10 @@ class BasicButtonDropdown extends StatefulWidget {
     this.height,
     this.padding,
     this.background,
+    this.hoverColor,
     this.shadowColor = Colors.transparent,
     this.boxShadow,
+    this.splashFactory,
     this.shape,
     this.textColor,
     this.fontSize,
@@ -58,7 +60,9 @@ class BasicButtonDropdown extends StatefulWidget {
   final double? height;
   final EdgeInsets? padding;
   final Color? background;
+  final Color? hoverColor;
   final Color shadowColor;
+  final InteractiveInkFeatureFactory? splashFactory;
   final List<BoxShadow>? boxShadow;
   final OutlinedBorder? shape;
   final Color? textColor;
@@ -146,7 +150,9 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
               height: widget.height,
               padding: widget.padding,
               background: mainColor,
+              hoverColor: widget.hoverColor,
               shadowColor: widget.shadowColor,
+              splashFactory: widget.splashFactory,
               boxShadow: widget.boxShadow,
               shape: widget.shape,
               textColor: widget.textColor,
@@ -197,7 +203,9 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
                   height: widget.height,
                   padding: widget.padding,
                   background: widget.children[index].backgroundColor ?? mainColor,
+                  hoverColor: widget.hoverColor,
                   shadowColor: widget.shadowColor,
+                  splashFactory: widget.splashFactory,
                   boxShadow: widget.boxShadow,
                   shape: widget.shape,
                   textColor: widget.textColor,

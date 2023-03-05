@@ -34,7 +34,8 @@ class BasicNetworkImage extends StatelessWidget {
             color: borderColor ?? BasicAppColors().primary,
           ),
           shape: shape,
-          borderRadius: borderRadius,
+          borderRadius:
+              borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
         ),
       );
 
@@ -51,7 +52,8 @@ class BasicNetworkImage extends StatelessWidget {
               color: borderColor ?? BasicAppColors().primary,
             ),
             shape: shape,
-            borderRadius: borderRadius,
+            borderRadius:
+                borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
           ),
         ),
       );
@@ -65,7 +67,8 @@ class BasicNetworkImage extends StatelessWidget {
           borderWidth: borderWidth,
           borderColor: borderColor,
           shape: shape,
-          borderRadius: borderRadius,
+          borderRadius:
+              borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
           boxFit: boxFit,
           imageProvider: imageProvider,
         ),

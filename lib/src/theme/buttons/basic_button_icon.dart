@@ -4,6 +4,7 @@ class BasicButtonIconType extends BasicButtonType {
   const BasicButtonIconType(double height) : super(height);
 
   static const BasicButtonIconType large = BasicButtonIconType(42);
+  static const BasicButtonIconType medium = BasicButtonIconType(35);
 }
 
 class BasicButtonIcon extends StatelessWidget {
@@ -18,9 +19,11 @@ class BasicButtonIcon extends StatelessWidget {
     this.iconIsInEdge = false,
     this.width,
     this.height,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     this.background,
+    this.hoverColor,
     this.shadowColor = Colors.transparent,
+    this.splashFactory,
     this.boxShadow,
     this.shape,
     this.textColor,
@@ -41,9 +44,11 @@ class BasicButtonIcon extends StatelessWidget {
   final bool iconIsInEdge;
   final double? width;
   final double? height;
-  final EdgeInsets? padding;
+  final EdgeInsets padding;
   final Color? background;
+  final Color? hoverColor;
   final Color shadowColor;
+  final InteractiveInkFeatureFactory? splashFactory;
   final List<BoxShadow>? boxShadow;
   final OutlinedBorder? shape;
   final Color? textColor;
@@ -66,7 +71,9 @@ class BasicButtonIcon extends StatelessWidget {
         height: height,
         padding: padding,
         background: background,
+        hoverColor: hoverColor,
         shadowColor: shadowColor,
+        splashFactory: splashFactory,
         boxShadow: boxShadow,
         shape: shape,
         textColor: textColor,
@@ -84,7 +91,7 @@ class BasicButtonIcon extends StatelessWidget {
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (!iconBeforeText)
+          if (iconBeforeText)
             Padding(
               padding: EdgeInsets.only(right: spaceBetweenIconAndText ?? BasicPaddings().p8),
               child: icon,
@@ -102,7 +109,7 @@ class BasicButtonIcon extends StatelessWidget {
                   ),
             ),
           ),
-          if (iconBeforeText)
+          if (!iconBeforeText)
             Padding(
               padding: EdgeInsets.only(left: spaceBetweenIconAndText ?? BasicPaddings().p8),
               child: icon,
@@ -119,7 +126,9 @@ class BasicButtonIcon extends StatelessWidget {
       height: height,
       padding: padding,
       background: background,
+      hoverColor: hoverColor,
       shadowColor: shadowColor,
+      splashFactory: splashFactory,
       boxShadow: boxShadow,
       shape: shape,
       textColor: textColor,
