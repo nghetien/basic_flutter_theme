@@ -1,3 +1,5 @@
+## 0.1.4
+* Update BasicInputDropdown.
 ## 0.1.3
 * Add customize dialog, badge,... Fix bug dispose input controller.
 ## 0.1.2

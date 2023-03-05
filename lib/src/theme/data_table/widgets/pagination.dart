@@ -227,11 +227,13 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
               width: 75.scaleSize,
               controller: _itemPerPageValueController,
               contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
-              itemBuilder: (_) => [
+              menuChildren: [
                 for (final item in pagination.listItemsPerPage)
-                  PopupMenuItem<int>(
+                  BasicInputDropdownItemModel<int>(
                     value: item,
-                    child: Text(item.toString()),
+                    child: Text(
+                      item.toString(),
+                    ),
                   ),
               ],
               onSelected: (value) {
