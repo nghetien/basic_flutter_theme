@@ -116,6 +116,12 @@ class BasicAppThemes {
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
+    menuTheme: MenuThemeData(
+      style: MenuStyle(
+        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeLight),
+        surfaceTintColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeLight),
+      ),
+    ),
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
@@ -243,6 +249,12 @@ class BasicAppThemes {
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+    ),
+    menuTheme: MenuThemeData(
+      style: MenuStyle(
+        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgPrimaryThemeDark),
+        surfaceTintColor: MaterialStateProperty.all(BasicAppColors().bgPrimaryThemeDark),
       ),
     ),
     dialogTheme: DialogTheme(

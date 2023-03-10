@@ -13,7 +13,7 @@ enum BasicDialogType {
 class BasicDialogs {
   const BasicDialogs._();
 
-  static Future<bool?> defaultDialog(
+  static Future<T?> defaultDialog<T>(
     BuildContext context, {
     double? width,
     double? height,
@@ -25,7 +25,7 @@ class BasicDialogs {
   }) {
     final widthDefault = min<double>(context.widthScreen, 420.scaleSize);
     final heightDefault = min<double>(context.heightScreen, 500.scaleSize);
-    return showDialog(
+    return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => Dialog(
@@ -45,7 +45,7 @@ class BasicDialogs {
     );
   }
 
-  static Future<bool?> customizeDialog(
+  static Future<T?> customizeDialog<T>(
     BuildContext context, {
     double? width,
     double? height,
@@ -63,7 +63,7 @@ class BasicDialogs {
   }) {
     final widthDefault = min<double>(context.widthScreen, 420.scaleSize);
     final heightDefault = min<double>(context.heightScreen, 500.scaleSize);
-    return showDialog(
+    return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => Dialog(
@@ -145,7 +145,7 @@ class BasicDialogs {
     );
   }
 
-  static Future<bool?> optionDialog(
+  static Future<T?> optionDialog<T>(
     BuildContext context, {
     required BasicDialogType type,
     required VoidCallback onClickButtonRight,
@@ -158,7 +158,7 @@ class BasicDialogs {
     Widget? customContent,
     double? width,
   }) =>
-      defaultDialog(
+      defaultDialog<T>(
         context,
         width: width,
         content: Column(

@@ -1,5 +1,7 @@
+## 0.1.5
+* Add `BasicInputTypeAhead` and change generic type for `BasicDialogs`.
 ## 0.1.4
-* Update BasicInputDropdown.
+* Update `BasicInputDropdown`.
 ## 0.1.3
 * Add customize dialog, badge,... Fix bug dispose input controller.
 ## 0.1.2

@@ -80,10 +80,15 @@ class BasicButton extends StatelessWidget {
           ),
           child: Container(
             padding: padding ??
-                EdgeInsets.symmetric(
-                  horizontal: BasicPaddings().p14,
-                  vertical: BasicPaddings().p8,
-                ),
+                (buttonType == null
+                    ? EdgeInsets.symmetric(
+                        horizontal: BasicPaddings().p14,
+                        vertical: BasicPaddings().p8,
+                      )
+                    : EdgeInsets.symmetric(
+                        horizontal: BasicPaddings().p14,
+                        vertical: 0,
+                      )),
             child: child ??
                 Text(
                   text ?? '',
