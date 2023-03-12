@@ -37,6 +37,10 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
 
   @override
   void initState() {
+    assert(
+      widget.tableColumns.map((e) => e.key).toSet().length == widget.tableColumns.length,
+      'Mỗi key của từng cột phải khác nhau',
+    );
     _webDataTableController = widget.controller;
     _webDataTableController.initDataTable(
       initTableColumns: widget.tableColumns,
@@ -87,44 +91,33 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, BoxConstraints constraints) {
-        final widthAllColumn = widget.controller.widthOfAllColumns == null ||
-                widget.controller.widthOfAllColumns! <= constraints.maxWidth
-            ? constraints.maxWidth
-            : widget.controller.widthOfAllColumns!;
-        return Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BasicCorners.cornerBorder8,
-                color: context.theme.colorScheme.background,
-              ),
-              child: _genContentTable(widthAllColumn),
+  Widget build(BuildContext context) => Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BasicCorners.cornerBorder8,
+              color: context.theme.colorScheme.background,
             ),
-            if (_webDataTableController.isLoading)
-              const Positioned(
-                top: 0,
-                right: 0,
-                left: 0,
-                bottom: 0,
-                child: DataTableLoadingWidget(),
-              ),
-          ],
-        );
-      },
-    );
-  }
+            child: _genContentTable(),
+          ),
+          if (_webDataTableController.isLoading)
+            const Positioned(
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0,
+              child: DataTableLoadingWidget(),
+            ),
+        ],
+      );
 
-  Widget _genContentTable(double widthAllColumn) {
+  Widget _genContentTable() {
     if (widget.dataTableOptionUI.fixTableInAScreen) {
       return FixedDataTableWidget<T>(
         controller: _webDataTableController,
         sortDataVoid: widget.sortDataVoid,
         dataTableOptionUI: widget.dataTableOptionUI,
         additionFilter: widget.additionFilter,
-        widthAllColumn: widthAllColumn,
         topContent: widget.topContent,
         bottomContent: widget.bottomContent,
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
@@ -137,7 +130,6 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       sortDataVoid: widget.sortDataVoid,
       dataTableOptionUI: widget.dataTableOptionUI,
       additionFilter: widget.additionFilter,
-      widthAllColumn: widthAllColumn,
       topContent: widget.topContent,
       bottomContent: widget.bottomContent,
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,

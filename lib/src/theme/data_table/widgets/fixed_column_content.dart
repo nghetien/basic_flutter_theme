@@ -44,7 +44,7 @@ class _DataTableFixedColumnContentWidgetState<T>
         tableColumns: widget.type == FixedColumn.left
             ? widget.controller.fixedColumnsLeft
             : widget.controller.fixedColumnsRight,
-        isFixedColumn: true,
+        fixedColumn: widget.type,
         controller: widget.controller,
       ),
     );

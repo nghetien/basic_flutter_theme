@@ -90,8 +90,8 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
         decoration: BoxDecoration(
           color: BasicAppColors().primary,
           borderRadius: const BorderRadius.only(
-            bottomLeft: BasicCorners.cornerRadius8,
-            bottomRight: BasicCorners.cornerRadius8,
+            bottomLeft: BasicCorners.cornerRadius5,
+            bottomRight: BasicCorners.cornerRadius5,
           ),
         ),
         child: Row(

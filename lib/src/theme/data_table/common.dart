@@ -11,6 +11,6 @@ double getWithAdditionColumn(DataTableAdditionColumn additionColumn) {
     case DataTableAdditionColumn.numbered:
       return 60;
     case DataTableAdditionColumn.checkbox:
-      return 60;
+      return 40;
   }
 }

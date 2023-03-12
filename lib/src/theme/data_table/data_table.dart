@@ -1,6 +1,7 @@
 library basic_data_table;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:basic_flutter_theme/src/responsive/responsive.dart';
 import 'package:basic_flutter_theme/src/styles/styles.dart';
@@ -29,7 +30,7 @@ part 'widgets/content.dart';
 part 'widgets/default_data_table.dart';
 part 'widgets/fixed_column.dart';
 part 'widgets/fixed_column_content.dart';
-part 'widgets/fixed_column_header.dart';
+part 'widgets/fixed_column_fixed_table.dart';
 part 'widgets/fixed_data_table.dart';
 part 'widgets/header.dart';
 part 'widgets/header_item.dart';

@@ -20,46 +20,6 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
 
   static final double defaultHeightHeader = 40.scaleSize;
 
-  static BorderSide getBorderRight({
-    required int index,
-    required FixedColumn fixedColumn,
-    required int lengthOfColumn,
-    required bool haveFixedColumnsRight,
-  }) {
-    Color color = BasicAppColors.white;
-    /// fix nó trong tương lai
-    // if (fixedColumn == FixedColumn.none && index == lengthOfColumn - 1 && !haveFixedColumnsRight) {
-    //   color = Colors.transparent;
-    // }
-    // if (fixedColumn == FixedColumn.right && index == lengthOfColumn - 1) {
-    //   color = Colors.transparent;
-    // }
-    return BorderSide(
-      color: color,
-      width: 0,
-    );
-  }
-
-  static BorderSide getBorderLeft({
-    required int index,
-    required FixedColumn fixedColumn,
-    required int lengthOfColumn,
-    required bool haveFixedColumnsLeft,
-  }) {
-    Color color = BasicAppColors.white;
-    /// fix nó trong tương lai
-    // if (fixedColumn == FixedColumn.none && index == 0 && !haveFixedColumnsLeft) {
-    //   color = Colors.transparent;
-    // }
-    // if (fixedColumn == FixedColumn.left && index == 0) {
-    //   color = Colors.transparent;
-    // }
-    return BorderSide(
-      color: color,
-      width: 0,
-    );
-  }
-
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (_, __) => _generateHeaderItem(),
@@ -72,7 +32,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
     if (fixedColumn == FixedColumn.left) {
       return Radius.zero;
     }
-    return BasicCorners.cornerRadius8;
+    return BasicCorners.cornerRadius5;
   }
 
   Radius _getRadiusLeft() {
@@ -82,33 +42,27 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
     if (fixedColumn == FixedColumn.right) {
       return Radius.zero;
     }
-    return BasicCorners.cornerRadius8;
+    return BasicCorners.cornerRadius5;
   }
 
   Widget _generateHeaderItem() {
     final List<Widget> headers = [];
     for (int index = 0; index < tableColumns.length; index++) {
-      if (tableColumns[index].key == DataTableAdditionColumn.numbered.toString()) {
-        headers.add(_numberedColumn(index));
-      } else if (tableColumns[index].key == DataTableAdditionColumn.checkbox.toString()) {
-        headers.add(_checkboxColumn(index));
-      } else {
-        if (isShowInScreen(tableColumns[index].showOnScreens)) {
-          headers.add(
-            DataTableHeaderItemWidget(
-              index: index,
-              lengthOfColumn: tableColumns.length,
-              controller: controller,
-              column: tableColumns[index],
-              dataTableOptionUI: dataTableOptionUI,
-              additionFilter: additionFilter,
-            ),
-          );
-        }
+      if (isShowInScreen(tableColumns[index].showOnScreens)) {
+        headers.add(
+          DataTableHeaderItemWidget(
+            index: index,
+            lengthOfColumn: tableColumns.length,
+            controller: controller,
+            column: tableColumns[index],
+            dataTableOptionUI: dataTableOptionUI,
+            additionFilter: additionFilter,
+            fixedColumn: fixedColumn,
+          ),
+        );
       }
     }
     return Container(
-      width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topRight: _getRadiusRight(),
@@ -121,58 +75,4 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
       ),
     );
   }
-
-  Widget _numberedColumn(int index) => Container(
-        width: getWithAdditionColumn(DataTableAdditionColumn.numbered),
-        height: defaultHeightHeader,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border(
-            left: getBorderLeft(
-              index: index,
-              fixedColumn: fixedColumn,
-              lengthOfColumn: tableColumns.length,
-              haveFixedColumnsLeft: controller.haveFixedColumnsLeft,
-            ),
-            right: getBorderRight(
-              index: index,
-              fixedColumn: fixedColumn,
-              lengthOfColumn: tableColumns.length,
-              haveFixedColumnsRight: controller.haveFixedColumnsRight,
-            ),
-          ),
-        ),
-        child: Text(
-          'No.',
-          textAlign: TextAlign.center,
-          style: BasicTextStyles.body.copyWith(
-            fontWeight: FontWeight.bold,
-            color: BasicAppColors.white,
-          ),
-        ),
-      );
-
-  Widget _checkboxColumn(int index) => Container(
-        width: getWithAdditionColumn(DataTableAdditionColumn.checkbox),
-        height: defaultHeightHeader,
-        decoration: BoxDecoration(
-          border: Border(
-            left: getBorderLeft(
-              index: index,
-              fixedColumn: fixedColumn,
-              lengthOfColumn: tableColumns.length,
-              haveFixedColumnsLeft: controller.haveFixedColumnsLeft,
-            ),
-            right: getBorderRight(
-              index: index,
-              fixedColumn: fixedColumn,
-              lengthOfColumn: tableColumns.length,
-              haveFixedColumnsRight: controller.haveFixedColumnsRight,
-            ),
-          ),
-        ),
-        child: CheckBoxColumn(
-          controller: controller,
-        ),
-      );
 }

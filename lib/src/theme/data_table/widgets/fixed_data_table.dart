@@ -7,7 +7,6 @@ class FixedDataTableWidget<T> extends StatefulWidget {
     this.sortDataVoid,
     required this.dataTableOptionUI,
     this.additionFilter = const {},
-    required this.widthAllColumn,
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
@@ -19,7 +18,6 @@ class FixedDataTableWidget<T> extends StatefulWidget {
   final SortDataVoid? sortDataVoid;
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
-  final double widthAllColumn;
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
@@ -44,8 +42,12 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
   void _listenVerticalScroll() {
     if (_isListening) return;
     _isListening = true;
-    _verticalFixedColumnLeftScrollController.jumpTo(_verticalScrollController.offset);
-    _verticalFixedColumnRightScrollController.jumpTo(_verticalScrollController.offset);
+    if (widget.controller.haveFixedColumnsLeft) {
+      _verticalFixedColumnLeftScrollController.jumpTo(_verticalScrollController.offset);
+    }
+    if (widget.controller.haveFixedColumnsRight) {
+      _verticalFixedColumnRightScrollController.jumpTo(_verticalScrollController.offset);
+    }
     _isListening = false;
   }
 
@@ -53,8 +55,10 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
     if (_isListening) return;
     _isListening = true;
     _verticalScrollController.jumpTo(_verticalFixedColumnLeftScrollController.offset);
-    _verticalFixedColumnRightScrollController
-        .jumpTo(_verticalFixedColumnLeftScrollController.offset);
+    if (widget.controller.haveFixedColumnsRight) {
+      _verticalFixedColumnRightScrollController
+          .jumpTo(_verticalFixedColumnLeftScrollController.offset);
+    }
     _isListening = false;
   }
 
@@ -62,40 +66,44 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
     if (_isListening) return;
     _isListening = true;
     _verticalScrollController.jumpTo(_verticalFixedColumnRightScrollController.offset);
-    _verticalFixedColumnLeftScrollController
-        .jumpTo(_verticalFixedColumnRightScrollController.offset);
+    if (widget.controller.haveFixedColumnsLeft) {
+      _verticalFixedColumnLeftScrollController
+          .jumpTo(_verticalFixedColumnRightScrollController.offset);
+    }
     _isListening = false;
   }
 
   @override
   void initState() {
     super.initState();
-    _verticalScrollController.addListener(_listenVerticalScroll);
-    _verticalFixedColumnLeftScrollController.addListener(_listenVerticalFixedColumnLeftScroll);
-    _verticalFixedColumnRightScrollController.addListener(_listenVerticalFixedColumnRightScroll);
+    if (widget.controller.haveFixedColumnsLeft || widget.controller.haveFixedColumnsRight) {
+      _verticalScrollController.addListener(_listenVerticalScroll);
+    }
+    if (widget.controller.haveFixedColumnsLeft) {
+      _verticalFixedColumnLeftScrollController.addListener(_listenVerticalFixedColumnLeftScroll);
+    }
+    if (widget.controller.haveFixedColumnsRight) {
+      _verticalFixedColumnRightScrollController.addListener(_listenVerticalFixedColumnRightScroll);
+    }
   }
 
   @override
   void dispose() {
-    _verticalScrollController.removeListener(_listenVerticalScroll);
-    _verticalFixedColumnLeftScrollController.removeListener(_listenVerticalFixedColumnLeftScroll);
-    _verticalFixedColumnRightScrollController.removeListener(_listenVerticalFixedColumnRightScroll);
-    _verticalScrollController.dispose();
-    _horizontalScrollController.dispose();
-    _verticalFixedColumnLeftScrollController.dispose();
-    _verticalFixedColumnRightScrollController.dispose();
+    if (widget.controller.haveFixedColumnsLeft || widget.controller.haveFixedColumnsRight) {
+      _verticalScrollController.removeListener(_listenVerticalScroll);
+    }
+    if (widget.controller.haveFixedColumnsLeft) {
+      _verticalFixedColumnLeftScrollController.removeListener(_listenVerticalFixedColumnLeftScroll);
+    }
+    if (widget.controller.haveFixedColumnsRight) {
+      _verticalFixedColumnRightScrollController
+          .removeListener(_listenVerticalFixedColumnRightScroll);
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double widthColumn = widget.widthAllColumn;
-    if (widget.controller.haveFixedColumnsLeft && widget.controller.widthOfLeftColumns != null) {
-      widthColumn -= widget.controller.widthOfLeftColumns! + 0.5;
-    }
-    if (widget.controller.haveFixedColumnsRight && widget.controller.widthOfRightColumns != null) {
-      widthColumn -= widget.controller.widthOfRightColumns! + 0.5;
-    }
     return BasicVerticalScroll(
       key: _keyVerticalScroll,
       scrollController: _verticalScrollController,
@@ -104,151 +112,121 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
         BasicVerticalScrollWrapperContent wrapperVerticalContent,
         Widget? scrollVerticalWidget,
       ) =>
-          BasicHorizontalScroll(
-        scrollController: _horizontalScrollController,
-        builder: (_,
-                BasicHorizontalScrollWrapperContent wrapperHorizontalContent,
-                Widget? scrollHorizontalWidget,) =>
+          LayoutBuilder(
+        builder: (_, constrainsSize) {
+          return BasicHorizontalScroll(
+            maxScroll: constrainsSize.maxWidth,
+            scrollController: _horizontalScrollController,
+            builder: (
+              _,
+              BasicHorizontalScrollWrapperContent wrapperHorizontalContent,
+              Widget? scrollHorizontalWidget,
+            ) =>
                 Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          wrapperHorizontalContent(
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                if (widget.controller.haveFixedColumnsLeft)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        right: BorderSide(
-                                          color: BasicAppColors.greyOpacity04,
-                                          width: 0.5,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        DataTableFixedColumnHeaderWidget<T>(
-                                          type: FixedColumn.left,
-                                          controller: widget.controller,
-                                          sortDataVoid: widget.sortDataVoid,
-                                          dataTableOptionUI: widget.dataTableOptionUI,
-                                          additionFilter: widget.additionFilter,
-                                        ),
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            controller: _verticalFixedColumnLeftScrollController,
-                                            scrollDirection: Axis.vertical,
-                                            child: DataTableFixedColumnContentWidget<T>(
-                                              type: FixedColumn.left,
-                                              controller: widget.controller,
-                                            ),
+              children: <Widget>[
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          if (widget.controller.haveFixedColumnsLeft)
+                            SizedBox(
+                              width: widget.controller.widthOfLeftColumns,
+                              child: FixedColumnForFixedTable(
+                                type: FixedColumn.left,
+                                controller: widget.controller,
+                                sortDataVoid: widget.sortDataVoid,
+                                dataTableOptionUI: widget.dataTableOptionUI,
+                                additionFilter: widget.additionFilter,
+                                verticalFixedColumnScrollController:
+                                    _verticalFixedColumnLeftScrollController,
+                              ),
+                            ),
+                          Expanded(
+                            child: wrapperHorizontalContent(
+                              LayoutBuilder(
+                                builder: (_, constrains) {
+                                  widget.controller.setWidthOfColumnsContent(constrains.maxWidth);
+                                  widget.controller.calculateWidthOfAllColumnsContent();
+                                  return SizedBox(
+                                    width: widget.controller.widthOfColumnsContent,
+                                    child: SingleChildScrollView(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      controller: _horizontalScrollController,
+                                      child: Column(
+                                        children: <Widget>[
+                                          DataTableHeaderWidget<T>(
+                                            tableColumns: widget.controller.tableColumnsContent,
+                                            controller: widget.controller,
+                                            sortDataVoid: widget.sortDataVoid,
+                                            dataTableOptionUI: widget.dataTableOptionUI,
+                                            additionFilter: widget.additionFilter,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    controller: _horizontalScrollController,
-                                    child: Column(
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: widthColumn,
-                                  child: DataTableHeaderWidget<T>(
-                                    tableColumns: widget.controller.tableColumnsContent,
-                                    controller: widget.controller,
-                                    sortDataVoid: widget.sortDataVoid,
-                                    dataTableOptionUI: widget.dataTableOptionUI,
-                                    additionFilter: widget.additionFilter,
-                                  ),
-                                ),
-                                        Expanded(
-                                          child: wrapperVerticalContent(
-                                            SingleChildScrollView(
-                                              padding: const EdgeInsets.only(
-                                                right: BasicScrollConfig.scrollWidthInVerticalOnHover,
-                                              ),
-                                              scrollDirection: Axis.vertical,
-                                              controller: _verticalScrollController,
-                                              child: SizedBox(
-                                                width: widthColumn -
-                                            BasicScrollConfig.scrollWidthInVerticalOnHover,
+                                          Expanded(
+                                            child: wrapperVerticalContent(
+                                              SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                controller: _verticalScrollController,
                                                 child: DataTableContentWidget<T>(
-                                                  tableColumns: widget.controller.tableColumnsContent,
-                                                  verticalScrollState: _keyVerticalScroll.currentState,
+                                                  tableColumns:
+                                                      widget.controller.tableColumnsContent,
+                                                  verticalScrollState:
+                                                      _keyVerticalScroll.currentState,
                                                   controller: widget.controller,
                                                   topContent: widget.topContent,
                                                   bottomContent: widget.bottomContent,
                                                   showerMoreContentRowWidget:
-                                                  widget.showerMoreContentIntoRowWidget,
+                                                      widget.showerMoreContentIntoRowWidget,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                if (widget.controller.haveFixedColumnsRight)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        left: BorderSide(
-                                          color: BasicAppColors.greyOpacity04,
-                                          width: 0.5,
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        DataTableFixedColumnHeaderWidget<T>(
-                                          type: FixedColumn.right,
-                                          controller: widget.controller,
-                                          sortDataVoid: widget.sortDataVoid,
-                                          dataTableOptionUI: widget.dataTableOptionUI,
-                                          additionFilter: widget.additionFilter,
-                                        ),
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            controller: _verticalFixedColumnRightScrollController,
-                                            scrollDirection: Axis.vertical,
-                                            child: DataTableFixedColumnContentWidget<T>(
-                                              type: FixedColumn.right,
-                                              controller: widget.controller,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                          if (scrollVerticalWidget != null)
-                            Positioned(
-                              right: 0,
-                              top: DataTableHeaderWidget.defaultHeightHeader,
-                              child: scrollVerticalWidget,
+                          if (widget.controller.haveFixedColumnsRight)
+                            SizedBox(
+                              width: widget.controller.widthOfRightColumns,
+                              child: FixedColumnForFixedTable(
+                                type: FixedColumn.right,
+                                controller: widget.controller,
+                                sortDataVoid: widget.sortDataVoid,
+                                dataTableOptionUI: widget.dataTableOptionUI,
+                                additionFilter: widget.additionFilter,
+                                verticalFixedColumnScrollController:
+                                    _verticalFixedColumnRightScrollController,
+                              ),
                             ),
                         ],
                       ),
-                    ),
-                    if (scrollHorizontalWidget != null) scrollHorizontalWidget,
-                    DataTablePaginationWidget(
-                      controller: widget.controller,
-                      initListItemsPerPage: widget.listItemsPerPage,
-                      handleChangeData: widget.handleChangeData,
-                      dataTableOptionUI: widget.dataTableOptionUI,
-                    ),
-                  ],
+                      if (scrollVerticalWidget != null)
+                        Positioned(
+                          right: 0,
+                          top: DataTableHeaderWidget.defaultHeightHeader,
+                          child: scrollVerticalWidget,
+                        ),
+                    ],
+                  ),
                 ),
-          ),
+                if (scrollHorizontalWidget != null) scrollHorizontalWidget,
+                DataTablePaginationWidget(
+                  controller: widget.controller,
+                  initListItemsPerPage: widget.listItemsPerPage,
+                  handleChangeData: widget.handleChangeData,
+                  dataTableOptionUI: widget.dataTableOptionUI,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

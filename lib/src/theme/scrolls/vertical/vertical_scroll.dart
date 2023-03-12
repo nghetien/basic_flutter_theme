@@ -20,6 +20,7 @@ class BasicVerticalScroll extends StatefulWidget {
     this.scrollWidth = BasicScrollConfig.scrollWidthInVertical,
     this.scrollWidgetOnHover = BasicScrollConfig.scrollWidthInVerticalOnHover,
     this.ratioOfScroll,
+    this.maxScroll,
     Key? key,
   })  : assert(
           !(child != null && builder != null),
@@ -37,6 +38,7 @@ class BasicVerticalScroll extends StatefulWidget {
   final double scrollWidth;
   final double scrollWidgetOnHover;
   final double? ratioOfScroll;
+  final double? maxScroll;
 
   @override
   State<BasicVerticalScroll> createState() => BasicVerticalScrollState();
@@ -51,12 +53,21 @@ class BasicVerticalScrollState extends State<BasicVerticalScroll> {
 
   @override
   void initState() {
-    _maxScroll = BasicSizeOfDevice.deviceWidth;
+    _maxScroll = BasicSizeOfDevice.deviceHeight;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       calculateScroll();
       setState(() {});
     });
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(BasicVerticalScroll oldWidget) {
+    if (oldWidget.maxScroll != widget.maxScroll && widget.maxScroll != null) {
+      _maxScroll = widget.maxScroll ?? BasicSizeOfDevice.deviceHeight;
+      calculateScroll();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   void calculateScroll({double? maxHeight}) {
@@ -91,15 +102,20 @@ class BasicVerticalScrollState extends State<BasicVerticalScroll> {
     if (widget.child != null) {
       return Stack(
         children: [
-          LayoutBuilder(
-            builder: (_, BoxConstraints constraints) {
-              calculateScroll(maxHeight: constraints.maxHeight);
-              return ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: widget.child!,
-              );
-            },
-          ),
+          widget.maxScroll != null
+              ? ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: widget.child!,
+                )
+              : LayoutBuilder(
+                  builder: (_, BoxConstraints constraints) {
+                    calculateScroll(maxHeight: constraints.maxHeight);
+                    return ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                      child: widget.child!,
+                    );
+                  },
+                ),
           if (_statusOfScrollBar)
             Positioned(
               right: 0,
@@ -119,15 +135,20 @@ class BasicVerticalScrollState extends State<BasicVerticalScroll> {
     }
     return widget.builder!(
       context,
-      (Widget content) => LayoutBuilder(
-        builder: (_, BoxConstraints constraints) {
-          calculateScroll(maxHeight: constraints.maxHeight);
-          return ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: content,
-          );
-        },
-      ),
+      (Widget content) => widget.maxScroll != null
+          ? ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: content,
+            )
+          : LayoutBuilder(
+              builder: (_, BoxConstraints constraints) {
+                calculateScroll(maxHeight: constraints.maxHeight);
+                return ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: content,
+                );
+              },
+            ),
       _statusOfScrollBar
           ? BasicVerticalScrollWidget(
               key: _scrollGlobalKey,

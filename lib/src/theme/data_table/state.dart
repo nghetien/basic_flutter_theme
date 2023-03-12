@@ -16,15 +16,14 @@ class DataTableState<T> {
   // Map giữa id và data
   late Map<int, T> dataSelected; // Sử dụng khi DataTableAdditionColumn là checkbox
 
-  double? widthOfAllColumns;
-
+  double? widthOfColumnsContent;
   List<DataTableColumn<T>> tableColumnsContent = [];
   List<DataTableColumn<T>> fixedColumnsLeft = [];
-  // double? widthOfLeftColumns;
   List<DataTableColumn<T>> fixedColumnsRight = [];
-  // double? widthOfRightColumns;
 
-  Map<int, double?> mapIndexToWidthOfEachRow = {};
+  Map<int, double?> mapIndexToHeightOfEachRow = {};
+
+  Map<String, double> mapKeyToWidthOfEachColumnContent = {};
 
   bool isLoading = false;
 }

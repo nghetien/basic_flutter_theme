@@ -4,7 +4,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
   const DataTableRowWidget({
     Key? key,
     required this.tableColumns,
-    required this.isFixedColumn,
+    this.fixedColumn = FixedColumn.none,
     required this.controller,
     required this.indexRow,
     required this.rowData,
@@ -15,7 +15,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
-  final bool isFixedColumn;
+  final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final int indexRow;
   final T rowData;
@@ -26,12 +26,15 @@ class DataTableRowWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isFixedColumn) {
+    if (fixedColumn != FixedColumn.none) {
       return Column(
         children: <Widget>[
           _wrapContent(
-            child: Row(
-              children: _generateRowItem(context),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _generateRowItem(context),
+              ),
             ),
           ),
           if (isShowMore)
@@ -43,7 +46,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
     }
     return MeasureSize(
       onChange: (Size size) {
-        final bool canEdit = controller.canEditWidthOfEachRow(
+        final bool canEdit = controller.canEditHeightOfEachRow(
           indexRow,
           size.height,
         );
@@ -52,8 +55,11 @@ class DataTableRowWidget<T> extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _wrapContent(
-            child: Row(
-              children: _generateRowItem(context),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _generateRowItem(context),
+              ),
             ),
           ),
           if (isShowMore)
@@ -67,14 +73,17 @@ class DataTableRowWidget<T> extends StatelessWidget {
 
   List<Widget> _generateRowItem(BuildContext context) {
     final List<Widget> rowItems = [];
-    for (int index = 0; index < tableColumns.length; index++) {
-      if (isShowInScreen(tableColumns[index].showOnScreens)) {
+    for (int indexColumn = 0; indexColumn < tableColumns.length; indexColumn++) {
+      if (isShowInScreen(tableColumns[indexColumn].showOnScreens)) {
         rowItems.add(
           DataTableRowItemWidget(
-            index: indexRow,
+            fixedColumn: fixedColumn,
+            indexRow: indexRow,
+            indexColumn: indexColumn,
+            lengthOfColumn: tableColumns.length,
             rowData: rowData,
             controller: controller,
-            column: tableColumns[index],
+            column: tableColumns[indexColumn],
           ),
         );
       }
@@ -83,7 +92,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
   }
 
   Widget _wrapContent({required Widget child}) => Container(
-        height: height,
+    height: height,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -92,7 +101,9 @@ class DataTableRowWidget<T> extends StatelessWidget {
             ),
           ),
         ),
-        child: isFixedColumn || controller.haveFixedColumnsLeft || controller.haveFixedColumnsRight
+        child: fixedColumn != FixedColumn.none ||
+                controller.haveFixedColumnsLeft ||
+                controller.haveFixedColumnsRight
             ? child
             : BasicButton(
                 onPressed: onPressed,

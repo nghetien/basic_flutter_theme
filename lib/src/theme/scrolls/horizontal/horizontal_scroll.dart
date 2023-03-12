@@ -20,6 +20,7 @@ class BasicHorizontalScroll extends StatefulWidget {
     this.scrollHeight = BasicScrollConfig.scrollHeightInHorizontal,
     this.scrollHeightOnHover = BasicScrollConfig.scrollHeightInHorizontalOnHover,
     this.ratioOfScroll,
+    this.maxScroll,
     Key? key,
   })  : assert(
           !(child != null && builder != null),
@@ -37,6 +38,7 @@ class BasicHorizontalScroll extends StatefulWidget {
   final double scrollHeight;
   final double scrollHeightOnHover;
   final double? ratioOfScroll;
+  final double? maxScroll;
 
   @override
   State<BasicHorizontalScroll> createState() => CustomHorizontalState();
@@ -51,12 +53,18 @@ class CustomHorizontalState extends State<BasicHorizontalScroll> {
 
   @override
   void initState() {
-    _maxScroll = BasicSizeOfDevice.deviceWidth;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      calculateScroll();
-      setState(() {});
-    });
+    _maxScroll = widget.maxScroll ?? BasicSizeOfDevice.deviceWidth;
+    WidgetsBinding.instance.addPostFrameCallback((_) => calculateScroll());
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant BasicHorizontalScroll oldWidget) {
+    if (oldWidget.maxScroll != widget.maxScroll && widget.maxScroll != null) {
+      _maxScroll = widget.maxScroll ?? BasicSizeOfDevice.deviceWidth;
+      calculateScroll();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   void calculateScroll({double? maxWidth}) {
@@ -64,11 +72,14 @@ class CustomHorizontalState extends State<BasicHorizontalScroll> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         final maxScrollExtent = widget.scrollController.position.maxScrollExtent;
-        if (maxScrollExtent == 0) {
+        final bool preStatusOfScrollBar = _statusOfScrollBar;
+        if (maxScrollExtent.floor() == 0) {
           _statusOfScrollBar = false;
+          if (preStatusOfScrollBar != _statusOfScrollBar) setState(() {});
           return;
         }
         _statusOfScrollBar = true;
+        if (preStatusOfScrollBar != _statusOfScrollBar) setState(() {});
         final scrollControllerOffset = widget.scrollController.offset;
         _scrollWidth = (_maxScroll / (_maxScroll + maxScrollExtent)) * _maxScroll;
         _currentPosition = (scrollControllerOffset / maxScrollExtent) * (_maxScroll - _scrollWidth);
@@ -90,13 +101,20 @@ class CustomHorizontalState extends State<BasicHorizontalScroll> {
     if (widget.child != null) {
       return Stack(
         children: [
-          LayoutBuilder(builder: (_, BoxConstraints constraints) {
-            calculateScroll(maxWidth: constraints.maxWidth);
-            return ScrollConfiguration(
-              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: widget.child!,
-            );
-          }),
+          widget.maxScroll != null
+              ? ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: widget.child!,
+                )
+              : LayoutBuilder(
+                  builder: (_, BoxConstraints constraints) {
+                    calculateScroll(maxWidth: constraints.maxWidth);
+                    return ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                      child: widget.child!,
+                    );
+                  },
+                ),
           if (_statusOfScrollBar)
             Positioned(
               bottom: 0,
@@ -116,15 +134,22 @@ class CustomHorizontalState extends State<BasicHorizontalScroll> {
     }
     return widget.builder!(
       context,
-      (Widget content) => LayoutBuilder(
-        builder: (_, BoxConstraints constraints) {
-          calculateScroll(maxWidth: constraints.maxWidth);
-          return ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: content,
-          );
-        },
-      ),
+      (Widget content) {
+        return widget.maxScroll != null
+            ? ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: content,
+              )
+            : LayoutBuilder(
+                builder: (_, BoxConstraints constraints) {
+                  calculateScroll(maxWidth: constraints.maxWidth);
+                  return ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    child: content,
+                  );
+                },
+              );
+      },
       _statusOfScrollBar
           ? BasicHorizontalScrollWidget(
               key: _scrollGlobalKey,

@@ -3,69 +3,44 @@ part of '../data_table.dart';
 class DataTableRowItemWidget<T> extends StatelessWidget {
   const DataTableRowItemWidget({
     Key? key,
-    required this.index,
+    this.fixedColumn = FixedColumn.none,
+    required this.lengthOfColumn,
+    required this.indexRow,
+    required this.indexColumn,
     required this.rowData,
     required this.controller,
     required this.column,
   }) : super(key: key);
 
-  final int index;
+  final FixedColumn fixedColumn;
+  final int lengthOfColumn;
+  final int indexRow;
+  final int indexColumn;
   final T rowData;
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
 
   @override
   Widget build(BuildContext context) {
-    return _wrapItemWithOutBorder(
-      flex: column.flex,
-      width: _getWidthRowItem(column),
-      child: Padding(
+    return SizedBox(
+      width: fixedColumn != FixedColumn.none
+          ? column.width
+          : controller.mapKeyToWidthOfEachColumnContent[column.key],
+      child: Container(
         padding: EdgeInsets.all(BasicPaddings().p4),
+        decoration: BoxDecoration(
+          border: Border(
+            right: indexColumn < lengthOfColumn - 1
+                ? BorderSide(
+                    color: BasicAppColors.greyOpacity04,
+                    width: BasicBorders.thin,
+                  )
+                : BorderSide.none,
+          ),
+        ),
         child: _getWidgetRowItem(context, column),
       ),
     );
-  }
-
-  Widget _wrapItemWithOutBorder({
-    required Widget child,
-    double? width,
-    int? flex,
-  }) {
-    return width != null
-        ? SizedBox(
-            width: width,
-            child: child,
-          )
-        : Expanded(
-            flex: flex ?? 1,
-            child: LayoutBuilder(
-              builder: (_, BoxConstraints constraints) {
-                if (column.maxWidth != null && (constraints.maxWidth > column.maxWidth!)) {
-                  return SizedBox(
-                    width: column.maxWidth,
-                    child: child,
-                  );
-                }
-                if (column.minWidth != null && constraints.maxWidth < column.minWidth!) {
-                  return SizedBox(
-                    width: column.minWidth,
-                    child: child,
-                  );
-                }
-                return child;
-              },
-            ),
-          );
-  }
-
-  double? _getWidthRowItem(DataTableColumn<T> column) {
-    if (column.key == DataTableAdditionColumn.checkbox.toString()) {
-      return getWithAdditionColumn(DataTableAdditionColumn.checkbox);
-    }
-    if (column.key == DataTableAdditionColumn.numbered.toString()) {
-      return getWithAdditionColumn(DataTableAdditionColumn.numbered);
-    }
-    return column.width;
   }
 
   Widget _getWidgetRowItem(BuildContext context, DataTableColumn<T> column) {
@@ -101,7 +76,9 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Text(
-        ((controller.pagination.currentPage - 1) * controller.pagination.itemsPerPage + index + 1)
+        ((controller.pagination.currentPage - 1) * controller.pagination.itemsPerPage +
+                indexRow +
+                1)
             .toString(),
         style: BasicTextStyles.body.copyWith(
           fontWeight: FontWeight.bold,

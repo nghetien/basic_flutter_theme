@@ -24,148 +24,119 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _wrapItem(
-      flex: column.flex,
-      width: column.width,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: DataTableHeaderWidget.defaultHeightHeader,
-            alignment: column.customizeTitleWidget?.alignment ?? Alignment.center,
-            padding: column.customizeTitleWidget?.padding ??
-                EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
-            child: Text(
-              column.customizeTitleWidget?.title ?? column.name,
-              textAlign: TextAlign.center,
-              style: BasicTextStyles.body.copyWith(
-                fontWeight: FontWeight.bold,
-                color: BasicAppColors.white,
-              ),
-            ),
+    return SizedBox(
+      width: fixedColumn == FixedColumn.none
+          ? controller.mapKeyToWidthOfEachColumnContent[column.key]
+          : column.width,
+      height: DataTableHeaderWidget.defaultHeightHeader,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            right: index < lengthOfColumn - 1
+                ? BorderSide(
+                    color: BasicAppColors.greyOpacity04,
+                    width: BasicBorders.thin,
+                  )
+                : BorderSide.none,
           ),
-          if (dataTableOptionUI.isShowSortFilter)
-            Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: CustomPopupMenuButton<String>(
-                itemBuilder: (BuildContext context) {
-                  return <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
-                      value: DataTableSortType.desc.toString(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(dataTableOptionUI.customizeSortDesc),
-                          HSpace.p8,
-                          const Icon(
-                            EvaIcons.arrowIosDownwardOutline,
-                          ),
-                        ],
-                      ),
-                      onTap: () => sortDataVoid?.call(
-                        keyColumn: column.key,
-                        typeSort: DataTableSortType.desc,
-                      ),
-                    ),
-                    PopupMenuItem<String>(
-                      value: DataTableSortType.asc.toString(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(dataTableOptionUI.customizeSortAsc),
-                          HSpace.p8,
-                          const Icon(
-                            EvaIcons.arrowIosUpwardOutline,
-                          ),
-                        ],
-                      ),
-                      onTap: () => sortDataVoid?.call(
-                        keyColumn: column.key,
-                        typeSort: DataTableSortType.asc,
-                      ),
-                    ),
-                    if (additionFilter[column.key] != null) ...additionFilter[column.key]!,
-                  ];
-                },
-                offset: Offset(0, DataTableHeaderWidget.defaultHeightHeader),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
-                  child: Icon(
-                    EvaIcons.menu,
-                    color: BasicAppColors.white,
-                    size: BasicIconSizes().s18,
-                  ),
-                ),
-              ),
-            ),
-        ],
+        ),
+        child: _getWidgetHeaderItem(),
       ),
     );
   }
 
-  Widget _wrapItem({
-    required Widget child,
-    double? width,
-    int? flex,
-  }) {
-    return width != null
-        ? SizedBox(
-            width: width,
-            child: _wrapItemBorder(
-              child: child,
+  Widget _getWidgetHeaderItem() {
+    if (column.key == DataTableAdditionColumn.checkbox.toString()) {
+      return SizedBox(width: column.width, child: CheckBoxColumn(controller: controller));
+    }
+    if (column.key == DataTableAdditionColumn.numbered.toString()) {
+      return SizedBox(
+        width: column.width,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            'No.',
+            textAlign: TextAlign.center,
+            style: BasicTextStyles.body.copyWith(
+              fontWeight: FontWeight.bold,
+              color: BasicAppColors.white,
             ),
-          )
-        : Expanded(
-            flex: flex ?? 1,
-            child: LayoutBuilder(
-              builder: (_, BoxConstraints constraints) {
-                if (column.maxWidth != null && (constraints.maxWidth > column.maxWidth!)) {
-                  return SizedBox(
-                    width: column.maxWidth,
-                    child: _wrapItemBorder(
-                      child: child,
-                    ),
-                  );
-                }
-                if (column.minWidth != null && constraints.maxWidth < column.minWidth!) {
-                  return SizedBox(
-                    width: column.minWidth,
-                    child: _wrapItemBorder(
-                      child: child,
-                    ),
-                  );
-                }
-                return _wrapItemBorder(
-                  child: child,
-                );
-              },
-            ),
-          );
-  }
-
-  Widget _wrapItemBorder({
-    required Widget child,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          left: DataTableHeaderWidget.getBorderLeft(
-            index: index,
-            fixedColumn: fixedColumn,
-            lengthOfColumn: lengthOfColumn,
-            haveFixedColumnsLeft: controller.haveFixedColumnsLeft,
-          ),
-          right: DataTableHeaderWidget.getBorderRight(
-            index: index,
-            fixedColumn: fixedColumn,
-            lengthOfColumn: lengthOfColumn,
-            haveFixedColumnsRight: controller.haveFixedColumnsRight,
           ),
         ),
-      ),
-      child: child,
+      );
+    }
+    return Stack(
+      children: <Widget>[
+        Container(
+          alignment: column.customizeTitleWidget?.alignment ?? Alignment.center,
+          padding: column.customizeTitleWidget?.padding ??
+              EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
+          child: Text(
+            column.customizeTitleWidget?.title ?? column.name,
+            textAlign: TextAlign.center,
+            style: BasicTextStyles.body.copyWith(
+              fontWeight: FontWeight.bold,
+              color: BasicAppColors.white,
+            ),
+          ),
+        ),
+        if (dataTableOptionUI.isShowSortFilter)
+          Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: CustomPopupMenuButton<String>(
+              itemBuilder: (BuildContext context) {
+                return <PopupMenuEntry<String>>[
+                  PopupMenuItem<String>(
+                    value: DataTableSortType.desc.toString(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(dataTableOptionUI.customizeSortDesc),
+                        HSpace.p8,
+                        const Icon(
+                          EvaIcons.arrowIosDownwardOutline,
+                        ),
+                      ],
+                    ),
+                    onTap: () => sortDataVoid?.call(
+                      keyColumn: column.key,
+                      typeSort: DataTableSortType.desc,
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: DataTableSortType.asc.toString(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(dataTableOptionUI.customizeSortAsc),
+                        HSpace.p8,
+                        const Icon(
+                          EvaIcons.arrowIosUpwardOutline,
+                        ),
+                      ],
+                    ),
+                    onTap: () => sortDataVoid?.call(
+                      keyColumn: column.key,
+                      typeSort: DataTableSortType.asc,
+                    ),
+                  ),
+                  if (additionFilter[column.key] != null) ...additionFilter[column.key]!,
+                ];
+              },
+              offset: Offset(0, DataTableHeaderWidget.defaultHeightHeader),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
+                child: Icon(
+                  EvaIcons.menu,
+                  color: BasicAppColors.white,
+                  size: BasicIconSizes().s18,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

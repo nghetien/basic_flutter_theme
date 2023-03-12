@@ -1,13 +1,14 @@
 part of '../data_table.dart';
 
-class DataTableFixedColumnWidget<T> extends StatelessWidget {
-  const DataTableFixedColumnWidget({
+class FixedColumnForFixedTable<T> extends StatelessWidget {
+  const FixedColumnForFixedTable({
     Key? key,
     required this.type,
     required this.controller,
     this.sortDataVoid,
     required this.dataTableOptionUI,
     required this.additionFilter,
+    required this.verticalFixedColumnScrollController,
   }) : super(key: key);
 
   final FixedColumn type;
@@ -15,6 +16,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
   final SortDataVoid? sortDataVoid;
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final ScrollController verticalFixedColumnScrollController;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -52,9 +54,18 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
             dataTableOptionUI: dataTableOptionUI,
             additionFilter: additionFilter,
           ),
-          DataTableFixedColumnContentWidget(
-            type: type,
-            controller: controller,
+          Expanded(
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: SingleChildScrollView(
+                controller: verticalFixedColumnScrollController,
+                scrollDirection: Axis.vertical,
+                child: DataTableFixedColumnContentWidget<T>(
+                  type: type,
+                  controller: controller,
+                ),
+              ),
+            ),
           ),
         ],
       ),

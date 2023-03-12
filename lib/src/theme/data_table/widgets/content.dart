@@ -4,7 +4,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   const DataTableContentWidget({
     Key? key,
     required this.tableColumns,
-    this.isFixedColumn = false,
+    this.fixedColumn = FixedColumn.none,
     required this.controller,
     this.topContent,
     this.bottomContent,
@@ -13,7 +13,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
-  final bool isFixedColumn;
+  final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
@@ -65,34 +65,35 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
   @override
   Widget build(BuildContext context) {
     _handleChangeOldDataSource();
-    return Column(
-      children: <Widget>[
-        if (widget.topContent != null)
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+    return IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (widget.topContent != null)
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+                  right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                  left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                ),
               ),
+              child: widget.topContent!(widget.controller.initTableColumns),
             ),
-            child: widget.topContent!(widget.controller.initTableColumns),
-          ),
-        ..._contents(),
-        if (widget.bottomContent != null)
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+          ..._contents(),
+          if (widget.bottomContent != null)
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+                  right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                  left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                ),
               ),
+              child: widget.bottomContent!(widget.controller.initTableColumns),
             ),
-            child: widget.bottomContent!(widget.controller.initTableColumns),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -102,9 +103,10 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
           T rowData = entry.value;
           return DataTableRowWidget<T>(
             tableColumns: widget.tableColumns,
-            isFixedColumn: widget.isFixedColumn,
-            height: widget.isFixedColumn && widget.controller.mapIndexToWidthOfEachRow.isNotEmpty
-                ? widget.controller.mapIndexToWidthOfEachRow[index]!
+            fixedColumn: widget.fixedColumn,
+            height: widget.fixedColumn != FixedColumn.none &&
+                    widget.controller.mapIndexToHeightOfEachRow.isNotEmpty
+                ? widget.controller.mapIndexToHeightOfEachRow[index]!
                 : null,
             controller: widget.controller,
             indexRow: index,
