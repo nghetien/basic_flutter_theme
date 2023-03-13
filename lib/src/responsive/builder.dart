@@ -6,7 +6,12 @@ import 'screen_device.dart';
 class BasicResponsive {
   BasicResponsive._();
 
-  static Widget appResponsiveBuilder(Widget child) => LayoutBuilder(
+  static Widget appResponsiveBuilder(
+    Widget child, {
+    Key? key,
+  }) =>
+      LayoutBuilder(
+        key: key,
         builder: (_, constraints) {
           BasicConfigResponsive().onResponsiveUpdate(constraints.maxWidth);
           return child;
@@ -14,12 +19,14 @@ class BasicResponsive {
       );
 
   static Widget responsiveBuilder({
+    Key? key,
     Widget? children,
     Widget? mobile,
     Widget? tablet,
     Widget? desktop,
   }) =>
       LayoutBuilder(
+        key: key,
         builder: (_, __) {
           switch (BasicConfigResponsive().screenDevice) {
             case BasicScreenDevice.desktop:

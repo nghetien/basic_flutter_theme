@@ -9,7 +9,7 @@ export 'expansions.dart';
 export 'icon_buttons/icon_buttons.dart';
 export 'images/images.dart';
 export 'inputs/inputs.dart';
-export 'loading.dart';
+export 'loading/loading.dart';
 export 'measure_size.dart';
 export 'outline_border/outline_border.dart';
 export 'popup_menu_button/popup_menu_button.dart';

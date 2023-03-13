@@ -3,15 +3,10 @@ library basic_data_table;
 import 'dart:async';
 import 'dart:math';
 
+import 'package:basic_flutter_theme/src/theme/theme.dart';
 import 'package:basic_flutter_theme/src/responsive/responsive.dart';
 import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/theme/buttons/buttons.dart';
-import 'package:basic_flutter_theme/src/theme/inputs/inputs.dart';
 import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:basic_flutter_theme/src/theme/measure_size.dart';
-import 'package:basic_flutter_theme/src/theme/popup_menu_button/popup_menu_button.dart';
-import 'package:basic_flutter_theme/src/theme/scrolls/scrolls.dart';
-import 'package:basic_flutter_theme/src/theme/spaces.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 

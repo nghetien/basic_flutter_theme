@@ -1,3 +1,5 @@
+## 0.1.7
+* Customize `BasicLoading` and and key for `BasicResponsive().appResponsiveBuilder`.
 ## 0.1.6
 * Fix bug `BasicDataTable` horizontal scroll when set minWidth, and fixed table.
 ## 0.1.5
