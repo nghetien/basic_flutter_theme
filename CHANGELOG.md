@@ -1,3 +1,5 @@
+## 0.1.8
+* Add `BasicLoadEnv`.
 ## 0.1.7
 * Customize `BasicLoading` and and key for `BasicResponsive().appResponsiveBuilder`.
 ## 0.1.6

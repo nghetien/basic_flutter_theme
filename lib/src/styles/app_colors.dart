@@ -43,15 +43,15 @@ class BasicAppColors {
   Color get bgSecondaryThemeLight => _bgSecondaryThemeLight;
 
   void setBasicBgColors({
-    required Color bgPrimaryThemeDark,
-    required Color bgSecondaryThemeDark,
-    required Color bgPrimaryThemeLight,
-    required Color bgSecondaryThemeLight,
+    Color? bgPrimaryThemeDark,
+    Color? bgSecondaryThemeDark,
+    Color? bgPrimaryThemeLight,
+    Color? bgSecondaryThemeLight,
   }) {
-    _bgPrimaryThemeDark = bgPrimaryThemeDark;
-    _bgSecondaryThemeDark = bgSecondaryThemeDark;
-    _bgPrimaryThemeLight = bgPrimaryThemeLight;
-    _bgSecondaryThemeLight = bgSecondaryThemeLight;
+    _bgPrimaryThemeDark = bgPrimaryThemeDark ?? _bgPrimaryThemeDark;
+    _bgSecondaryThemeDark = bgSecondaryThemeDark ?? _bgSecondaryThemeDark;
+    _bgPrimaryThemeLight = bgPrimaryThemeLight ?? _bgPrimaryThemeLight;
+    _bgSecondaryThemeLight = bgSecondaryThemeLight ?? _bgSecondaryThemeLight;
   }
 
   /// The card color of the app.
