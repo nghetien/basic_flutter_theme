@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:basic_flutter_theme/basic_flutter_theme.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 enum BasicDialogType {
@@ -132,7 +131,7 @@ class BasicDialogs {
                     context.popNavigator();
                   },
                   icon: Icon(
-                    EvaIcons.close,
+                    Icons.close_rounded,
                     color: BasicAppColors().primary,
                     size: BasicIconSizes().s24,
                   ),

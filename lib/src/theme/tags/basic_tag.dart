@@ -1,77 +1,135 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
+import 'package:basic_flutter_theme/basic_flutter_theme.dart';
 import 'package:flutter/material.dart';
 
 class BasicTags {
   const BasicTags._();
 
-  static Widget success(String value) => Container(
-        decoration: const BoxDecoration(
+  static final _defaultHeight = 29.scaleSize;
+
+  static Widget success(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+  }) =>
+      Container(
+        alignment: alignment,
+        height: height ?? _defaultHeight,
+        decoration: BoxDecoration(
           color: BasicAppColors.green,
-          borderRadius: BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: BasicPaddings().p8,
-          vertical: BasicPaddings().p4,
-        ),
-        child: Text(
-          value,
-          style: BasicTextStyles.body.copyWith(
-            color: BasicAppColors.white,
-            height: 0,
+        padding: padding ??
+            EdgeInsets.symmetric(
+              horizontal: BasicPaddings().p8,
+              vertical: BasicPaddings().p4,
+            ),
+        child: Center(
+          child: Text(
+            value,
+            style: textStyle ??
+                BasicTextStyles.body.copyWith(
+                  color: BasicAppColors.white,
+                  height: 0
+                ),
           ),
         ),
       );
 
-  static Widget failure(String value) => Container(
-        decoration: const BoxDecoration(
+  static Widget failure(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+  }) =>
+      Container(
+        alignment: alignment,
+        height: height ?? _defaultHeight,
+        decoration: BoxDecoration(
           color: BasicAppColors.red,
-          borderRadius: BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: BasicPaddings().p8,
-          vertical: BasicPaddings().p4,
-        ),
-        child: Text(
-          value,
-          style: BasicTextStyles.body.copyWith(
-            color: BasicAppColors.white,
-            height: 0,
+        padding: padding ??
+            EdgeInsets.symmetric(
+              horizontal: BasicPaddings().p8,
+              vertical: BasicPaddings().p4,
+            ),
+        child: Center(
+          child: Text(
+            value,
+            style: textStyle ??
+                BasicTextStyles.body.copyWith(
+                  color: BasicAppColors.white,
+                  height: 0,
+                ),
           ),
         ),
       );
 
-  static Widget warning(String value) => Container(
-        decoration: const BoxDecoration(
+  static Widget warning(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+  }) =>
+      Container(
+        alignment: alignment,
+        height: height ?? _defaultHeight,
+        decoration: BoxDecoration(
           color: BasicAppColors.yellow,
-          borderRadius: BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: BasicPaddings().p8,
-          vertical: BasicPaddings().p4,
-        ),
-        child: Text(
-          value,
-          style: BasicTextStyles.body.copyWith(
-            color: BasicAppColors.white,
-            height: 0,
+        padding: padding ??
+            EdgeInsets.symmetric(
+              horizontal: BasicPaddings().p8,
+              vertical: BasicPaddings().p4,
+            ),
+        child: Center(
+          child: Text(
+            value,
+            style: textStyle ??
+                BasicTextStyles.body.copyWith(
+                  color: BasicAppColors.white,
+                  height: 0,
+                ),
           ),
         ),
       );
 
-  static Widget info(String value) => Container(
-        decoration: const BoxDecoration(
+  static Widget info(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+  }) =>
+      Container(
+        alignment: alignment,
+        height: height ?? _defaultHeight,
+        decoration: BoxDecoration(
           color: BasicAppColors.blueLight,
-          borderRadius: BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: BasicPaddings().p8,
-          vertical: BasicPaddings().p4,
-        ),
-        child: Text(
-          value,
-          style: BasicTextStyles.body.copyWith(
-            color: BasicAppColors.white,
-            height: 0,
+        padding: padding ??
+            EdgeInsets.symmetric(
+              horizontal: BasicPaddings().p8,
+              vertical: BasicPaddings().p4,
+            ),
+        child: Center(
+          child: Text(
+            value,
+            style: textStyle ??
+                BasicTextStyles.body.copyWith(
+                  color: BasicAppColors.white,
+                  height: 0,
+                ),
           ),
         ),
       );

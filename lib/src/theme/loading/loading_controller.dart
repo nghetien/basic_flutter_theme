@@ -1,19 +1,16 @@
 part of 'loading.dart';
 
-class BasicLoading {
-  BasicLoading._privateConstructor();
-
-  static final BasicLoading _instance = BasicLoading._privateConstructor();
-
-  factory BasicLoading() => _instance;
-
+class BasicLoadingController {
   bool _statusLoading = false;
 
   void setStatusLoading(bool status) => _statusLoading = status;
 
   bool get statusLoading => _statusLoading;
 
-  Widget initBasicLoading(_, Widget? child) => BasicLoadingWrapper(child: child);
+  Widget initBasicLoading(BuildContext context, Widget? child) => BasicLoadingWrapper(
+        loadingController: this,
+        child: child,
+      );
 
   Widget _defaultW = Builder(
     builder: (BuildContext context) => Container(
@@ -45,12 +42,14 @@ class BasicLoading {
   void _markNeedsBuild() => currentOverlayEntry?.markNeedsBuild();
 
   void show() {
+    if(statusLoading) return;
     setStatusLoading(true);
     setW(_defaultW);
     _markNeedsBuild();
   }
 
   void dismiss() {
+    if(!statusLoading) return;
     setStatusLoading(false);
     setW(null);
     _markNeedsBuild();

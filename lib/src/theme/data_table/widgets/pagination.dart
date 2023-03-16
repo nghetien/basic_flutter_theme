@@ -126,14 +126,14 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
         IconButton(
           onPressed: () => _handleChangeDataPageLeft(true),
           icon: const Icon(
-            EvaIcons.arrowheadLeftOutline,
+            Icons.keyboard_double_arrow_left_rounded,
             color: BasicAppColors.white,
           ),
         ),
         IconButton(
           onPressed: () => _handleChangeDataPageLeft(false),
           icon: const Icon(
-            EvaIcons.arrowIosBackOutline,
+            Icons.keyboard_arrow_left_rounded,
             color: BasicAppColors.white,
           ),
         ),
@@ -201,14 +201,14 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
         IconButton(
           onPressed: () => _handleChangeDataPageRight(false),
           icon: const Icon(
-            EvaIcons.arrowIosForwardOutline,
+            Icons.keyboard_arrow_right_rounded,
             color: BasicAppColors.white,
           ),
         ),
         IconButton(
           onPressed: () => _handleChangeDataPageRight(true),
           icon: const Icon(
-            EvaIcons.arrowheadRightOutline,
+            Icons.keyboard_double_arrow_right_rounded,
             color: BasicAppColors.white,
           ),
         ),

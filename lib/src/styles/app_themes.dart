@@ -224,7 +224,7 @@ class BasicAppThemes {
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors().bgPrimaryThemeDark),
     iconTheme: const IconThemeData(color: BasicAppColors.white),
     textTheme: TextTheme(
-      titleMedium: BasicTextStyles.body.copyWith(color: BasicAppColors.grey),
+      titleMedium: BasicTextStyles.body.copyWith(color: BasicAppColors.white),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     dialogBackgroundColor: BasicAppColors().bgSecondaryThemeDark,

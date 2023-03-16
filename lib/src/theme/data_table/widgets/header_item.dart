@@ -95,9 +95,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                       children: [
                         Text(dataTableOptionUI.customizeSortDesc),
                         HSpace.p8,
-                        const Icon(
-                          EvaIcons.arrowIosDownwardOutline,
-                        ),
+                        const Icon(Icons.arrow_downward_rounded),
                       ],
                     ),
                     onTap: () => sortDataVoid?.call(
@@ -112,9 +110,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                       children: [
                         Text(dataTableOptionUI.customizeSortAsc),
                         HSpace.p8,
-                        const Icon(
-                          EvaIcons.arrowIosUpwardOutline,
-                        ),
+                        const Icon(Icons.arrow_upward_rounded),
                       ],
                     ),
                     onTap: () => sortDataVoid?.call(
@@ -129,7 +125,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
                 child: Icon(
-                  EvaIcons.menu,
+                  Icons.menu_rounded,
                   color: BasicAppColors.white,
                   size: BasicIconSizes().s18,
                 ),

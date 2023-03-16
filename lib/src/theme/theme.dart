@@ -16,7 +16,7 @@ export 'popup_menu_button/popup_menu_button.dart';
 export 'scrolls/scrolls.dart';
 export 'select_boxes/select_boxes.dart';
 export 'spaces.dart';
-export 'table_calendar/table_calendar.dart';
+export 'calendar/calendar.dart';
 export 'tags/tags.dart';
 export 'titles.dart';
 export 'toast.dart';

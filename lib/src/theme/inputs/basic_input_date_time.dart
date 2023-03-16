@@ -318,16 +318,16 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
       );
 
   Widget _getIcon() {
-    IconData iconData = EvaIcons.calendarOutline;
+    IconData iconData = Icons.calendar_today_rounded;
     switch (widget.type) {
       case BasicInputDateTimeType.date:
-        iconData = EvaIcons.calendarOutline;
+        iconData = Icons.calendar_today_rounded;
         break;
       case BasicInputDateTimeType.time:
-        iconData = EvaIcons.clockOutline;
+        iconData = Icons.watch_later_rounded;
         break;
       case BasicInputDateTimeType.dateTime:
-        iconData = EvaIcons.calendarOutline;
+        iconData = Icons.calendar_month_rounded;
     }
     return InkWell(
       onTap: () => _onSelectDate(),
