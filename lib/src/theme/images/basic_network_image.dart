@@ -12,6 +12,8 @@ class BasicNetworkImage extends StatelessWidget {
     this.shape = BoxShape.rectangle,
     this.borderRadius,
     this.boxFit = BoxFit.cover,
+    this.assetPathWhenError,
+    this.imageProviderWhenError,
   }) : super(key: key);
 
   final BasicImageType type;
@@ -23,19 +25,33 @@ class BasicNetworkImage extends StatelessWidget {
   final BoxShape shape;
   final BorderRadius? borderRadius;
   final BoxFit boxFit;
+  final String? assetPathWhenError;
+  final ImageProvider? imageProviderWhenError;
 
-  Widget _error() => Container(
-        width: width ?? type.size,
-        height: height ?? type.size,
-        decoration: BoxDecoration(
-          color: BasicAppColors.greyOpacity04,
-          border: Border.all(
-            width: borderWidth ?? BasicBorders.thin,
-            color: borderColor ?? BasicAppColors().primary,
-          ),
+  Widget _error() => assetPathWhenError != null
+      ? BasicAssetImage(
+          path: assetPathWhenError!,
+          width: width,
+          height: height,
+          borderWidth: borderWidth,
+          borderColor: borderColor,
           shape: shape,
-          borderRadius:
-              borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
+          borderRadius: borderRadius,
+          boxFit: boxFit,
+          imageProvider: imageProviderWhenError,
+        )
+      : Container(
+          width: width ?? type.size,
+          height: height ?? type.size,
+          decoration: BoxDecoration(
+            color: BasicAppColors.greyOpacity04,
+            border: Border.all(
+              width: borderWidth ?? BasicBorders.thin,
+              color: borderColor ?? BasicAppColors().primary,
+            ),
+            shape: shape,
+            borderRadius:
+                borderRadius ?? ((shape != BoxShape.circle) ? BasicCorners.cornerBorder5 : null),
         ),
       );
 
