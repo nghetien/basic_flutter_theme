@@ -10,7 +10,6 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
-    this.listItemsPerPage,
     required this.handleChangeData,
   }) : super(key: key);
 
@@ -21,7 +20,6 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
-  final List<int>? listItemsPerPage;
   final AsyncDataSource<T> handleChangeData;
 
   final ScrollController _horizontalScrollController = ScrollController();
@@ -103,7 +101,6 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
             if (scrollHorizontalWidget != null) scrollHorizontalWidget,
             DataTablePaginationWidget(
               controller: controller,
-              initListItemsPerPage: listItemsPerPage,
               handleChangeData: handleChangeData,
               dataTableOptionUI: dataTableOptionUI,
             ),

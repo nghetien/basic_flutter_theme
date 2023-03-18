@@ -5,13 +5,11 @@ class DataTablePaginationWidget<T> extends StatefulWidget {
     Key? key,
     required this.handleChangeData,
     required this.controller,
-    this.initListItemsPerPage,
     required this.dataTableOptionUI,
   }) : super(key: key);
 
   final DataTableController<T> controller;
   final AsyncDataSource<T> handleChangeData;
-  final List<int>? initListItemsPerPage;
   final DataTableOptionUI dataTableOptionUI;
 
   @override
@@ -27,7 +25,6 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
 
   @override
   void initState() {
-    widget.controller.initPagination();
     _itemPerPageValueController = TextEditingController(
       text: widget.controller.pagination.itemsPerPage.toString(),
     );
@@ -267,7 +264,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
               toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem,
               widget.controller.totalRecords,
             )
-          : '$fromItem - ${toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem} of ${widget.controller.totalRecords} items',
+          : '${fromItem == 0 ? 1 : fromItem} - ${toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem} of ${widget.controller.totalRecords} items',
       style: const TextStyle(
         color: BasicAppColors.white,
       ),

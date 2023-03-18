@@ -10,7 +10,6 @@ class FixedDataTableWidget<T> extends StatefulWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
-    this.listItemsPerPage,
     required this.handleChangeData,
   }) : super(key: key);
 
@@ -21,7 +20,6 @@ class FixedDataTableWidget<T> extends StatefulWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
-  final List<int>? listItemsPerPage;
   final AsyncDataSource<T> handleChangeData;
 
   @override
@@ -218,7 +216,6 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                 if (scrollHorizontalWidget != null) scrollHorizontalWidget,
                 DataTablePaginationWidget(
                   controller: widget.controller,
-                  initListItemsPerPage: widget.listItemsPerPage,
                   handleChangeData: widget.handleChangeData,
                   dataTableOptionUI: widget.dataTableOptionUI,
                 ),

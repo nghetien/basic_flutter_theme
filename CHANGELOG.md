@@ -1,3 +1,5 @@
+## 0.1.11
+* Add `BasicTextButton` and fix bug `BasicDataTable`.
 ## 0.1.10
 * Add `NumberFormatter` and add image asset for network image if error.
 ## 0.1.9

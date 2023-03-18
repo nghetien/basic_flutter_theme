@@ -9,7 +9,6 @@ class BasicDataTable<T> extends StatefulWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
-    this.listItemsPerPage,
     required this.handleChangeData,
     required this.dataTableOptionUI,
     this.sortDataVoid,
@@ -22,7 +21,6 @@ class BasicDataTable<T> extends StatefulWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
-  final List<int>? listItemsPerPage;
   final AsyncDataSource<T> handleChangeData;
   final DataTableOptionUI dataTableOptionUI;
   final SortDataVoid? sortDataVoid;
@@ -121,7 +119,6 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
         topContent: widget.topContent,
         bottomContent: widget.bottomContent,
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
-        listItemsPerPage: widget.listItemsPerPage,
         handleChangeData: widget.handleChangeData,
       );
     }
@@ -133,7 +130,6 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       topContent: widget.topContent,
       bottomContent: widget.bottomContent,
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
-      listItemsPerPage: widget.listItemsPerPage,
       handleChangeData: widget.handleChangeData,
     );
   }

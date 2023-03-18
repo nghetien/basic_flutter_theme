@@ -20,10 +20,13 @@ class DataTableController<T> extends ChangeNotifier {
     List<T>? dataSources,
     int? totalRecords,
     Map<int, T>? dataSelected,
+    List<int>? listItemsPerPage,
+    int? numberNextPage,
   }) {
     _state.dataSources = dataSources ?? _state.dataSources;
     _state.totalRecords = totalRecords ?? _state.totalRecords;
     _state.dataSelected = dataSelected ?? _state.dataSelected;
+    initPagination(listItemsPerPage: listItemsPerPage, numberNextPage: numberNextPage);
   }
 
   void clearDataTable() {
@@ -150,15 +153,15 @@ class DataTableController<T> extends ChangeNotifier {
   }
 
   void initPagination({
-    List<int>? initListItemsPerPage,
+    List<int>? listItemsPerPage,
     int? numberNextPage,
   }) {
-    final List<int> listItemsPerPage =
-        initListItemsPerPage ?? DataTablePagination.defaultListItemsPerPage;
+    final List<int> newListItemsPerPage =
+        listItemsPerPage ?? DataTablePagination.defaultListItemsPerPage;
     _state.pagination = DataTablePagination(
-      pageNumber: calculatePageNumber(listItemsPerPage[0]),
-      itemsPerPage: listItemsPerPage[0],
-      listItemsPerPage: initListItemsPerPage,
+      pageNumber: calculatePageNumber(newListItemsPerPage[0]),
+      itemsPerPage: newListItemsPerPage[0],
+      listItemsPerPage: newListItemsPerPage,
       numberNextPage: numberNextPage,
     );
     calculatePagination();
