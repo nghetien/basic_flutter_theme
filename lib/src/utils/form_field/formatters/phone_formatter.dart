@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class BasicPhoneFormatter {
@@ -11,5 +12,9 @@ class BasicPhoneFormatter {
       "#": RegExp(r'\d'),
     },
     type: MaskAutoCompletionType.lazy,
+  );
+
+  static final TextInputFormatter phoneInputFormatter2 = FilteringTextInputFormatter.allow(
+    RegExp(r'[\d+]'),
   );
 }

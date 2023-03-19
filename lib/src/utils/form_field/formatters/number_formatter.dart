@@ -1,11 +1,11 @@
 import 'package:flutter/services.dart';
 
-class NumberFormatter {
-  NumberFormatter._privateConstructor();
+class BasicNumberFormatter {
+  BasicNumberFormatter._privateConstructor();
 
-  static final NumberFormatter _instance = NumberFormatter._privateConstructor();
+  static final BasicNumberFormatter _instance = BasicNumberFormatter._privateConstructor();
 
-  factory NumberFormatter() => _instance;
+  factory BasicNumberFormatter() => _instance;
 
   static final TextInputFormatter digitsOnly = FilteringTextInputFormatter.digitsOnly;
 }
