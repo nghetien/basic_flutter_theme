@@ -10,6 +10,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
     this.bottomContent,
     this.showerMoreContentRowWidget,
     this.verticalScrollState,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -19,6 +20,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
   final BasicVerticalScrollState? verticalScrollState;
+  final Function(T)? onPressRowItem;
 
   @override
   DataTableContentWidgetState<T> createState() => DataTableContentWidgetState<T>();
@@ -52,7 +54,8 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
     }
   }
 
-  void _handleClickContent(int index){
+  void _handleClickContent(int index, T rowData){
+    widget.onPressRowItem?.call(rowData);
     if (widget.showerMoreContentRowWidget != null) {
       isCompareDataSource = false;
       _expandedDataIndex = _expandedDataIndex != index ? index : -1;
@@ -112,7 +115,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
             indexRow: index,
             rowData: rowData,
             isShowMore: _isShowMore(index),
-            onPressed: () => _handleClickContent(index),
+            onPressed: () => _handleClickContent(index, rowData),
             showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
           );
         },

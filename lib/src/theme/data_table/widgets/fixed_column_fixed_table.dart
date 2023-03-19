@@ -9,6 +9,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
     required this.dataTableOptionUI,
     required this.additionFilter,
     required this.verticalFixedColumnScrollController,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final FixedColumn type;
@@ -17,6 +18,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final ScrollController verticalFixedColumnScrollController;
+  final Function(T)? onPressRowItem;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -63,6 +65,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
                 child: DataTableFixedColumnContentWidget<T>(
                   type: type,
                   controller: controller,
+                  onPressRowItem: onPressRowItem,
                 ),
               ),
             ),

@@ -1,3 +1,5 @@
+## 0.1.13
+* Add `onPressRowItem` to `BasicDataTable`.
 ## 0.1.12
 * Fix bug `BasicDataTable`.
 ## 0.1.11

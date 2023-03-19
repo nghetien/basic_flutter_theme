@@ -13,6 +13,7 @@ class BasicDataTable<T> extends StatefulWidget {
     required this.dataTableOptionUI,
     this.sortDataVoid,
     this.additionFilter = const {},
+    this.onPressRowItem,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -25,6 +26,7 @@ class BasicDataTable<T> extends StatefulWidget {
   final DataTableOptionUI dataTableOptionUI;
   final SortDataVoid? sortDataVoid;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final Function(T)? onPressRowItem;
 
   @override
   BasicDataTableState<T> createState() => BasicDataTableState<T>();
@@ -120,6 +122,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
         bottomContent: widget.bottomContent,
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
         handleChangeData: widget.handleChangeData,
+        onPressRowItem: widget.onPressRowItem,
       );
     }
     return DefaultDataTableWidget(
@@ -131,6 +134,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       bottomContent: widget.bottomContent,
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
       handleChangeData: widget.handleChangeData,
+      onPressRowItem: widget.onPressRowItem,
     );
   }
 }

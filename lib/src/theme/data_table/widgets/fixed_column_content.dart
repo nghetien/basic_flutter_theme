@@ -5,10 +5,12 @@ class DataTableFixedColumnContentWidget<T> extends StatefulWidget {
     Key? key,
     required this.type,
     required this.controller,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final FixedColumn type;
   final DataTableController<T> controller;
+  final Function(T)? onPressRowItem;
 
   @override
   State<DataTableFixedColumnContentWidget<T>> createState() =>
@@ -46,6 +48,7 @@ class _DataTableFixedColumnContentWidgetState<T>
             : widget.controller.fixedColumnsRight,
         fixedColumn: widget.type,
         controller: widget.controller,
+        onPressRowItem: widget.onPressRowItem,
       ),
     );
   }

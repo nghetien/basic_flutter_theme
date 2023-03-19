@@ -11,6 +11,7 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -21,6 +22,7 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
+  final Function(T)? onPressRowItem;
 
   final ScrollController _horizontalScrollController = ScrollController();
 
@@ -49,6 +51,7 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
                       sortDataVoid: sortDataVoid,
                       dataTableOptionUI: dataTableOptionUI,
                       additionFilter: additionFilter,
+                      onPressRowItem: onPressRowItem,
                     ),
                   ),
                 Expanded(
@@ -77,6 +80,7 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
                                 topContent: topContent,
                                 bottomContent: bottomContent,
                                 showerMoreContentRowWidget: showerMoreContentIntoRowWidget,
+                                onPressRowItem: onPressRowItem,
                               ),
                             ],
                           ),
@@ -94,6 +98,7 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
                       sortDataVoid: sortDataVoid,
                       dataTableOptionUI: dataTableOptionUI,
                       additionFilter: additionFilter,
+                      onPressRowItem: onPressRowItem,
                     ),
                   ),
               ],

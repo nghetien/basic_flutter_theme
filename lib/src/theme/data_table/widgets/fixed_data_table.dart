@@ -11,6 +11,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -21,6 +22,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
+  final Function(T)? onPressRowItem;
 
   @override
   State<FixedDataTableWidget<T>> createState() => _FixedDataTableWidgetState<T>();
@@ -139,6 +141,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                 additionFilter: widget.additionFilter,
                                 verticalFixedColumnScrollController:
                                     _verticalFixedColumnLeftScrollController,
+                                onPressRowItem: widget.onPressRowItem,
                               ),
                             ),
                           Expanded(
@@ -177,6 +180,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                                   bottomContent: widget.bottomContent,
                                                   showerMoreContentRowWidget:
                                                       widget.showerMoreContentIntoRowWidget,
+                                                  onPressRowItem: widget.onPressRowItem,
                                                 ),
                                               ),
                                             ),
@@ -200,6 +204,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                 additionFilter: widget.additionFilter,
                                 verticalFixedColumnScrollController:
                                     _verticalFixedColumnRightScrollController,
+                                onPressRowItem: widget.onPressRowItem,
                               ),
                             ),
                         ],

@@ -8,6 +8,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
     this.sortDataVoid,
     required this.dataTableOptionUI,
     required this.additionFilter,
+    this.onPressRowItem,
   }) : super(key: key);
 
   final FixedColumn type;
@@ -15,6 +16,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
   final SortDataVoid? sortDataVoid;
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final Function(T)? onPressRowItem;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -55,6 +57,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
           DataTableFixedColumnContentWidget(
             type: type,
             controller: controller,
+            onPressRowItem: onPressRowItem,
           ),
         ],
       ),
