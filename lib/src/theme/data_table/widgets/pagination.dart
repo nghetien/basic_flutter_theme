@@ -18,18 +18,9 @@ class DataTablePaginationWidget<T> extends StatefulWidget {
 
 class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
   DataTablePagination get pagination => widget.controller.pagination;
-  late final TextEditingController _itemPerPageValueController;
 
   static final sizePageNumber = 25.scaleSize;
   static const int threeDotFlagNumber = 0;
-
-  @override
-  void initState() {
-    _itemPerPageValueController = TextEditingController(
-      text: widget.controller.pagination.itemsPerPage.toString(),
-    );
-    super.initState();
-  }
 
   void _handleChangeDataPageNumber(int pageNumber) {
     if (pageNumber == pagination.currentPage) return;
@@ -161,7 +152,6 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
   }
 
   Widget _pageNumberWidget() {
-    widget.controller.calculatePagination();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -213,46 +203,51 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     );
   }
 
-  Widget _dropdownItemsPerPage() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          SizedBox(
-            height: sizePageNumber + 2,
-            child: BasicInputDropdown<int>(
-              width: 75.scaleSize,
-              controller: _itemPerPageValueController,
-              contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
-              menuChildren: [
-                for (final item in pagination.listItemsPerPage)
-                  BasicInputDropdownItemModel<int>(
-                    value: item,
-                    child: Text(
-                      item.toString(),
-                    ),
-                  ),
-              ],
-              onSelected: (value) {
-                _itemPerPageValueController.text = value.toString();
-                _handleChangeItemPerPage(value);
-              },
-            ),
-          ),
-          if (BasicConfigResponsive().screenDevice.isDesktop)
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.only(left: BasicPaddings().p8),
-                child: Text(
-                  widget.dataTableOptionUI.customizeItemPerPage,
-                  style: const TextStyle(
-                    color: BasicAppColors.white,
+  final _itemPerPageValueController = TextEditingController();
+
+  Widget _dropdownItemsPerPage() {
+    _itemPerPageValueController.text = pagination.itemsPerPage.toString();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          height: sizePageNumber + 2,
+          child: BasicInputDropdown<int>(
+            width: 75.scaleSize,
+            controller: _itemPerPageValueController,
+            contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
+            menuChildren: [
+              for (final item in pagination.listItemsPerPage)
+                BasicInputDropdownItemModel<int>(
+                  value: item,
+                  child: Text(
+                    item.toString(),
                   ),
                 ),
+            ],
+            onSelected: (value) {
+              _itemPerPageValueController.text = value.toString();
+              _handleChangeItemPerPage(value);
+            },
+          ),
+        ),
+        if (BasicConfigResponsive().screenDevice.isDesktop)
+          Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: BasicPaddings().p8),
+              child: Text(
+                widget.dataTableOptionUI.customizeItemPerPage,
+                style: const TextStyle(
+                  color: BasicAppColors.white,
+                ),
               ),
-            )
-        ],
-      );
+            ),
+          )
+      ],
+    );
+  }
 
   Widget _fromToItemsInPage() {
     final fromItem = (pagination.currentPage - 1) * pagination.itemsPerPage;

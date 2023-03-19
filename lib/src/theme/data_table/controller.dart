@@ -20,13 +20,18 @@ class DataTableController<T> extends ChangeNotifier {
     List<T>? dataSources,
     int? totalRecords,
     Map<int, T>? dataSelected,
+    int? itemsPerPage,
     List<int>? listItemsPerPage,
     int? numberNextPage,
   }) {
     _state.dataSources = dataSources ?? _state.dataSources;
     _state.totalRecords = totalRecords ?? _state.totalRecords;
     _state.dataSelected = dataSelected ?? _state.dataSelected;
-    initPagination(listItemsPerPage: listItemsPerPage, numberNextPage: numberNextPage);
+    initPagination(
+      listItemsPerPage: listItemsPerPage,
+      itemsPerPage: itemsPerPage,
+      numberNextPage: numberNextPage,
+    );
   }
 
   void clearDataTable() {
@@ -144,6 +149,7 @@ class DataTableController<T> extends ChangeNotifier {
 
   void setTotalRecords(int totalRecords) {
     _state.totalRecords = totalRecords;
+    calculatePagination();
     notifyListeners();
   }
 
@@ -154,23 +160,28 @@ class DataTableController<T> extends ChangeNotifier {
 
   void initPagination({
     List<int>? listItemsPerPage,
+    int? itemsPerPage,
     int? numberNextPage,
   }) {
     final List<int> newListItemsPerPage =
         listItemsPerPage ?? DataTablePagination.defaultListItemsPerPage;
     _state.pagination = DataTablePagination(
       pageNumber: calculatePageNumber(newListItemsPerPage[0]),
-      itemsPerPage: newListItemsPerPage[0],
+      itemsPerPage: itemsPerPage ?? newListItemsPerPage[0],
       listItemsPerPage: newListItemsPerPage,
       numberNextPage: numberNextPage,
     );
     calculatePagination();
   }
 
-  void calculatePagination() => _state.pagination.calculatePagination();
+  void calculatePagination(){
+    _state.pagination.pageNumber = calculatePageNumber(_state.pagination.itemsPerPage);
+    _state.pagination.calculatePagination();
+  }
 
   void setCurrentPage(int currentPage) {
     _state.pagination.currentPage = currentPage;
+    calculatePagination();
     notifyListeners();
   }
 

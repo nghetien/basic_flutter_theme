@@ -31,8 +31,8 @@ class BasicNetworkImage extends StatelessWidget {
   Widget _error() => assetPathWhenError != null
       ? BasicAssetImage(
           path: assetPathWhenError!,
-          width: width,
-          height: height,
+          width: width ?? type.size,
+          height: height ?? type.size,
           borderWidth: borderWidth,
           borderColor: borderColor,
           shape: shape,

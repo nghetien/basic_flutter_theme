@@ -1,3 +1,5 @@
+## 0.1.12
+* Fix bug `BasicDataTable`.
 ## 0.1.11
 * Add `BasicTextButton` and fix bug `BasicDataTable`.
 ## 0.1.10
