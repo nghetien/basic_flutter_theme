@@ -1,7 +1,7 @@
 import 'package:basic_flutter_theme/src/responsive/responsive.dart';
 
 extension BasicNumExtension on num {
-  double get scaleSize => BasicConfigResponsive().scale * this;
+  double get scaleSize => BasicConfigResponsive.scale * this;
 
   /// Example:
   /// 1.0 -> 1

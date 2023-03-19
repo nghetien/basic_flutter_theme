@@ -1,3 +1,5 @@
+library basic_loading;
+
 import 'package:basic_flutter_theme/basic_flutter_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

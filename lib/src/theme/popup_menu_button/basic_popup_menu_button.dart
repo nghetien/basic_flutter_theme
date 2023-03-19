@@ -1,6 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+part of 'popup_menu_button.dart';
 
 /// Phát triển lại trong tương lai
 class BasicPopupMenuButtonItemModel<T> {
@@ -87,7 +85,7 @@ class BasicPopupMenuButton<T> extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
       ),
-      padding: padding ?? EdgeInsets.all(BasicPaddings().p8),
+      padding: padding ?? EdgeInsets.all(BasicPaddings.p8),
       child: child,
     );
   }
@@ -106,7 +104,7 @@ class BasicPopupMenuButton<T> extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           dense: true,
           minLeadingWidth: 0,
-          horizontalTitleGap: BasicPaddings().p12,
+          horizontalTitleGap: BasicPaddings.p12,
           leading: item.icon != null
               ? !iconIsRight
                   ? Icon(

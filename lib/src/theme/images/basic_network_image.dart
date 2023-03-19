@@ -3,7 +3,7 @@ part of 'images.dart';
 class BasicNetworkImage extends StatelessWidget {
   const BasicNetworkImage({
     Key? key,
-    this.type = BasicImageType.medium,
+    this.type = BasicImageSize.medium,
     required this.path,
     this.width,
     this.height,
@@ -16,7 +16,7 @@ class BasicNetworkImage extends StatelessWidget {
     this.imageProviderWhenError,
   }) : super(key: key);
 
-  final BasicImageType type;
+  final BasicImageSize type;
   final String path;
   final double? width;
   final double? height;
@@ -47,7 +47,7 @@ class BasicNetworkImage extends StatelessWidget {
             color: BasicAppColors.greyOpacity04,
             border: Border.all(
               width: borderWidth ?? BasicBorders.thin,
-              color: borderColor ?? BasicAppColors().primary,
+              color: borderColor ?? BasicAppColors.primary,
             ),
             shape: shape,
             borderRadius:
@@ -65,7 +65,7 @@ class BasicNetworkImage extends StatelessWidget {
             color: BasicAppColors.greyOpacity01,
             border: Border.all(
               width: borderWidth ?? BasicBorders.thin,
-              color: borderColor ?? BasicAppColors().primary,
+              color: borderColor ?? BasicAppColors.primary,
             ),
             shape: shape,
             borderRadius:

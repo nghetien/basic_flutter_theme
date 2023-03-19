@@ -1,3 +1,5 @@
+part of 'scrolls.dart';
+
 class BasicScrollConfig {
   const BasicScrollConfig._();
 

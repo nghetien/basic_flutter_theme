@@ -71,7 +71,7 @@ class BasicDialogs {
         child: Container(
           width: width ?? widthDefault,
           height: height ?? heightDefault,
-          padding: padding ?? EdgeInsets.all(BasicPaddings().p14),
+          padding: padding ?? EdgeInsets.all(BasicPaddings.mainPadding),
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).cardColor,
             shape: shape,
@@ -85,7 +85,7 @@ class BasicDialogs {
                   BasicTitle(
                     title,
                     titleType: BasicTitleType.level5,
-                    color: BasicAppColors().primary,
+                    color: BasicAppColors.primary,
                   ),
                   VSpace.p14,
                   const BasicDivider(),
@@ -107,15 +107,15 @@ class BasicDialogs {
                           onCancelPressed();
                           context.popNavigator();
                         },
-                        buttonType: BasicButtonType.large,
+                        buttonSize: BasicButtonSize.large,
                         text: customizeOkText ?? 'Cancel',
-                        textColor: BasicAppColors().primary,
+                        textColor: BasicAppColors.primary,
                       ),
                       HSpace.p14,
                       BasicButton(
-                        isFullColor: true,
                         onPressed: onOkPressed,
-                        buttonType: BasicButtonType.large,
+                        buttonType: BasicButtonType.primary,
+                        buttonSize: BasicButtonSize.large,
                         text: customizeOkText ?? 'Ok',
                       ),
                     ],
@@ -123,8 +123,8 @@ class BasicDialogs {
                 ],
               ),
               Positioned(
-                top: - BasicPaddings().p8,
-                right: - BasicPaddings().p8,
+                top: -BasicPaddings.p8,
+                right: -BasicPaddings.p8,
                 child: BasicIconButtonClearAnimation(
                   onPressed: () {
                     onCancelPressed();
@@ -132,8 +132,8 @@ class BasicDialogs {
                   },
                   icon: Icon(
                     Icons.close_rounded,
-                    color: BasicAppColors().primary,
-                    size: BasicIconSizes().s24,
+                    color: BasicAppColors.primary,
+                    size: BasicIconSizes.s24,
                   ),
                 ),
               ),
@@ -166,7 +166,7 @@ class BasicDialogs {
           children: <Widget>[
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(BasicPaddings().p12),
+              padding: EdgeInsets.all(BasicPaddings.p12),
               decoration: BoxDecoration(
                 color: type == BasicDialogType.delete
                     ? BasicAppColors.red
@@ -187,7 +187,7 @@ class BasicDialogs {
                             ? Icons.warning
                             : Icons.info,
                     color: Colors.white,
-                    size: BasicIconSizes().s24,
+                    size: BasicIconSizes.s24,
                   ),
                   VSpace.p8,
                   customTitle ??
@@ -202,7 +202,7 @@ class BasicDialogs {
             VSpace.p12,
             customContent ??
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p12),
+                  padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p12),
                   child: Text(
                     content ?? '',
                     textAlign: TextAlign.center,
@@ -211,16 +211,15 @@ class BasicDialogs {
                 ),
             VSpace.p12,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p12),
+              padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   if (type != BasicDialogType.info)
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(right: BasicPaddings().p12),
+                        padding: EdgeInsets.only(right: BasicPaddings.p12),
                         child: BasicButton(
-                          isFullColor: true,
                           onPressed: () {
                             if (onClickButtonLeft != null) {
                               onClickButtonLeft();
@@ -228,6 +227,7 @@ class BasicDialogs {
                               context.popNavigator();
                             }
                           },
+                          buttonSize: BasicButtonSize.large,
                           text: buttonCancel ?? 'Cancel',
                           textColor: BasicAppColors.white,
                           background: BasicAppColors.grey,
@@ -236,7 +236,7 @@ class BasicDialogs {
                     ),
                   Expanded(
                     child: BasicButton(
-                      isFullColor: true,
+                      buttonSize: BasicButtonSize.large,
                       onPressed: onClickButtonRight,
                       text: buttonText ?? 'OK',
                       background: type == BasicDialogType.delete

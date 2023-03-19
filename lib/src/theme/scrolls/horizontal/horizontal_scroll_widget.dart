@@ -1,7 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+part of '../scrolls.dart';
 
 class BasicHorizontalScrollWidget extends StatefulWidget {
   const BasicHorizontalScrollWidget({

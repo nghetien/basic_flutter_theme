@@ -1,7 +1,7 @@
 part of 'inputs.dart';
 
-class BasicInputType {
-  const BasicInputType(
+class BasicInputSize {
+  const BasicInputSize(
       double height, EdgeInsets padding, TextStyle textStyle, TextStyle hintStyle, int? maxLines)
       : _height = height,
         _padding = padding,
@@ -25,7 +25,7 @@ class BasicInputType {
 
   int? get maxLines => _maxLines;
 
-  static final BasicInputType large = BasicInputType(
+  static final BasicInputSize large = BasicInputSize(
     42,
     const EdgeInsets.symmetric(
       horizontal: 12,
@@ -36,7 +36,7 @@ class BasicInputType {
     1,
   );
 
-  static final BasicInputType medium = BasicInputType(
+  static final BasicInputSize medium = BasicInputSize(
     35,
     const EdgeInsets.symmetric(
       horizontal: 12,
@@ -47,7 +47,7 @@ class BasicInputType {
     1,
   );
 
-  static final BasicInputType areaSmall = BasicInputType(
+  static final BasicInputSize areaSmall = BasicInputSize(
     60,
     const EdgeInsets.symmetric(
       horizontal: 12,
@@ -58,7 +58,7 @@ class BasicInputType {
     2,
   );
 
-  static final BasicInputType areaMedium = BasicInputType(
+  static final BasicInputSize areaMedium = BasicInputSize(
     80,
     const EdgeInsets.symmetric(
       horizontal: 12,
@@ -69,7 +69,7 @@ class BasicInputType {
     3,
   );
 
-  static final BasicInputType areaLarge = BasicInputType(
+  static final BasicInputSize areaLarge = BasicInputSize(
     100,
     const EdgeInsets.symmetric(
       horizontal: 12,
@@ -84,7 +84,7 @@ class BasicInputType {
 class BasicInput extends StatelessWidget {
   const BasicInput({
     Key? key,
-    this.inputType,
+    this.inputSize,
     this.width,
     this.initialValue,
     this.controller,
@@ -131,7 +131,7 @@ class BasicInput extends StatelessWidget {
     this.errorStyle,
   }) : super(key: key);
 
-  final BasicInputType? inputType;
+  final BasicInputSize? inputSize;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -184,12 +184,12 @@ class BasicInput extends StatelessWidget {
           controller: controller,
           focusNode: focusNode,
           initialValue: initialValue,
-          style: textStyle ?? inputType?.textStyle,
+          style: textStyle ?? inputSize?.textStyle,
           textAlign: textAlign,
           textInputAction: textInputAction,
           textAlignVertical: textAlignVertical,
           keyboardType: keyboardType,
-          maxLines: maxLines ?? inputType?.maxLines,
+          maxLines: maxLines ?? inputSize?.maxLines,
           minLines: minLines,
           maxLength: maxLength,
           enabled: enabled,
@@ -210,7 +210,7 @@ class BasicInput extends StatelessWidget {
             filled: filled,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
-            contentPadding: contentPadding ?? inputType?.padding ?? BasicInputType.large.padding,
+            contentPadding: contentPadding ?? inputSize?.padding ?? BasicInputSize.large.padding,
             focusedBorder: focusedBorder,
             enabledBorder: enabledBorder,
             disabledBorder: disabledBorder,
@@ -223,7 +223,7 @@ class BasicInput extends StatelessWidget {
             floatingLabelStyle: floatingLabelStyle,
             floatingLabelBehavior: floatingLabelBehavior,
             hintText: hintText,
-            hintStyle: hintStyle ?? inputType?.hintStyle,
+            hintStyle: hintStyle ?? inputSize?.hintStyle,
             errorText: errorText,
             errorMaxLines: errorMaxLines,
             errorStyle: errorStyle,

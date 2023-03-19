@@ -3,7 +3,7 @@ part of 'images.dart';
 class BasicAssetImage extends StatelessWidget {
   const BasicAssetImage({
     Key? key,
-    this.type = BasicImageType.medium,
+    this.type = BasicImageSize.medium,
     this.path,
     this.width,
     this.height,
@@ -19,7 +19,7 @@ class BasicAssetImage extends StatelessWidget {
         ),
         super(key: key);
 
-  final BasicImageType type;
+  final BasicImageSize type;
   final String? path;
   final double? width;
   final double? height;
@@ -38,7 +38,7 @@ class BasicAssetImage extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           width: borderWidth ?? BasicBorders.thin,
-          color: borderColor ?? BasicAppColors().primary,
+          color: borderColor ?? BasicAppColors.primary,
         ),
         shape: shape,
         borderRadius:

@@ -10,14 +10,14 @@ part 'basic_asset_image.dart';
 
 part 'basic_network_image.dart';
 
-class BasicImageType {
-  const BasicImageType._(double size) : _size = size;
+class BasicImageSize {
+  const BasicImageSize._(double size) : _size = size;
 
   final double _size;
 
   double get size => _size;
 
-  static const BasicImageType small = BasicImageType._(32);
-  static const BasicImageType medium = BasicImageType._(40);
-  static const BasicImageType large = BasicImageType._(60);
+  static const BasicImageSize small = BasicImageSize._(32);
+  static const BasicImageSize medium = BasicImageSize._(40);
+  static const BasicImageSize large = BasicImageSize._(60);
 }

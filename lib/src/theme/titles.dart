@@ -8,8 +8,7 @@ enum BasicTitleType {
   level3,
   level4,
   level5,
-  level6,
-  ;
+  level6;
 
   TextStyle get textStyle {
     switch (this) {
@@ -29,7 +28,7 @@ enum BasicTitleType {
       case BasicTitleType.level4:
         return BasicTextStyles.titleLarge.copyWith(
           fontWeight: FontWeight.w500,
-          fontSize: BasicFontSizes().s20,
+          fontSize: BasicFontSizes.s20,
         );
       case BasicTitleType.level5:
         return BasicTextStyles.titleMedium.copyWith(

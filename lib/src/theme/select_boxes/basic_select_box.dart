@@ -1,6 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/theme/spaces.dart';
-import 'package:flutter/material.dart';
+part of 'select_boxes.dart';
 
 class BasicSelectBox extends StatelessWidget {
   const BasicSelectBox({
@@ -44,15 +42,15 @@ class BasicSelectBox extends StatelessWidget {
               : const RoundedRectangleBorder(
                   borderRadius: BasicCorners.cornerBorder3,
                 ),
-          side: BorderSide(width: BasicBorders.med, color: BasicAppColors().primary),
+          side: BorderSide(width: BasicBorders.med, color: BasicAppColors.primary),
         ),
-        HSpace(space ?? BasicPaddings().p8),
+        HSpace(space ?? BasicPaddings.p8),
         titleWidget ??
             Text(
               title ?? '',
               style: textStyle ??
                   BasicTextStyles.body.copyWith(
-                    color: value ? activeColor ?? BasicAppColors().primary : null,
+                    color: value ? activeColor ?? BasicAppColors.primary : null,
                   ),
             ),
       ],

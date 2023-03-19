@@ -1,8 +1,4 @@
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
-
-import '../scroll_config.dart';
-import 'vertical_scroll_widget.dart';
+part of '../scrolls.dart';
 
 typedef BasicVerticalScrollWrapperContent = Widget Function(Widget);
 

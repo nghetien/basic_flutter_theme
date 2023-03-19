@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'icon_buttons.dart';
 
 class BasicIconButtonClearAnimation extends StatelessWidget {
   const BasicIconButtonClearAnimation({

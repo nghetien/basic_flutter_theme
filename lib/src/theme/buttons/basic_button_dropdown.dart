@@ -1,12 +1,6 @@
 part of 'buttons.dart';
 
 /// Phát triển lại trong tương lai
-class BasicButtonDropdownType extends BasicButtonType {
-  const BasicButtonDropdownType(double height) : super(height);
-
-  static const BasicButtonDropdownType large = BasicButtonDropdownType(42);
-}
-
 class BasicButtonDropdownModel {
   const BasicButtonDropdownModel({
     required this.child,
@@ -24,12 +18,12 @@ class BasicButtonDropdownModel {
 class BasicButtonDropdown extends StatefulWidget {
   const BasicButtonDropdown({
     Key? key,
-    this.basicButtonDropdownType,
     required this.titleButton,
     this.children = const [],
     this.onPressedTitleButton,
     required this.onPressedItem,
-    this.isFullColor = false,
+    this.buttonSize,
+    this.buttonType = BasicButtonType.none,
     this.width,
     this.height,
     this.padding,
@@ -50,12 +44,12 @@ class BasicButtonDropdown extends StatefulWidget {
     this.colorIconDropdown,
   }) : super(key: key);
 
-  final BasicButtonDropdownType? basicButtonDropdownType;
   final Widget titleButton;
   final List<BasicButtonDropdownModel> children;
   final VoidCallback? onPressedTitleButton;
   final Function(int) onPressedItem;
-  final bool isFullColor;
+  final BasicButtonSize? buttonSize;
+  final BasicButtonType buttonType;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
@@ -130,59 +124,57 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        final mainColor = _animation.value == 0
-            ? widget.background
-            : widget.colorWhenDropdown ?? widget.background;
-        return Column(
-          children: [
-            BasicButton(
-              buttonType: widget.basicButtonDropdownType,
-              onPressed: () {
-                _toggle();
-                if (widget.onPressedTitleButton != null) widget.onPressedTitleButton!();
-              },
-              isFullColor: widget.isFullColor,
-              width: widget.width,
-              height: widget.height,
-              padding: widget.padding,
-              background: mainColor,
-              hoverColor: widget.hoverColor,
-              shadowColor: widget.shadowColor,
-              splashFactory: widget.splashFactory,
-              boxShadow: widget.boxShadow,
-              shape: widget.shape,
-              textColor: widget.textColor,
-              fontSize: widget.fontSize,
-              textStyle: widget.textStyle,
-              textAlign: widget.textAlign,
-              maxLines: widget.maxLines,
-              alignment: widget.alignment,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: widget.titleButton,
-                  ),
-                  RotationTransition(
-                    turns: _rotateAnimation,
-                    child: Icon(
-                      Icons.chevron_right,
-                      color: widget.colorIconDropdown,
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          final mainColor = _animation.value == 0
+              ? widget.background
+              : widget.colorWhenDropdown ?? widget.background;
+          return Column(
+            children: [
+              BasicButton(
+                buttonSize: widget.buttonSize,
+                buttonType: widget.buttonType,
+                onPressed: () {
+                  _toggle();
+                  if (widget.onPressedTitleButton != null) widget.onPressedTitleButton!();
+                },
+                width: widget.width,
+                height: widget.height,
+                padding: widget.padding,
+                background: mainColor,
+                hoverColor: widget.hoverColor,
+                shadowColor: widget.shadowColor,
+                splashFactory: widget.splashFactory,
+                boxShadow: widget.boxShadow,
+                shape: widget.shape,
+                textColor: widget.textColor,
+                fontSize: widget.fontSize,
+                textStyle: widget.textStyle,
+                textAlign: widget.textAlign,
+                maxLines: widget.maxLines,
+                alignment: widget.alignment,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: widget.titleButton,
                     ),
-                  ),
-                ],
+                    RotationTransition(
+                      turns: _rotateAnimation,
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: widget.colorIconDropdown,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            ..._listDropdownButton(animationHeight: _animation.value),
-          ],
-        );
-      },
-    );
-  }
+              ..._listDropdownButton(animationHeight: _animation.value),
+            ],
+          );
+        },
+      );
 
   List<Widget> _listDropdownButton({
     double? animationHeight,
@@ -196,9 +188,9 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
           return widget.children[index].isButtonDropdown
               ? widget.children[index].child
               : BasicButton(
-            buttonType: widget.basicButtonDropdownType,
+                  buttonSize: widget.buttonSize,
+                  buttonType: widget.buttonType,
                   onPressed: () => widget.onPressedItem(index),
-                  isFullColor: widget.isFullColor,
                   width: widget.width ?? double.infinity,
                   height: widget.height,
                   padding: widget.padding,

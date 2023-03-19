@@ -1,17 +1,10 @@
 part of 'buttons.dart';
 
-class BasicButtonIconType extends BasicButtonType {
-  const BasicButtonIconType(double height) : super(height);
-
-  static const BasicButtonIconType large = BasicButtonIconType(42);
-  static const BasicButtonIconType medium = BasicButtonIconType(35);
-}
-
 class BasicButtonIcon extends StatelessWidget {
   const BasicButtonIcon({
     Key? key,
-    this.buttonIconType,
-    this.isFullColor = false,
+    this.buttonSize,
+    this.buttonType = BasicButtonType.none,
     required this.onPressed,
     this.text,
     this.icon,
@@ -19,7 +12,7 @@ class BasicButtonIcon extends StatelessWidget {
     this.iconIsInEdge = false,
     this.width,
     this.height,
-    this.padding = EdgeInsets.zero,
+    this.padding,
     this.background,
     this.hoverColor,
     this.shadowColor = Colors.transparent,
@@ -33,10 +26,11 @@ class BasicButtonIcon extends StatelessWidget {
     this.alignment,
     this.mainAxisAlignment,
     this.spaceBetweenIconAndText,
+    this.mainAxisSize,
   }) : super(key: key);
 
-  final BasicButtonIconType? buttonIconType;
-  final bool isFullColor;
+  final BasicButtonSize? buttonSize;
+  final BasicButtonType buttonType;
   final VoidCallback onPressed;
   final String? text;
   final Icon? icon;
@@ -44,7 +38,7 @@ class BasicButtonIcon extends StatelessWidget {
   final bool iconIsInEdge;
   final double? width;
   final double? height;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final Color? background;
   final Color? hoverColor;
   final Color shadowColor;
@@ -58,14 +52,15 @@ class BasicButtonIcon extends StatelessWidget {
   final AlignmentGeometry? alignment;
   final MainAxisAlignment? mainAxisAlignment;
   final double? spaceBetweenIconAndText;
+  final MainAxisSize? mainAxisSize;
 
   @override
   Widget build(BuildContext context) {
     if (icon == null) {
       return BasicButton(
         key: key,
-        buttonType: buttonIconType,
-        isFullColor: isFullColor,
+        buttonSize: buttonSize,
+        buttonType: buttonType,
         onPressed: onPressed,
         width: width,
         height: height,
@@ -90,10 +85,11 @@ class BasicButtonIcon extends StatelessWidget {
       children = Row(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: mainAxisSize ?? MainAxisSize.min,
         children: [
           if (iconBeforeText)
             Padding(
-              padding: EdgeInsets.only(right: spaceBetweenIconAndText ?? BasicPaddings().p8),
+              padding: EdgeInsets.only(right: spaceBetweenIconAndText ?? BasicPaddings.p8),
               child: icon,
             ),
           _textWidget(
@@ -104,14 +100,17 @@ class BasicButtonIcon extends StatelessWidget {
               maxLines: maxLines,
               style: textStyle ??
                   BasicTextStyles.body.copyWith(
-                    color: textColor ?? (isFullColor ? BasicAppColors.white : BasicAppColors.black),
+                    color: textColor ??
+                        (buttonType.outlinedBorder == null
+                            ? BasicAppColors.white
+                            : BasicAppColors.black),
                     height: 0,
                   ),
             ),
           ),
           if (!iconBeforeText)
             Padding(
-              padding: EdgeInsets.only(left: spaceBetweenIconAndText ?? BasicPaddings().p8),
+              padding: EdgeInsets.only(left: spaceBetweenIconAndText ?? BasicPaddings.p8),
               child: icon,
             ),
         ],
@@ -119,8 +118,8 @@ class BasicButtonIcon extends StatelessWidget {
     }
     return BasicButton(
       key: key,
-      buttonType: buttonIconType,
-      isFullColor: isFullColor,
+      buttonSize: buttonSize,
+      buttonType: buttonType,
       onPressed: onPressed,
       width: width,
       height: height,

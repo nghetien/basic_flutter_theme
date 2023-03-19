@@ -21,7 +21,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.minHeightPopup,
     this.maxWidthPopup,
     this.minWidthPopup,
-    this.inputType,
+    this.inputSize,
     this.width,
     this.initialValue,
     this.controller,
@@ -77,7 +77,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final double? minHeightPopup;
   final double? maxWidthPopup;
   final double? minWidthPopup;
-  final BasicInputType? inputType;
+  final BasicInputSize? inputSize;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -194,14 +194,14 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
               Size(
                 widget.minWidthPopup ?? width,
                 widget.minHeightPopup ??
-                    widget.menuChildren.length * BasicButtonType.large.height + 11.scaleSize,
+                    widget.menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
               ),
             ),
             maximumSize: MaterialStateProperty.all(
               Size(
                 widget.maxWidthPopup ?? width,
                 widget.maxHeightPopup ??
-                    widget.menuChildren.length * BasicButtonType.large.height + 11.scaleSize,
+                    widget.menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
               ),
             ),
             visualDensity: VisualDensity.comfortable,
@@ -210,7 +210,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
             (item) {
               return BasicButton(
                 width: double.infinity,
-                buttonType: BasicButtonType.large,
+                buttonSize: BasicButtonSize.large,
                 onPressed: () {
                   widget.onSelected?.call(item.value);
                   _menuController.close();
@@ -226,7 +226,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
           ).toList(),
           builder: (context, controller, child) {
             return BasicInput(
-              inputType: widget.inputType,
+              inputSize: widget.inputSize,
               width: widget.width,
               controller: _controller,
               focusNode: _focusNode,
@@ -290,7 +290,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
         turns: _rotateAnimation,
         child: Icon(
           Icons.expand_more_rounded,
-          size: BasicIconSizes().s24,
+          size: BasicIconSizes.s24,
         ),
       ),
     );

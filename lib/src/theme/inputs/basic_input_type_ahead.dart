@@ -13,7 +13,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.minHeightPopup,
     this.maxWidthPopup,
     this.minWidthPopup,
-    this.inputType,
+    this.inputSize,
     this.width,
     this.initialValue,
     this.controller,
@@ -71,7 +71,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final double? minHeightPopup;
   final double? maxWidthPopup;
   final double? minWidthPopup;
-  final BasicInputType? inputType;
+  final BasicInputSize? inputSize;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -197,7 +197,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
           menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
-              inputType: widget.inputType,
+              inputSize: widget.inputSize,
               width: widget.width,
               controller: _controller,
               focusNode: _focusNode,
@@ -251,7 +251,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
   BoxConstraints _getBoxConstraints() {
     final double defaultHeight =
         (_menuChildren.length + (_menuChildren.length < widget.maxMenuChildren ? 1 : 0)) *
-            BasicButtonType.large.height;
+            BasicButtonSize.large.height;
     double minHeight = widget.minHeightPopup ?? defaultHeight;
     double? maxHeight = widget.maxHeightPopup;
     double minWidth = widget.minWidthPopup ?? _widthPopupMenu;
@@ -274,7 +274,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       menuChildren.add(
         BasicButton(
           width: double.infinity,
-          buttonType: BasicButtonType.large,
+          buttonSize: BasicButtonSize.large,
           onPressed: () {
             widget.onSelected.call(item.value);
             _menuController.close();
@@ -293,10 +293,10 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       menuChildren.add(
         Container(
           alignment: Alignment.center,
-          height: BasicButtonType.large.height,
+          height: BasicButtonSize.large.height,
           child: Container(
-            height: BasicButtonType.large.height - 10,
-            width: BasicButtonType.large.height - 10,
+            height: BasicButtonSize.large.height - 10,
+            width: BasicButtonSize.large.height - 10,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
@@ -343,7 +343,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
         turns: _rotateAnimation,
         child: Icon(
           Icons.expand_more_rounded,
-          size: BasicIconSizes().s24,
+          size: BasicIconSizes.s24,
         ),
       ),
     );

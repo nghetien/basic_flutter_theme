@@ -55,7 +55,7 @@ class BasicExpansion extends StatelessWidget {
         leading: leading,
         trailing: trailing,
         expandedCrossAxisAlignment: expandedCrossAxisAlignment,
-        childrenPadding: childrenPadding ?? EdgeInsets.all(BasicPaddings().p12),
+        childrenPadding: childrenPadding ?? EdgeInsets.all(BasicPaddings.mainPadding),
         collapsedTextColor: collapsedTextColor,
         collapsedIconColor: collapsedIconColor,
         shape: RoundedRectangleBorder(

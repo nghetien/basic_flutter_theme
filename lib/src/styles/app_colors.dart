@@ -1,24 +1,20 @@
-import 'package:flutter/material.dart';
+part of 'styles.dart';
 
 class BasicAppColors {
-  BasicAppColors._privateConstructor();
-
-  static final BasicAppColors _instance = BasicAppColors._privateConstructor();
-
-  factory BasicAppColors() => _instance;
+  BasicAppColors._();
 
   /// The color of the app.
-  Color _primary = const Color(0xFF806DFF);
-  Color _primaryLight = const Color(0xFF9F54FC);
-  Color _primaryDark = const Color(0xFF6F58FF);
+  static Color _primary = const Color(0xFF806DFF);
+  static Color _primaryLight = const Color(0xFF9F54FC);
+  static Color _primaryDark = const Color(0xFF6F58FF);
 
-  Color get primary => _primary;
+  static Color get primary => _primary;
 
-  Color get primaryLight => _primaryLight;
+  static Color get primaryLight => _primaryLight;
 
-  Color get primaryDark => _primaryDark;
+  static Color get primaryDark => _primaryDark;
 
-  void setBasicAppColors({
+  static void setBasicAppColors({
     required Color primary,
     required Color primaryLight,
     required Color primaryDark,
@@ -29,20 +25,20 @@ class BasicAppColors {
   }
 
   /// The background color of the app.
-  Color _bgPrimaryThemeDark = const Color(0xFF1F1D2C);
-  Color _bgSecondaryThemeDark = const Color(0xFF262837);
-  Color _bgPrimaryThemeLight = const Color(0xFFF0F2F5);
-  Color _bgSecondaryThemeLight = white;
+  static Color _bgPrimaryThemeDark = const Color(0xFF1F1D2C);
+  static Color _bgSecondaryThemeDark = const Color(0xFF262837);
+  static Color _bgPrimaryThemeLight = const Color(0xFFF0F2F5);
+  static Color _bgSecondaryThemeLight = white;
 
-  Color get bgPrimaryThemeDark => _bgPrimaryThemeDark;
+  static Color get bgPrimaryThemeDark => _bgPrimaryThemeDark;
 
-  Color get bgSecondaryThemeDark => _bgSecondaryThemeDark;
+  static Color get bgSecondaryThemeDark => _bgSecondaryThemeDark;
 
-  Color get bgPrimaryThemeLight => _bgPrimaryThemeLight;
+  static Color get bgPrimaryThemeLight => _bgPrimaryThemeLight;
 
-  Color get bgSecondaryThemeLight => _bgSecondaryThemeLight;
+  static Color get bgSecondaryThemeLight => _bgSecondaryThemeLight;
 
-  void setBasicBgColors({
+  static void setBasicBgColors({
     Color? bgPrimaryThemeDark,
     Color? bgSecondaryThemeDark,
     Color? bgPrimaryThemeLight,
@@ -55,9 +51,9 @@ class BasicAppColors {
   }
 
   /// The card color of the app.
-  Color get cardThemeDark => _bgSecondaryThemeDark;
+  static Color get cardThemeDark => _bgSecondaryThemeDark;
 
-  Color get cardThemeLight => _bgSecondaryThemeLight;
+  static Color get cardThemeLight => _bgSecondaryThemeLight;
 
   /// Color
   static const black = Color(0xFF000000);

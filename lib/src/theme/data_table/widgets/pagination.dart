@@ -71,12 +71,12 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     return LayoutBuilder(
       builder: (_, constrains) => Container(
         padding: EdgeInsets.symmetric(
-          horizontal: BasicPaddings().p8,
-          vertical: BasicPaddings().p4 / 2,
+          horizontal: BasicPaddings.p8,
+          vertical: BasicPaddings.p4 / 2,
         ),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: BasicAppColors().primary,
+          color: BasicAppColors.primary,
           borderRadius: const BorderRadius.only(
             bottomLeft: BasicCorners.cornerRadius5,
             bottomRight: BasicCorners.cornerRadius5,
@@ -99,7 +99,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
                 ],
               ),
             ),
-            if (BasicConfigResponsive().screenDevice.isDesktop) _fromToItemsInPage(),
+            if (BasicConfigResponsive.screenDevice.isDesktop) _fromToItemsInPage(),
           ],
         ),
       ),
@@ -134,19 +134,19 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     required VoidCallback onPressed,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
+      padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p4),
       child: BasicButton(
         height: sizePageNumber,
         width: sizePageNumber,
-        buttonType: BasicButtonType.medium,
+        buttonSize: BasicButtonSize.medium,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         text: number > 0 ? number.toString() : '...',
         textStyle: TextStyle(
-          color: number == pagination.currentPage ? BasicAppColors().primary : BasicAppColors.white,
+          color: number == pagination.currentPage ? BasicAppColors.primary : BasicAppColors.white,
         ),
         background:
-            number == pagination.currentPage ? BasicAppColors.white : BasicAppColors().primary,
+            number == pagination.currentPage ? BasicAppColors.white : BasicAppColors.primary,
       ),
     );
   }
@@ -217,7 +217,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
           child: BasicInputDropdown<int>(
             width: 75.scaleSize,
             controller: _itemPerPageValueController,
-            contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings().p4),
+            contentPadding: EdgeInsets.symmetric(horizontal: BasicPaddings.p4),
             menuChildren: [
               for (final item in pagination.listItemsPerPage)
                 BasicInputDropdownItemModel<int>(
@@ -233,10 +233,10 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
             },
           ),
         ),
-        if (BasicConfigResponsive().screenDevice.isDesktop)
+        if (BasicConfigResponsive.screenDevice.isDesktop)
           Flexible(
             child: Padding(
-              padding: EdgeInsets.only(left: BasicPaddings().p8),
+              padding: EdgeInsets.only(left: BasicPaddings.p8),
               child: Text(
                 widget.dataTableOptionUI.customizeItemPerPage,
                 style: const TextStyle(

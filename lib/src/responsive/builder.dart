@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-
-import 'config.dart';
-import 'screen_device.dart';
+part of 'responsive.dart';
 
 class BasicResponsive {
   BasicResponsive._();
@@ -13,7 +10,7 @@ class BasicResponsive {
       LayoutBuilder(
         key: key,
         builder: (_, constraints) {
-          BasicConfigResponsive().onResponsiveUpdate(constraints.maxWidth);
+          BasicConfigResponsive.onResponsiveUpdate(constraints.maxWidth);
           return child;
         },
       );
@@ -28,7 +25,7 @@ class BasicResponsive {
       LayoutBuilder(
         key: key,
         builder: (_, __) {
-          switch (BasicConfigResponsive().screenDevice) {
+          switch (BasicConfigResponsive.screenDevice) {
             case BasicScreenDevice.desktop:
               return desktop ?? children!;
             case BasicScreenDevice.tablet:
@@ -45,7 +42,7 @@ class BasicResponsive {
     Widget? tablet,
     Widget? desktop,
   }) {
-    switch (BasicConfigResponsive().screenDevice) {
+    switch (BasicConfigResponsive.screenDevice) {
       case BasicScreenDevice.desktop:
         return desktop ?? children!;
       case BasicScreenDevice.tablet:

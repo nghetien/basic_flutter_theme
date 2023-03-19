@@ -17,7 +17,7 @@ class BasicInputDateTime extends StatefulWidget {
     this.lastDate,
     this.currentDate,
     this.clearDefaultValidate,
-    this.inputType,
+    this.inputSize,
     this.width,
     this.controller,
     this.focusNode,
@@ -72,7 +72,7 @@ class BasicInputDateTime extends StatefulWidget {
   final DateTime? lastDate;
   final DateTime? currentDate;
   final bool? clearDefaultValidate;
-  final BasicInputType? inputType;
+  final BasicInputSize? inputSize;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -268,7 +268,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
 
   @override
   Widget build(BuildContext context) => BasicInput(
-        inputType: widget.inputType,
+    inputSize: widget.inputSize,
         width: widget.width,
         controller: _controller,
         focusNode: _focusNode,
@@ -338,7 +338,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
       onTap: () => _onSelectDate(),
       child: Icon(
         iconData,
-        size: BasicIconSizes().s20,
+        size: BasicIconSizes.s20,
       ),
     );
   }

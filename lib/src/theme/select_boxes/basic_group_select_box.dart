@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import 'basic_select_box.dart';
+part of 'select_boxes.dart';
 
 class BasicGroupSelectBox extends StatefulWidget {
   const BasicGroupSelectBox({

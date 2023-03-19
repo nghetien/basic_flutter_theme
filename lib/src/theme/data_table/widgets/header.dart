@@ -68,7 +68,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
           topRight: _getRadiusRight(),
           topLeft: _getRadiusLeft(),
         ),
-        color: BasicAppColors().primary,
+        color: BasicAppColors.primary,
       ),
       child: Row(
         children: headers,

@@ -1,21 +1,71 @@
 part of 'buttons.dart';
 
-class BasicButtonType {
-  const BasicButtonType(double height) : _height = height;
+class BasicButtonSize {
+  const BasicButtonSize(double height) : _height = height;
   final double _height;
 
   double get height => _height;
 
-  static const BasicButtonType large = BasicButtonType(42);
-  static const BasicButtonType medium = BasicButtonType(35);
-  static const BasicButtonType small = BasicButtonType(26);
+  static const BasicButtonSize large = BasicButtonSize(42);
+  static const BasicButtonSize medium = BasicButtonSize(35);
+  static const BasicButtonSize small = BasicButtonSize(26);
+}
+
+class BasicButtonType {
+  const BasicButtonType({
+    Color? color,
+    OutlinedBorder? outlinedBorder,
+  })  : _color = color,
+        _outlinedBorder = outlinedBorder;
+
+  final Color? _color;
+  final OutlinedBorder? _outlinedBorder;
+
+  Color? get color => _color;
+
+  OutlinedBorder? get outlinedBorder => _outlinedBorder;
+
+  static final BasicButtonType primary = BasicButtonType(
+    color: BasicAppColors.primary,
+    outlinedBorder: null,
+  );
+  static final BasicButtonType outline = BasicButtonType(
+    color: Colors.transparent,
+    outlinedBorder: BeveledRectangleBorder(
+      side: BorderSide(
+        color: BasicAppColors.primary,
+        width: BasicBorders.mainBorders,
+      ),
+      borderRadius: BasicCorners.mainCornerBorder,
+    ),
+  );
+  static const BasicButtonType danger = BasicButtonType(
+    color: BasicAppColors.red,
+    outlinedBorder: null,
+  );
+  static const BasicButtonType warning = BasicButtonType(
+    color: BasicAppColors.yellow,
+    outlinedBorder: null,
+  );
+  static const BasicButtonType success = BasicButtonType(
+    color: BasicAppColors.green,
+    outlinedBorder: null,
+  );
+  static const BasicButtonType info = BasicButtonType(
+    color: BasicAppColors.blueLight,
+    outlinedBorder: null,
+  );
+  static const BasicButtonType none = BasicButtonType(
+    color: null,
+    outlinedBorder: null,
+  );
 }
 
 class BasicButton extends StatelessWidget {
   const BasicButton({
     Key? key,
-    this.buttonType,
-    this.isFullColor = false,
+    this.buttonSize,
+    this.buttonType = BasicButtonType.none,
     required this.onPressed,
     this.text,
     this.child,
@@ -36,8 +86,8 @@ class BasicButton extends StatelessWidget {
     this.alignment,
   }) : super(key: key);
 
-  final BasicButtonType? buttonType;
-  final bool isFullColor;
+  final BasicButtonSize? buttonSize;
+  final BasicButtonType buttonType;
   final VoidCallback onPressed;
   final String? text;
   final Widget? child;
@@ -59,9 +109,9 @@ class BasicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
-        height: height ?? buttonType?.height,
+        height: height ?? buttonSize?.height,
         width: width,
         decoration: BoxDecoration(boxShadow: boxShadow),
         child: ElevatedButton(
@@ -69,7 +119,7 @@ class BasicButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             alignment: alignment,
-            backgroundColor: background ?? (isFullColor ? BasicAppColors().primary : null),
+            backgroundColor: background ?? buttonType.color,
             shape: shape,
             padding: EdgeInsets.zero,
             shadowColor: shadowColor,
@@ -80,13 +130,13 @@ class BasicButton extends StatelessWidget {
           ),
           child: Container(
             padding: padding ??
-                (buttonType == null
+                (buttonSize == null
                     ? EdgeInsets.symmetric(
-                        horizontal: BasicPaddings().p14,
-                        vertical: BasicPaddings().p8,
+                        horizontal: BasicPaddings.mainPadding,
+                        vertical: BasicPaddings.p8,
                       )
                     : EdgeInsets.symmetric(
-                        horizontal: BasicPaddings().p14,
+                        horizontal: BasicPaddings.mainPadding,
                         vertical: 0,
                       )),
             child: child ??
@@ -97,9 +147,9 @@ class BasicButton extends StatelessWidget {
                   style: textStyle ??
                       BasicTextStyles.body.copyWith(
                         color: textColor ??
-                            (isFullColor
-                                ? BasicAppColors.white
-                                : context.theme.textTheme.bodyMedium?.color),
+                            (buttonType.outlinedBorder != null
+                                ? context.theme.textTheme.bodyMedium?.color
+                                : BasicAppColors.white),
                         height: 0,
                         fontSize: fontSize,
                       ),

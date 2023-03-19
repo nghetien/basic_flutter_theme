@@ -1,6 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+part of 'styles.dart';
 
 class BasicAppThemes {
   const BasicAppThemes._();
@@ -9,22 +7,22 @@ class BasicAppThemes {
     useMaterial3: true,
     brightness: Brightness.light,
     colorScheme: ColorScheme.light(
-      primary: BasicAppColors().primary,
+      primary: BasicAppColors.primary,
       onPrimary: BasicAppColors.white,
       onSurface: BasicAppColors.black,
-      background: BasicAppColors().bgSecondaryThemeLight,
-      onBackground: BasicAppColors().bgPrimaryThemeLight,
+      background: BasicAppColors.bgSecondaryThemeLight,
+      onBackground: BasicAppColors.bgPrimaryThemeLight,
       error: BasicAppColors.red,
     ),
-    scaffoldBackgroundColor: BasicAppColors().bgPrimaryThemeLight,
-    primaryColor: BasicAppColors().primary,
-    primaryColorDark: BasicAppColors().primaryDark,
-    primaryColorLight: BasicAppColors().primaryLight,
-    hoverColor: BasicAppColors().primary.withOpacity(0.1),
-    splashColor: BasicAppColors().primary.withOpacity(0.1),
-    highlightColor: BasicAppColors().primary.withOpacity(0.1),
+    scaffoldBackgroundColor: BasicAppColors.bgPrimaryThemeLight,
+    primaryColor: BasicAppColors.primary,
+    primaryColorDark: BasicAppColors.primaryDark,
+    primaryColorLight: BasicAppColors.primaryLight,
+    hoverColor: BasicAppColors.primary.withOpacity(0.1),
+    splashColor: BasicAppColors.primary.withOpacity(0.1),
+    highlightColor: BasicAppColors.primary.withOpacity(0.1),
     dividerColor: Colors.transparent,
-    fontFamily: BasicFonts().defaultFont,
+    fontFamily: BasicFonts.defaultFont,
     appBarTheme: AppBarTheme(
       backgroundColor: BasicAppColors.white,
       iconTheme: const IconThemeData(color: BasicAppColors.black),
@@ -40,8 +38,8 @@ class BasicAppThemes {
       fillColor: BasicAppColors.white,
       suffixIconColor: BasicAppColors.black,
       contentPadding: EdgeInsets.symmetric(
-        horizontal: BasicPaddings().p8,
-        vertical: BasicPaddings().p12,
+        horizontal: BasicPaddings.p8,
+        vertical: BasicPaddings.p12,
       ),
       // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
@@ -61,7 +59,7 @@ class BasicAppThemes {
       focusedBorder: OutlineInputBorder(
         borderRadius: BasicCorners.cornerBorder5,
         borderSide: BorderSide(
-          color: BasicAppColors().primary,
+          color: BasicAppColors.primary,
           width: BasicBorders.thin,
         ),
       ),
@@ -79,27 +77,27 @@ class BasicAppThemes {
           width: BasicBorders.thin,
         ),
       ),
-      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
+      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.primary),
       labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
       errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
     ),
-    cardTheme: CardTheme(color: BasicAppColors().cardThemeLight),
-    cardColor: BasicAppColors().cardThemeLight,
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors().bgPrimaryThemeLight),
+    cardTheme: CardTheme(color: BasicAppColors.cardThemeLight),
+    cardColor: BasicAppColors.cardThemeLight,
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors.bgPrimaryThemeLight),
     iconTheme: const IconThemeData(color: BasicAppColors.black),
     textTheme: TextTheme(
       titleMedium: BasicTextStyles.body.copyWith(color: BasicAppColors.black),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.all(BasicAppColors().primary),
-      checkColor: MaterialStateProperty.all(BasicAppColors().primary),
-      side: BorderSide(width: BasicBorders.med, color: BasicAppColors().primary),
+      fillColor: MaterialStateProperty.all(BasicAppColors.primary),
+      checkColor: MaterialStateProperty.all(BasicAppColors.primary),
+      side: BorderSide(width: BasicBorders.med, color: BasicAppColors.primary),
       splashRadius: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeLight),
+        backgroundColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeLight),
         foregroundColor: MaterialStateProperty.all(BasicAppColors.black),
         shape: MaterialStateProperty.all(
           const RoundedRectangleBorder(
@@ -109,7 +107,7 @@ class BasicAppThemes {
       ),
     ),
     popupMenuTheme: PopupMenuThemeData(
-      color: BasicAppColors().bgSecondaryThemeLight,
+      color: BasicAppColors.bgSecondaryThemeLight,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
@@ -118,8 +116,8 @@ class BasicAppThemes {
     ),
     menuTheme: MenuThemeData(
       style: MenuStyle(
-        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeLight),
-        surfaceTintColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeLight),
+        backgroundColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeLight),
+        surfaceTintColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeLight),
       ),
     ),
     dialogTheme: DialogTheme(
@@ -144,45 +142,45 @@ class BasicAppThemes {
     useMaterial3: true,
     brightness: Brightness.dark,
     colorScheme: ColorScheme.dark(
-      primary: BasicAppColors().primary,
-      surface: BasicAppColors().bgPrimaryThemeDark,
+      primary: BasicAppColors.primary,
+      surface: BasicAppColors.bgPrimaryThemeDark,
       onSurface: BasicAppColors.white,
-      background: BasicAppColors().bgSecondaryThemeDark,
-      onBackground: BasicAppColors().bgPrimaryThemeDark,
+      background: BasicAppColors.bgSecondaryThemeDark,
+      onBackground: BasicAppColors.bgPrimaryThemeDark,
       error: BasicAppColors.red,
     ),
-    scaffoldBackgroundColor: BasicAppColors().bgPrimaryThemeDark,
-    primaryColor: BasicAppColors().primary,
-    primaryColorDark: BasicAppColors().primaryDark,
-    primaryColorLight: BasicAppColors().primaryLight,
-    hoverColor: BasicAppColors().primary.withOpacity(0.1),
-    splashColor: BasicAppColors().primary.withOpacity(0.1),
-    highlightColor: BasicAppColors().primary.withOpacity(0.1),
+    scaffoldBackgroundColor: BasicAppColors.bgPrimaryThemeDark,
+    primaryColor: BasicAppColors.primary,
+    primaryColorDark: BasicAppColors.primaryDark,
+    primaryColorLight: BasicAppColors.primaryLight,
+    hoverColor: BasicAppColors.primary.withOpacity(0.1),
+    splashColor: BasicAppColors.primary.withOpacity(0.1),
+    highlightColor: BasicAppColors.primary.withOpacity(0.1),
     dividerColor: Colors.transparent,
-    fontFamily: BasicFonts().defaultFont,
+    fontFamily: BasicFonts.defaultFont,
     appBarTheme: AppBarTheme(
-      backgroundColor: BasicAppColors().bgSecondaryThemeDark,
+      backgroundColor: BasicAppColors.bgSecondaryThemeDark,
       iconTheme: const IconThemeData(color: BasicAppColors.white),
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
       titleTextStyle: BasicTextStyles.titleLarge.copyWith(color: BasicAppColors.white),
     ),
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: BasicAppColors().primary,
+      cursorColor: BasicAppColors.primary,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       isDense: true,
-      fillColor: BasicAppColors().bgPrimaryThemeDark,
+      fillColor: BasicAppColors.bgPrimaryThemeDark,
       suffixIconColor: BasicAppColors.white,
       contentPadding: EdgeInsets.symmetric(
-        horizontal: BasicPaddings().p8,
-        vertical: BasicPaddings().p12,
+        horizontal: BasicPaddings.p8,
+        vertical: BasicPaddings.p12,
       ),
       // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
         borderRadius: BasicCorners.cornerBorder5,
         borderSide: BorderSide(
-          color: BasicAppColors().bgPrimaryThemeDark,
+          color: BasicAppColors.bgPrimaryThemeDark,
           width: BasicBorders.thin,
         ),
       ),
@@ -196,7 +194,7 @@ class BasicAppThemes {
       focusedBorder: OutlineInputBorder(
         borderRadius: BasicCorners.cornerBorder5,
         borderSide: BorderSide(
-          color: BasicAppColors().primary,
+          color: BasicAppColors.primary,
           width: BasicBorders.thin,
         ),
       ),
@@ -214,29 +212,29 @@ class BasicAppThemes {
           width: BasicBorders.thin,
         ),
       ),
-      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors().primary),
+      floatingLabelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.primary),
       labelStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.grey),
       errorStyle: BasicTextStyles.label.copyWith(color: BasicAppColors.red),
     ),
-    cardTheme: CardTheme(color: BasicAppColors().cardThemeDark),
-    cardColor: BasicAppColors().cardThemeDark,
-    canvasColor: BasicAppColors().bgSecondaryThemeDark,
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors().bgPrimaryThemeDark),
+    cardTheme: CardTheme(color: BasicAppColors.cardThemeDark),
+    cardColor: BasicAppColors.cardThemeDark,
+    canvasColor: BasicAppColors.bgSecondaryThemeDark,
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: BasicAppColors.bgPrimaryThemeDark),
     iconTheme: const IconThemeData(color: BasicAppColors.white),
     textTheme: TextTheme(
       titleMedium: BasicTextStyles.body.copyWith(color: BasicAppColors.white),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    dialogBackgroundColor: BasicAppColors().bgSecondaryThemeDark,
+    dialogBackgroundColor: BasicAppColors.bgSecondaryThemeDark,
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.all(BasicAppColors().primary),
-      checkColor: MaterialStateProperty.all(BasicAppColors().primary),
-      side: BorderSide(width: BasicBorders.med, color: BasicAppColors().primary),
+      fillColor: MaterialStateProperty.all(BasicAppColors.primary),
+      checkColor: MaterialStateProperty.all(BasicAppColors.primary),
+      side: BorderSide(width: BasicBorders.med, color: BasicAppColors.primary),
       splashRadius: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgSecondaryThemeDark),
+        backgroundColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeDark),
         foregroundColor: MaterialStateProperty.all(BasicAppColors.white),
         shape: MaterialStateProperty.all(
           const RoundedRectangleBorder(
@@ -246,7 +244,7 @@ class BasicAppThemes {
       ),
     ),
     popupMenuTheme: PopupMenuThemeData(
-      color: BasicAppColors().bgSecondaryThemeDark,
+      color: BasicAppColors.bgSecondaryThemeDark,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder5,
@@ -255,8 +253,8 @@ class BasicAppThemes {
     ),
     menuTheme: MenuThemeData(
       style: MenuStyle(
-        backgroundColor: MaterialStateProperty.all(BasicAppColors().bgPrimaryThemeDark),
-        surfaceTintColor: MaterialStateProperty.all(BasicAppColors().bgPrimaryThemeDark),
+        backgroundColor: MaterialStateProperty.all(BasicAppColors.bgPrimaryThemeDark),
+        surfaceTintColor: MaterialStateProperty.all(BasicAppColors.bgPrimaryThemeDark),
       ),
     ),
     dialogTheme: DialogTheme(

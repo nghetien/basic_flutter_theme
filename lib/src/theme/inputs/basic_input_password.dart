@@ -5,7 +5,7 @@ class BasicInputPassword extends StatefulWidget {
     Key? key,
     this.iconPasswordColor,
     this.iconPasswordSize,
-    this.inputType,
+    this.inputSize,
     this.width,
     this.initialValue,
     this.controller,
@@ -53,7 +53,7 @@ class BasicInputPassword extends StatefulWidget {
 
   final double? iconPasswordSize;
   final Color? iconPasswordColor;
-  final BasicInputType? inputType;
+  final BasicInputSize? inputSize;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -121,7 +121,7 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   @override
   Widget build(BuildContext context) => BasicInput(
-        inputType: widget.inputType,
+    inputSize: widget.inputSize,
         width: widget.width,
         controller: widget.controller,
         focusNode: widget.focusNode,

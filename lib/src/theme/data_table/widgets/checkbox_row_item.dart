@@ -22,14 +22,14 @@ class CheckBoxRowItem<T> extends StatelessWidget {
     return Checkbox(
       value: _getValueCheckBox(),
       onChanged: _handleSelectBox,
-      activeColor: BasicAppColors().primary,
+      activeColor: BasicAppColors.primary,
       checkColor: BasicAppColors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder3,
       ),
       side: BorderSide(
         width: BasicBorders.med,
-        color: BasicAppColors().primary,
+        color: BasicAppColors.primary,
       ),
     );
   }

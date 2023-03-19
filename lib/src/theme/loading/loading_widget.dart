@@ -36,7 +36,7 @@ class BasicLoadingWidgetState extends State<BasicLoadingWidget>
         height: 14,
         width: 14,
         decoration: BoxDecoration(
-          color: BasicAppColors().primary.withOpacity(opacity),
+          color: BasicAppColors.primary.withOpacity(opacity),
           shape: BoxShape.circle,
         ),
       );
@@ -75,7 +75,7 @@ class BasicLoadingWidgetState extends State<BasicLoadingWidget>
         Text(
           _defaultLoadingText,
           style: BasicTextStyles.titleMedium.copyWith(
-            color: BasicAppColors().primary,
+            color: BasicAppColors.primary,
             fontWeight: FontWeight.w600,
             letterSpacing: 2,
             fontSize: 17.scaleSize,

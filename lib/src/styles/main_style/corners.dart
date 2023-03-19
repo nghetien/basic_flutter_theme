@@ -1,7 +1,25 @@
-import 'package:flutter/material.dart';
+part of '../styles.dart';
 
 class BasicCorners {
   const BasicCorners._();
+
+  static double _mainCorners = corner5;
+  static Radius _mainCornerRadius = cornerRadius5;
+  static BorderRadius _mainCornerBorder = cornerBorder5;
+
+  static double get mainCorners => _mainCorners;
+
+  static Radius get mainCornerRadius => _mainCornerRadius;
+
+  static BorderRadius get mainCornerBorder => _mainCornerBorder;
+
+  static void setMainCorners(double value) {
+    _mainCorners = value;
+    _mainCornerRadius = Radius.circular(value);
+    _mainCornerBorder = BorderRadius.all(_mainCornerRadius);
+  }
+
+  /// ----------------------------------------------------------------------------------------------
 
   static const double corner3 = 3;
   static const Radius cornerRadius3 = Radius.circular(corner3);

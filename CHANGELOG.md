@@ -1,3 +1,5 @@
+## 0.1.15
+* Update all type and size of widget.
 ## 0.1.14
 * Add `phoneInputFormatter2` and `BasicPhoneFormatter`.
 ## 0.1.13

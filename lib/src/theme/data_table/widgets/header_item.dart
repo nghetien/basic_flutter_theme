@@ -70,7 +70,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
         Container(
           alignment: column.customizeTitleWidget?.alignment ?? Alignment.center,
           padding: column.customizeTitleWidget?.padding ??
-              EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
+              EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
           child: Text(
             column.customizeTitleWidget?.title ?? column.name,
             textAlign: TextAlign.center,
@@ -123,11 +123,11 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
               },
               offset: Offset(0, DataTableHeaderWidget.defaultHeightHeader),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: BasicPaddings().p8),
+                padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
                 child: Icon(
                   Icons.menu_rounded,
                   color: BasicAppColors.white,
-                  size: BasicIconSizes().s18,
+                  size: BasicIconSizes.s18,
                 ),
               ),
             ),

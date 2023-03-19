@@ -1,25 +1,33 @@
+part of '../styles.dart';
+
 class BasicPaddings {
-  BasicPaddings._privateConstructor();
+  BasicPaddings._();
 
-  static final BasicPaddings _instance = BasicPaddings._privateConstructor();
+  static double _paddingScale = 1;
 
-  factory BasicPaddings() => _instance;
+  static void setScale(double value) => _paddingScale = value;
 
-  double _paddingScale = 1;
+  /// ----------------------------------------------------------------------------------------------
 
-  void setScale(double value) => _paddingScale = value;
+  static double _mainPadding = p14;
 
-  double get scale => _paddingScale;
+  static double get mainPadding => _mainPadding;
 
-  double get p4 => 4 * _paddingScale;
+  static void setMainPadding(double value) => _mainPadding = value;
 
-  double get p8 => 8 * _paddingScale;
+  /// ----------------------------------------------------------------------------------------------
 
-  double get p12 => 12 * _paddingScale;
+  static double get scale => _paddingScale;
 
-  double get p14 => 14 * _paddingScale;
+  static double get p4 => 4 * _paddingScale;
 
-  double get p18 => 18 * _paddingScale;
+  static double get p8 => 8 * _paddingScale;
 
-  double get p32 => 32 * _paddingScale;
+  static double get p12 => 12 * _paddingScale;
+
+  static double get p14 => 14 * _paddingScale;
+
+  static double get p18 => 18 * _paddingScale;
+
+  static double get p32 => 32 * _paddingScale;
 }

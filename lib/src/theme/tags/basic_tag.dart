@@ -1,5 +1,4 @@
-import 'package:basic_flutter_theme/basic_flutter_theme.dart';
-import 'package:flutter/material.dart';
+part of 'tags.dart';
 
 class BasicTags {
   const BasicTags._();
@@ -23,8 +22,8 @@ class BasicTags {
         ),
         padding: padding ??
             EdgeInsets.symmetric(
-              horizontal: BasicPaddings().p8,
-              vertical: BasicPaddings().p4,
+              horizontal: BasicPaddings.p8,
+              vertical: BasicPaddings.p4,
             ),
         child: Center(
           child: Text(
@@ -55,8 +54,8 @@ class BasicTags {
         ),
         padding: padding ??
             EdgeInsets.symmetric(
-              horizontal: BasicPaddings().p8,
-              vertical: BasicPaddings().p4,
+              horizontal: BasicPaddings.p8,
+              vertical: BasicPaddings.p4,
             ),
         child: Center(
           child: Text(
@@ -87,8 +86,8 @@ class BasicTags {
         ),
         padding: padding ??
             EdgeInsets.symmetric(
-              horizontal: BasicPaddings().p8,
-              vertical: BasicPaddings().p4,
+              horizontal: BasicPaddings.p8,
+              vertical: BasicPaddings.p4,
             ),
         child: Center(
           child: Text(
@@ -119,8 +118,8 @@ class BasicTags {
         ),
         padding: padding ??
             EdgeInsets.symmetric(
-              horizontal: BasicPaddings().p8,
-              vertical: BasicPaddings().p4,
+              horizontal: BasicPaddings.p8,
+              vertical: BasicPaddings.p4,
             ),
         child: Center(
           child: Text(

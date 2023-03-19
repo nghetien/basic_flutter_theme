@@ -1,7 +1,4 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/theme/spaces.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+part of 'tags.dart';
 
 class BasicDynamicTag extends StatelessWidget {
   const BasicDynamicTag({
@@ -42,8 +39,8 @@ class BasicDynamicTag extends StatelessWidget {
       height: height,
       padding: padding ??
           EdgeInsets.symmetric(
-            horizontal: BasicPaddings().p8,
-            vertical: BasicPaddings().p4,
+            horizontal: BasicPaddings.p8,
+            vertical: BasicPaddings.p4,
           ),
       decoration: BoxDecoration(
         color: backgroundColor ?? BasicAppColors.greyOpacity01,
@@ -68,7 +65,7 @@ class BasicDynamicTag extends StatelessWidget {
               child: icon ??
                   Icon(
                     Icons.close,
-                    size: iconSize ?? BasicIconSizes().s14,
+                    size: iconSize ?? BasicIconSizes.s14,
                     color: iconColor,
                   ),
             ),

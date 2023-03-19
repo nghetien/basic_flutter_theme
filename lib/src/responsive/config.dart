@@ -1,38 +1,30 @@
-import 'package:basic_flutter_theme/src/styles/styles.dart';
-import 'package:basic_flutter_theme/src/utils/utils.dart';
-
-import 'screen_device.dart';
-import 'screen_width.dart';
+part of 'responsive.dart';
 
 class BasicConfigResponsive {
-  BasicConfigResponsive._privateConstructor();
+  BasicConfigResponsive._();
 
-  static final BasicConfigResponsive _instance = BasicConfigResponsive._privateConstructor();
+  static List<double> _scales = [1, 1.05, 1.1];
+  static double _scale = 1;
+  static BasicScreenDevice _screenDevice = BasicScreenDevice.mobile;
+  static double _currentWidth = 0;
 
-  factory BasicConfigResponsive() => _instance;
+  static List<double> get scales => _scales;
 
-  List<double> _scales = [1, 1.05, 1.1];
-  double _scale = 1;
-  BasicScreenDevice _screenDevice = BasicScreenDevice.mobile;
-  double _currentWidth = 0;
+  static double get scale => _scale;
 
-  List<double> get scales => _scales;
+  static BasicScreenDevice get screenDevice => _screenDevice;
 
-  double get scale => _scale;
+  static double get currentWidth => _currentWidth;
 
-  BasicScreenDevice get screenDevice => _screenDevice;
+  static void setScales(List<double> value) => _scales = value;
 
-  double get currentWidth => _currentWidth;
+  static void setScale(double value) => _scale = value;
 
-  void setScales(List<double> value) => _scales = value;
+  static void setScreenDevice(BasicScreenDevice value) => _screenDevice = value;
 
-  void setScale(double value) => _scale = value;
+  static void setCurrentWidth(double value) => _currentWidth = value;
 
-  void setScreenDevice(BasicScreenDevice value) => _screenDevice = value;
-
-  void setCurrentWidth(double value) => _currentWidth = value;
-
-  BasicScreenDevice getScreenDeviceFromWidth() {
+  static BasicScreenDevice getScreenDeviceFromWidth() {
     if (currentWidth >= BasicScreenWidth().widthDesktop) {
       return BasicScreenDevice.desktop;
     } else if (currentWidth >= BasicScreenWidth().widthTablet) {
@@ -42,7 +34,7 @@ class BasicConfigResponsive {
     }
   }
 
-  BasicScreenDevice getRealScreenDeviceLayout() {
+  static BasicScreenDevice getRealScreenDeviceLayout() {
     if (currentWidth >= BasicScreenWidth().widthDesktop) {
       if (BasicPlatform.isWeb) return BasicScreenDevice.desktop;
       return BasicScreenDevice.tablet;
@@ -54,7 +46,7 @@ class BasicConfigResponsive {
     }
   }
 
-  double getScaleFromScreenDevice() {
+  static double getScaleFromScreenDevice() {
     switch (screenDevice) {
       case BasicScreenDevice.desktop:
         return _scales[2];
@@ -65,12 +57,12 @@ class BasicConfigResponsive {
     }
   }
 
-  void onResponsiveUpdate(double width) {
+  static void onResponsiveUpdate(double width) {
     setCurrentWidth(width);
     setScreenDevice(getScreenDeviceFromWidth());
     setScale(getScaleFromScreenDevice());
-    BasicFontSizes().setScale(scale);
-    BasicIconSizes().setScale(scale);
-    BasicPaddings().setScale(scale);
+    BasicFontSizes.setScale(scale);
+    BasicIconSizes.setScale(scale);
+    BasicPaddings.setScale(scale);
   }
 }

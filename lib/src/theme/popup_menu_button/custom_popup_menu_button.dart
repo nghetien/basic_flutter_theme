@@ -1,6 +1,4 @@
-import 'package:basic_flutter_theme/src/theme/buttons/buttons.dart';
-import 'package:basic_flutter_theme/src/theme/outline_border/outline_border.dart';
-import 'package:flutter/material.dart';
+part of 'popup_menu_button.dart';
 
 class CustomPopupMenuButton<T> extends StatefulWidget {
   /// Creates a button that shows a popup menu.
@@ -268,7 +266,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
     return Tooltip(
       message: widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
       child: BasicButton(
-        isFullColor: true,
+        buttonType: BasicButtonType.primary,
         shape: BasicOutlineBorder.none,
         background: widget.backgroundIconColor,
         padding: widget.iconPadding,

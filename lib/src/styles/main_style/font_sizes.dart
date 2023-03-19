@@ -1,43 +1,41 @@
+part of '../styles.dart';
+
 class BasicFontSizes {
-  BasicFontSizes._privateConstructor();
+  BasicFontSizes._();
 
-  static final BasicFontSizes _instance = BasicFontSizes._privateConstructor();
+  static double _fontSizeScale = 1;
 
-  factory BasicFontSizes() => _instance;
+  static void setScale(double value) => _fontSizeScale = value;
 
-  double _fontSizeScale = 1;
+  static double get scale => _fontSizeScale;
 
-  void setScale(double value) => _fontSizeScale = value;
+  static double get s10 => 10 * _fontSizeScale;
 
-  double get scale => _fontSizeScale;
+  static double get s11 => 11 * _fontSizeScale;
 
-  double get s10 => 10 * _fontSizeScale;
+  static double get s12 => 12 * _fontSizeScale;
 
-  double get s11 => 11 * _fontSizeScale;
+  static double get s13 => 13 * _fontSizeScale;
 
-  double get s12 => 12 * _fontSizeScale;
+  static double get s14 => 14 * _fontSizeScale;
 
-  double get s13 => 13 * _fontSizeScale;
+  static double get s15 => 15 * _fontSizeScale;
 
-  double get s14 => 14 * _fontSizeScale;
+  static double get s16 => 16 * _fontSizeScale;
 
-  double get s15 => 15 * _fontSizeScale;
+  static double get s17 => 17 * _fontSizeScale;
 
-  double get s16 => 16 * _fontSizeScale;
+  static double get s18 => 18 * _fontSizeScale;
 
-  double get s17 => 17 * _fontSizeScale;
+  static double get s19 => 19 * _fontSizeScale;
 
-  double get s18 => 18 * _fontSizeScale;
+  static double get s20 => 20 * _fontSizeScale;
 
-  double get s19 => 19 * _fontSizeScale;
+  static double get s22 => 22 * _fontSizeScale;
 
-  double get s20 => 20 * _fontSizeScale;
+  static double get s24 => 24 * _fontSizeScale;
 
-  double get s22 => 22 * _fontSizeScale;
+  static double get s36 => 36 * _fontSizeScale;
 
-  double get s24 => 24 * _fontSizeScale;
-
-  double get s36 => 36 * _fontSizeScale;
-
-  double get s48 => 48 * _fontSizeScale;
+  static double get s48 => 48 * _fontSizeScale;
 }

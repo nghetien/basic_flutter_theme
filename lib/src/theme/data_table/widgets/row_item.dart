@@ -27,7 +27,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
           ? column.width
           : controller.mapKeyToWidthOfEachColumnContent[column.key],
       child: Container(
-        padding: EdgeInsets.all(BasicPaddings().p4),
+        padding: EdgeInsets.all(BasicPaddings.p4),
         decoration: BoxDecoration(
           border: Border(
             right: indexColumn < lengthOfColumn - 1

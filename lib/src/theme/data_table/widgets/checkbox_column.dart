@@ -24,7 +24,7 @@ class CheckBoxColumn<T> extends StatelessWidget {
       value: _getValueCheckBoxAll(),
       onChanged: _handleSelectAll,
       activeColor: BasicAppColors.white,
-      checkColor: BasicAppColors().primary,
+      checkColor: BasicAppColors.primary,
       shape: const RoundedRectangleBorder(
         borderRadius: BasicCorners.cornerBorder3,
       ),

@@ -5,7 +5,7 @@ class DataTablePagination {
   static const List<int> defaultListItemsPerPage = [20, 30, 50];
 
   static int get getNumberNextPage{
-    switch (BasicConfigResponsive().screenDevice) {
+    switch (BasicConfigResponsive.screenDevice) {
       case BasicScreenDevice.mobile:
         return 1;
       case BasicScreenDevice.tablet:

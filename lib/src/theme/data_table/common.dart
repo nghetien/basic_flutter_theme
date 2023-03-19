@@ -1,7 +1,7 @@
 part of 'data_table.dart';
 
 bool isShowInScreen<T>(List<BasicScreenDevice>? showOnScreens) {
-  return showOnScreens == null || showOnScreens.contains(BasicConfigResponsive().screenDevice);
+  return showOnScreens == null || showOnScreens.contains(BasicConfigResponsive.screenDevice);
 }
 
 double getWithAdditionColumn(DataTableAdditionColumn additionColumn) {

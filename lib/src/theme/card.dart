@@ -28,7 +28,7 @@ class BasicCard extends StatelessWidget {
         height: height,
         width: width,
         margin: margin,
-        padding: padding ?? EdgeInsets.all(BasicPaddings().p14),
+        padding: padding ?? EdgeInsets.all(BasicPaddings.mainPadding),
         decoration: BoxDecoration(
           color: backgroundColor ?? context.theme.colorScheme.background,
           borderRadius: borderRadius ?? BasicCorners.cornerBorder5,

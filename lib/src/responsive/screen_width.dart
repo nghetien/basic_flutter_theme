@@ -1,3 +1,5 @@
+part of 'responsive.dart';
+
 class BasicScreenWidth {
   BasicScreenWidth._privateConstructor();
 

@@ -122,11 +122,11 @@ class DataTableRowWidget<T> extends StatelessWidget {
           ),
         ),
         child: Container(
-          margin: EdgeInsets.all(BasicPaddings().p4),
+          margin: EdgeInsets.all(BasicPaddings.p4),
           decoration: BoxDecoration(
             border: Border(
-              right: BorderSide(width: BasicBorders.thick, color: BasicAppColors().primary),
-              left: BorderSide(width: BasicBorders.thick, color: BasicAppColors().primary),
+              right: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
+              left: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
             ),
           ),
           child: child,
