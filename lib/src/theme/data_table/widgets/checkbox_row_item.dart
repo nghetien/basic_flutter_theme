@@ -18,19 +18,18 @@ class CheckBoxRowItem<T> extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      value: _getValueCheckBox(),
-      onChanged: _handleSelectBox,
-      activeColor: BasicAppColors.primary,
-      checkColor: BasicAppColors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder3,
-      ),
-      side: BorderSide(
-        width: BasicBorders.med,
-        color: BasicAppColors.primary,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Checkbox(
+        value: _getValueCheckBox(),
+        onChanged: _handleSelectBox,
+        hoverColor: Colors.transparent,
+        activeColor: BasicAppColors.primary,
+        checkColor: BasicAppColors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BasicCorners.cornerBorder3,
+        ),
+        side: BorderSide(
+          width: BasicBorders.med,
+          color: BasicAppColors.primary,
+        ),
+      );
 }

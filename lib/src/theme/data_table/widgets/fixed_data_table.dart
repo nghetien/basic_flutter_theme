@@ -150,12 +150,12 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                 builder: (_, constrains) {
                                   widget.controller.setWidthOfColumnsContent(constrains.maxWidth);
                                   widget.controller.calculateWidthOfAllColumnsContent();
-                                  return SizedBox(
-                                    width: widget.controller.widthOfColumnsContent,
-                                    child: SingleChildScrollView(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      controller: _horizontalScrollController,
+                                  return SingleChildScrollView(
+                                    physics: const ClampingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    controller: _horizontalScrollController,
+                                    child: SizedBox(
+                                      width: widget.controller.widthOfColumnsContent,
                                       child: Column(
                                         children: <Widget>[
                                           DataTableHeaderWidget<T>(

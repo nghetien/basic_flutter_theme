@@ -1,3 +1,5 @@
+## 0.1.16
+* Fix bug `BasicDataTable` show large item then scroll very slow.
 ## 0.1.15
 * Update all type and size of widget.
 ## 0.1.14

@@ -68,47 +68,48 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
   @override
   Widget build(BuildContext context) {
     _handleChangeOldDataSource();
-    return IntrinsicWidth(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (widget.topContent != null)
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                  right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                  left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                ),
+    return Column(
+      children: <Widget>[
+        if (widget.topContent != null)
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
               ),
-              child: widget.topContent!(widget.controller.initTableColumns),
             ),
-          ..._contents(),
-          if (widget.bottomContent != null)
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                  right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                  left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                ),
+            child: widget.topContent!(widget.controller.initTableColumns),
+          ),
+        _contents(),
+        if (widget.bottomContent != null)
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
               ),
-              child: widget.bottomContent!(widget.controller.initTableColumns),
             ),
-        ],
-      ),
+            child: widget.bottomContent!(widget.controller.initTableColumns),
+          ),
+      ],
     );
   }
 
-  Iterable<DataTableRowWidget<T>> _contents() => widget.controller.dataSources.asMap().entries.map(
-        (entry) {
-          int index = entry.key;
-          T rowData = entry.value;
+  Widget _contents() => ListView.builder(
+        shrinkWrap: true,
+        primary: false,
+        itemCount: widget.controller.dataSources.length,
+        itemBuilder: (context, index) {
+          T rowData = widget.controller.dataSources[index];
           return DataTableRowWidget<T>(
+            key: ObjectKey(rowData),
             tableColumns: widget.tableColumns,
             fixedColumn: widget.fixedColumn,
             height: widget.fixedColumn != FixedColumn.none &&
-                    widget.controller.mapIndexToHeightOfEachRow.isNotEmpty
+                    widget.controller.mapIndexToHeightOfEachRow.isNotEmpty &&
+                    widget.controller.mapIndexToHeightOfEachRow[index] != null
                 ? widget.controller.mapIndexToHeightOfEachRow[index]!
                 : null,
             controller: widget.controller,

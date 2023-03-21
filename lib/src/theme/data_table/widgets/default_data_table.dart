@@ -1,7 +1,7 @@
 part of '../data_table.dart';
 
-class DefaultDataTableWidget<T> extends StatelessWidget {
-  DefaultDataTableWidget({
+class DefaultDataTableWidget<T> extends StatefulWidget {
+  const DefaultDataTableWidget({
     Key? key,
     required this.controller,
     this.sortDataVoid,
@@ -24,6 +24,11 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
   final AsyncDataSource<T> handleChangeData;
   final Function(T)? onPressRowItem;
 
+  @override
+  State<DefaultDataTableWidget<T>> createState() => _DefaultDataTableWidgetState<T>();
+}
+
+class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
   final ScrollController _horizontalScrollController = ScrollController();
 
   @override
@@ -42,45 +47,45 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                if (controller.haveFixedColumnsLeft)
+                if (widget.controller.haveFixedColumnsLeft)
                   SizedBox(
-                    width: controller.widthOfLeftColumns,
+                    width: widget.controller.widthOfLeftColumns,
                     child: DataTableFixedColumnWidget<T>(
                       type: FixedColumn.left,
-                      controller: controller,
-                      sortDataVoid: sortDataVoid,
-                      dataTableOptionUI: dataTableOptionUI,
-                      additionFilter: additionFilter,
-                      onPressRowItem: onPressRowItem,
+                      controller: widget.controller,
+                      sortDataVoid: widget.sortDataVoid,
+                      dataTableOptionUI: widget.dataTableOptionUI,
+                      additionFilter: widget.additionFilter,
+                      onPressRowItem: widget.onPressRowItem,
                     ),
                   ),
                 Expanded(
                   child: wrapperHorizontalContent(
                     LayoutBuilder(builder: (_, constrains) {
-                      controller.setWidthOfColumnsContent(constrains.maxWidth);
-                      controller.calculateWidthOfAllColumnsContent();
-                      return SizedBox(
-                        width: controller.widthOfColumnsContent,
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          controller: _horizontalScrollController,
+                      widget.controller.setWidthOfColumnsContent(constrains.maxWidth);
+                      widget.controller.calculateWidthOfAllColumnsContent();
+                      return SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        controller: _horizontalScrollController,
+                        child: SizedBox(
+                          width: widget.controller.widthOfColumnsContent,
                           child: Column(
                             children: <Widget>[
                               DataTableHeaderWidget<T>(
-                                tableColumns: controller.tableColumnsContent,
-                                controller: controller,
-                                sortDataVoid: sortDataVoid,
-                                dataTableOptionUI: dataTableOptionUI,
-                                additionFilter: additionFilter,
+                                tableColumns: widget.controller.tableColumnsContent,
+                                controller: widget.controller,
+                                sortDataVoid: widget.sortDataVoid,
+                                dataTableOptionUI: widget.dataTableOptionUI,
+                                additionFilter: widget.additionFilter,
                               ),
                               DataTableContentWidget<T>(
-                                tableColumns: controller.tableColumnsContent,
-                                controller: controller,
-                                topContent: topContent,
-                                bottomContent: bottomContent,
-                                showerMoreContentRowWidget: showerMoreContentIntoRowWidget,
-                                onPressRowItem: onPressRowItem,
+                                tableColumns: widget.controller.tableColumnsContent,
+                                controller: widget.controller,
+                                topContent: widget.topContent,
+                                bottomContent: widget.bottomContent,
+                                showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
+                                onPressRowItem: widget.onPressRowItem,
                               ),
                             ],
                           ),
@@ -89,25 +94,25 @@ class DefaultDataTableWidget<T> extends StatelessWidget {
                     }),
                   ),
                 ),
-                if (controller.haveFixedColumnsRight)
+                if (widget.controller.haveFixedColumnsRight)
                   SizedBox(
-                    width: controller.widthOfRightColumns,
+                    width: widget.controller.widthOfRightColumns,
                     child: DataTableFixedColumnWidget<T>(
                       type: FixedColumn.right,
-                      controller: controller,
-                      sortDataVoid: sortDataVoid,
-                      dataTableOptionUI: dataTableOptionUI,
-                      additionFilter: additionFilter,
-                      onPressRowItem: onPressRowItem,
+                      controller: widget.controller,
+                      sortDataVoid: widget.sortDataVoid,
+                      dataTableOptionUI: widget.dataTableOptionUI,
+                      additionFilter: widget.additionFilter,
+                      onPressRowItem: widget.onPressRowItem,
                     ),
                   ),
               ],
             ),
             if (scrollHorizontalWidget != null) scrollHorizontalWidget,
             DataTablePaginationWidget(
-              controller: controller,
-              handleChangeData: handleChangeData,
-              dataTableOptionUI: dataTableOptionUI,
+              controller: widget.controller,
+              handleChangeData: widget.handleChangeData,
+              dataTableOptionUI: widget.dataTableOptionUI,
             ),
           ],
         ),

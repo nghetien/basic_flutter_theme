@@ -105,10 +105,14 @@ class DataTableRowWidget<T> extends StatelessWidget {
                 controller.haveFixedColumnsLeft ||
                 controller.haveFixedColumnsRight
             ? child
-            : BasicButton(
-                onPressed: onPressed,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                padding: EdgeInsets.zero,
+            : InkWell(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                splashColor: Colors.transparent,
+                onTap: onPressed,
+                mouseCursor: isShowMore ? SystemMouseCursors.click : SystemMouseCursors.basic,
                 child: child,
               ),
       );

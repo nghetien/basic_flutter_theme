@@ -11,14 +11,14 @@ class BasicIconButtonClearAnimation extends StatelessWidget {
   final Widget icon;
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      key: key,
-      hoverColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onPressed: onPressed,
-      icon: icon,
-    );
-  }
+  Widget build(BuildContext context) =>
+      InkWell(
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
+        splashColor: Colors.transparent,
+        onTap: onPressed,
+        child: icon,
+      );
 }
