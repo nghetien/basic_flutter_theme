@@ -134,6 +134,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     required VoidCallback onPressed,
   }) {
     return Container(
+      key: ValueKey(number),
       padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p4),
       child: BasicButton(
         height: sizePageNumber,
@@ -146,7 +147,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
           color: number == pagination.currentPage ? BasicAppColors.primary : BasicAppColors.white,
         ),
         background:
-            number == pagination.currentPage ? BasicAppColors.white : BasicAppColors.primary,
+        number == pagination.currentPage ? BasicAppColors.white : BasicAppColors.primary,
       ),
     );
   }
@@ -252,6 +253,9 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
   Widget _fromToItemsInPage() {
     final fromItem = (pagination.currentPage - 1) * pagination.itemsPerPage;
     final toItem = pagination.currentPage * pagination.itemsPerPage;
+    final int toItemStr = toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem;
+    final int fromItemStr = fromItem > 0 ? fromItem : toItemStr == 0 ? 0 : 1;
+    final int totalRecords = widget.controller.totalRecords;
     return Text(
       widget.dataTableOptionUI.customizeFromToItemInPage != null
           ? widget.dataTableOptionUI.customizeFromToItemInPage!(
@@ -259,7 +263,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
               toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem,
               widget.controller.totalRecords,
             )
-          : '${fromItem == 0 ? 1 : fromItem} - ${toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem} of ${widget.controller.totalRecords} items',
+          : '$fromItemStr - $toItemStr of $totalRecords items',
       style: const TextStyle(
         color: BasicAppColors.white,
       ),

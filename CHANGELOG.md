@@ -1,3 +1,5 @@
+## 0.1.19
+* Fix bug 'calculate pagination' of `BasicDataTable`.
 ## 0.1.18
 * Add init 'currentPage' into 'initDataTableState' of `BasicDataTable`.
 ## 0.1.17
