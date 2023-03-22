@@ -9,6 +9,8 @@ class DataTableOptionUI {
     this.isShowSortFilter = false,
     this.customizeSortDesc = 'Sort Desc',
     this.customizeSortAsc = 'Sort Asc',
+    this.paddingOfRowItem,
+    this.heightOfRowItem,
   });
 
   final bool fixTableInAScreen;
@@ -18,4 +20,6 @@ class DataTableOptionUI {
   final bool isShowSortFilter;
   final String customizeSortDesc;
   final String customizeSortAsc;
+  final EdgeInsets? paddingOfRowItem;
+  final double? heightOfRowItem;
 }

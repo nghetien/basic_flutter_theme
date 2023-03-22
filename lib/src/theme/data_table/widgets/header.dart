@@ -51,6 +51,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
       if (isShowInScreen(tableColumns[index].showOnScreens)) {
         headers.add(
           DataTableHeaderItemWidget(
+            key: ValueKey(tableColumns[index].key),
             index: index,
             lengthOfColumn: tableColumns.length,
             controller: controller,

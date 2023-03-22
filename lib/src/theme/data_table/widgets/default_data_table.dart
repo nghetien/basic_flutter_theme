@@ -35,6 +35,8 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constrainsSize) => BasicHorizontalScroll(
+        scrollHeight: 10,
+        scrollHeightOnHover: 13,
         maxScroll: constrainsSize.maxWidth,
         scrollController: _horizontalScrollController,
         builder: (
@@ -86,6 +88,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                                 bottomContent: widget.bottomContent,
                                 showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
                                 onPressRowItem: widget.onPressRowItem,
+                                dataTableOptionUI: widget.dataTableOptionUI,
                               ),
                             ],
                           ),

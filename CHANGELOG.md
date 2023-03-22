@@ -1,3 +1,5 @@
+## 0.1.17
+* Add `paddingOfRowItem` and `heightOfRowItem` to `DataTableOptionUI` of `BasicDataTable`.
 ## 0.1.16
 * Fix bug `BasicDataTable` show large item then scroll very slow.
 ## 0.1.15

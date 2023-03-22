@@ -58,6 +58,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
             type: type,
             controller: controller,
             onPressRowItem: onPressRowItem,
+            dataTableOptionUI: dataTableOptionUI,
           ),
         ],
       ),

@@ -1,10 +1,10 @@
 part of '../data_table.dart';
 
 class DataTablePagination {
-  static const int defaultItemsPerPage = 20;
-  static const List<int> defaultListItemsPerPage = [20, 30, 50];
+  static const int defaultItemsPerPage = 12;
+  static const List<int> defaultListItemsPerPage = [12, 24, 48, 96];
 
-  static int get getNumberNextPage{
+  static int get getNumberNextPage {
     switch (BasicConfigResponsive.screenDevice) {
       case BasicScreenDevice.mobile:
         return 1;

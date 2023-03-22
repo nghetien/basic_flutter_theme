@@ -115,6 +115,8 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
           LayoutBuilder(
         builder: (_, constrainsSize) {
           return BasicHorizontalScroll(
+            scrollHeight: 10,
+            scrollHeightOnHover: 13,
             maxScroll: constrainsSize.maxWidth,
             scrollController: _horizontalScrollController,
             builder: (
@@ -181,6 +183,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                                   showerMoreContentRowWidget:
                                                       widget.showerMoreContentIntoRowWidget,
                                                   onPressRowItem: widget.onPressRowItem,
+                                                  dataTableOptionUI: widget.dataTableOptionUI,
                                                 ),
                                               ),
                                             ),

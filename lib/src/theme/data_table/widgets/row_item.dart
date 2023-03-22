@@ -10,6 +10,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     required this.rowData,
     required this.controller,
     required this.column,
+    required this.dataTableOptionUI,
   }) : super(key: key);
 
   final FixedColumn fixedColumn;
@@ -19,6 +20,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
   final T rowData;
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
+  final DataTableOptionUI dataTableOptionUI;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,6 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
           ? column.width
           : controller.mapKeyToWidthOfEachColumnContent[column.key],
       child: Container(
-        padding: EdgeInsets.all(BasicPaddings.p4),
         decoration: BoxDecoration(
           border: Border(
             right: indexColumn < lengthOfColumn - 1
@@ -54,19 +55,25 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
       return _numberedRowItem();
     }
     if (column.customizeItemWidget != null) {
-      return column.customizeItemWidget!(
-        context,
-        (rowData as dynamic).toJson()[column.key],
-        rowData,
-        column.key,
-        column.name,
-        column.width,
-        column.showOnScreens,
+      return Padding(
+        padding: dataTableOptionUI.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
+        child: column.customizeItemWidget!(
+          context,
+          (rowData as dynamic).toJson()[column.key],
+          rowData,
+          column.key,
+          column.name,
+          column.width,
+          column.showOnScreens,
+        ),
       );
     }
-    return _defaultRowItem(
-      value: (rowData as dynamic).toJson()[column.key],
-      rowData: rowData,
+    return Padding(
+      padding: dataTableOptionUI.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
+      child: _defaultRowItem(
+        value: (rowData as dynamic).toJson()[column.key],
+        rowData: rowData,
+      ),
     );
   }
 

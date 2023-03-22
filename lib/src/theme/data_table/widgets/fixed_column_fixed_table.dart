@@ -66,6 +66,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
                   type: type,
                   controller: controller,
                   onPressRowItem: onPressRowItem,
+                  dataTableOptionUI: dataTableOptionUI,
                 ),
               ),
             ),

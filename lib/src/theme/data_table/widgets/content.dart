@@ -11,6 +11,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
     this.showerMoreContentRowWidget,
     this.verticalScrollState,
     this.onPressRowItem,
+    required this.dataTableOptionUI,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -21,6 +22,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
   final BasicVerticalScrollState? verticalScrollState;
   final Function(T)? onPressRowItem;
+  final DataTableOptionUI dataTableOptionUI;
 
   @override
   DataTableContentWidgetState<T> createState() => DataTableContentWidgetState<T>();
@@ -97,6 +99,18 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
     );
   }
 
+  double? getHeightOfRow(int index) {
+    if(widget.dataTableOptionUI.heightOfRowItem != null){
+      return widget.dataTableOptionUI.heightOfRowItem;
+    }
+    if (widget.fixedColumn != FixedColumn.none &&
+        widget.controller.mapIndexToHeightOfEachRow.isNotEmpty &&
+        widget.controller.mapIndexToHeightOfEachRow[index] != null) {
+      return widget.controller.mapIndexToHeightOfEachRow[index]!;
+    }
+    return null;
+  }
+
   Widget _contents() => ListView.builder(
         shrinkWrap: true,
         primary: false,
@@ -107,17 +121,14 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
             key: ObjectKey(rowData),
             tableColumns: widget.tableColumns,
             fixedColumn: widget.fixedColumn,
-            height: widget.fixedColumn != FixedColumn.none &&
-                    widget.controller.mapIndexToHeightOfEachRow.isNotEmpty &&
-                    widget.controller.mapIndexToHeightOfEachRow[index] != null
-                ? widget.controller.mapIndexToHeightOfEachRow[index]!
-                : null,
+            height: getHeightOfRow(index),
             controller: widget.controller,
             indexRow: index,
             rowData: rowData,
             isShowMore: _isShowMore(index),
             onPressed: () => _handleClickContent(index, rowData),
             showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
+            dataTableOptionUI: widget.dataTableOptionUI,
           );
         },
       );
