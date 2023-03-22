@@ -1,3 +1,5 @@
+## 0.1.18
+* Add init 'currentPage' into 'initDataTableState' of `BasicDataTable`.
 ## 0.1.17
 * Add `paddingOfRowItem` and `heightOfRowItem` to `DataTableOptionUI` of `BasicDataTable`.
 ## 0.1.16

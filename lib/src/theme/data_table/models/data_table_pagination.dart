@@ -20,10 +20,12 @@ class DataTablePagination {
     int? itemsPerPage,
     List<int>? listItemsPerPage,
     int? numberNextPage,
+    int? currentPage,
   })  : pageNumber = pageNumber ?? 1,
         itemsPerPage = itemsPerPage ?? defaultItemsPerPage,
         listItemsPerPage = listItemsPerPage ?? defaultListItemsPerPage,
-        numberNextPage = numberNextPage ?? getNumberNextPage;
+        numberNextPage = numberNextPage ?? getNumberNextPage,
+        currentPage = currentPage ?? 1;
 
   /// init data
   int pageNumber;

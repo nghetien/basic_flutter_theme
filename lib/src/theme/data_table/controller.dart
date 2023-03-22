@@ -23,6 +23,7 @@ class DataTableController<T> extends ChangeNotifier {
     int? itemsPerPage,
     List<int>? listItemsPerPage,
     int? numberNextPage,
+    int? currentPage,
   }) {
     _state.dataSources = dataSources ?? _state.dataSources;
     _state.totalRecords = totalRecords ?? _state.totalRecords;
@@ -31,6 +32,7 @@ class DataTableController<T> extends ChangeNotifier {
       listItemsPerPage: listItemsPerPage,
       itemsPerPage: itemsPerPage,
       numberNextPage: numberNextPage,
+      currentPage: currentPage,
     );
   }
 
@@ -162,6 +164,7 @@ class DataTableController<T> extends ChangeNotifier {
     List<int>? listItemsPerPage,
     int? itemsPerPage,
     int? numberNextPage,
+    int? currentPage,
   }) {
     final List<int> newListItemsPerPage =
         listItemsPerPage ?? DataTablePagination.defaultListItemsPerPage;
@@ -170,6 +173,7 @@ class DataTableController<T> extends ChangeNotifier {
       itemsPerPage: itemsPerPage ?? newListItemsPerPage[0],
       listItemsPerPage: newListItemsPerPage,
       numberNextPage: numberNextPage,
+      currentPage: currentPage,
     );
     calculatePagination();
   }
