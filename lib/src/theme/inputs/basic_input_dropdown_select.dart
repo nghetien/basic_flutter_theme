@@ -1,13 +1,17 @@
 part of 'inputs.dart';
 
-class BasicInputTypeAhead<T> extends StatefulWidget {
-  const BasicInputTypeAhead({
+class BasicInputDropdownSelect<T> extends StatefulWidget {
+  const BasicInputDropdownSelect({
     Key? key,
+    required this.filterOption,
     required this.menuChildren,
-    required this.maxMenuChildren,
     required this.onSelected,
-    required this.onScrollNotification,
-    this.scrollController,
+    this.tagsAbleScroll = false,
+    this.closeDropdownAfterSelect = true,
+    this.hintTextSearch = 'Search',
+    this.prefixIconSearch,
+    this.backgroundColorSelected,
+    this.iconSelected,
     this.offset,
     this.maxHeightPopup,
     this.minHeightPopup,
@@ -40,8 +44,6 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.onSaved,
     this.isDense,
     this.filled,
-    this.prefixIcon,
-    this.suffixIcon,
     this.contentPadding,
     this.focusedBorder,
     this.enabledBorder,
@@ -61,11 +63,16 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final List<BasicInputDropdownItemModel<T>> Function(String, List<BasicInputDropdownItemModel<T>>)
+      filterOption;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
-  final int maxMenuChildren;
-  final Function(T) onSelected;
-  final Function(ScrollNotification) onScrollNotification;
-  final ScrollController? scrollController;
+  final Function(T, List<T>) onSelected;
+  final bool tagsAbleScroll;
+  final bool closeDropdownAfterSelect;
+  final String hintTextSearch;
+  final Widget? prefixIconSearch;
+  final Color? backgroundColorSelected;
+  final Widget? iconSelected;
   final Offset? offset;
   final double? maxHeightPopup;
   final double? minHeightPopup;
@@ -98,8 +105,6 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
   final EdgeInsets? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
@@ -119,22 +124,35 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final TextStyle? errorStyle;
 
   @override
-  State<BasicInputTypeAhead<T>> createState() => _BasicInputTypeAheadState<T>();
+  State<BasicInputDropdownSelect<T>> createState() => _BasicInputDropdownSelectState<T>();
 }
 
-class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
+class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T>>
     with SingleTickerProviderStateMixin {
   final MenuController _menuController = MenuController();
   late final FocusNode _focusNode;
-  late final TextEditingController _controller;
+  late final TextEditingController _searchController;
+  final FocusNode _searchFocusNode = FocusNode();
   late AnimationController _animationController;
   late Animation<double> _rotateAnimation;
   late List<BasicInputDropdownItemModel<T>> _menuChildren;
-  late double _widthPopupMenu;
-  late int _maxMenuChildren;
+  late List<BasicInputDropdownItemModel<T>> _menuChildrenSelected;
+  late final ScrollController _scrollController;
 
   void _onFocusChange() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    _menuController.open();
+    if (!_searchFocusNode.hasPrimaryFocus) _searchFocusNode.requestFocus();
     widget.onFocusChange?.call(_focusNode.hasFocus);
+  }
+
+  void _listenOnChangeInput() {
+    if (_searchController.text.isNotEmpty) {
+      setState(
+          () => _menuChildren = widget.filterOption(_searchController.text, widget.menuChildren));
+    } else {
+      setState(() => _menuChildren = widget.menuChildren);
+    }
   }
 
   @override
@@ -150,27 +168,19 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
         curve: Curves.easeInOut,
       ),
     );
+    _menuChildren = widget.menuChildren;
+    _menuChildrenSelected = [];
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
-    _controller = widget.controller ?? TextEditingController();
-    _menuChildren = widget.menuChildren;
-    _maxMenuChildren = widget.maxMenuChildren;
-  }
-
-  @override
-  void didUpdateWidget(covariant BasicInputTypeAhead<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.menuChildren != widget.menuChildren) {
-      _menuChildren = widget.menuChildren;
-    }
-    if (oldWidget.maxMenuChildren != widget.maxMenuChildren) {
-      _maxMenuChildren = widget.maxMenuChildren;
-    }
+    _searchController = widget.controller ?? TextEditingController();
+    _searchController.addListener(_listenOnChangeInput);
+    if (widget.tagsAbleScroll) _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
+    _searchController.removeListener(_listenOnChangeInput);
     super.dispose();
   }
 
@@ -186,20 +196,95 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constraints) {
-        _widthPopupMenu = widget.width ?? constraints.maxWidth;
+        final width = widget.width ?? constraints.maxWidth;
         return MenuAnchor(
           onOpen: () => _setPopupIsOpen(true),
           onClose: () => _setPopupIsOpen(false),
           crossAxisUnconstrained: false,
           controller: _menuController,
           alignmentOffset: widget.offset ?? const Offset(0, 10),
-          style: const MenuStyle(visualDensity: VisualDensity.comfortable),
-          menuChildren: _generateMenuChildren(),
+          style: MenuStyle(
+            minimumSize: MaterialStateProperty.all(
+              Size(
+                widget.minWidthPopup ?? width,
+                widget.minHeightPopup ??
+                    _menuChildren.length * BasicButtonSize.large.height +
+                        24.scaleSize +
+                        (widget.inputSize ?? BasicInputSize.large).height,
+              ),
+            ),
+            maximumSize: MaterialStateProperty.all(
+              Size(
+                widget.maxWidthPopup ?? width,
+                widget.maxHeightPopup ??
+                    _menuChildren.length * BasicButtonSize.large.height +
+                        24.scaleSize +
+                        (widget.inputSize ?? BasicInputSize.large).height,
+              ),
+            ),
+            visualDensity: VisualDensity.comfortable,
+          ),
+          menuChildren: [
+            Padding(
+              padding: EdgeInsets.all(BasicPaddings.p8).copyWith(top: BasicPaddings.p4),
+              child: BasicInput(
+                focusNode: _searchFocusNode,
+                controller: _searchController,
+                inputSize: widget.inputSize ?? BasicInputSize.large,
+                prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
+                hintText: widget.hintTextSearch,
+              ),
+            ),
+            ..._menuChildren.map(
+              (item) {
+                final bool isSelected = _menuChildrenSelected.contains(item);
+                return BasicButton(
+                  width: double.infinity,
+                  buttonSize: BasicButtonSize.large,
+                  onPressed: () {
+                    if (_menuChildrenSelected.contains(item)) {
+                      _menuChildrenSelected.remove(item);
+                    } else {
+                      _menuChildrenSelected.add(item);
+                    }
+                    widget.onSelected.call(
+                      item.value,
+                      _menuChildrenSelected.map((e) => e.value).toList(),
+                    );
+                    if (widget.closeDropdownAfterSelect) _menuController.close();
+                    setState(() {});
+                  },
+                  alignment: Alignment.centerLeft,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                  ),
+                  background: isSelected
+                      ? widget.backgroundColorSelected ?? BasicAppColors.greenOpacity01
+                      : Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      item.child != null
+                          ? item.child!(item.value, item.label)
+                          : Flexible(
+                              child: Text(item.label),
+                            ),
+                      if (isSelected)
+                        widget.iconSelected ??
+                            const Icon(
+                              Icons.check,
+                              color: BasicAppColors.green,
+                            )
+                    ],
+                  ),
+                );
+              },
+            ).toList(),
+          ],
           builder: (context, controller, child) {
             return BasicInput(
               inputSize: widget.inputSize,
               width: widget.width,
-              controller: _controller,
               focusNode: _focusNode,
               initialValue: widget.initialValue,
               textAlign: widget.textAlign,
@@ -222,7 +307,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
               onSaved: widget.onSaved,
               isDense: widget.isDense,
               filled: widget.filled,
-              prefixIcon: widget.prefixIcon,
+              prefixIcon: _getPrefixIcon(),
               suffixIcon: _getSuffixIcon(),
               contentPadding: widget.contentPadding,
               focusedBorder: widget.focusedBorder,
@@ -248,86 +333,52 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     );
   }
 
-  BoxConstraints _getBoxConstraints() {
-    final double defaultHeight =
-        (_menuChildren.length + (_menuChildren.length < widget.maxMenuChildren ? 1 : 0)) *
-            BasicButtonSize.large.height;
-    double minHeight = widget.minHeightPopup ?? defaultHeight;
-    double? maxHeight = widget.maxHeightPopup;
-    double minWidth = widget.minWidthPopup ?? _widthPopupMenu;
-    double? maxWidth = widget.maxWidthPopup;
-    if (maxHeight != null && maxHeight < minHeight) minHeight = maxHeight;
-    maxHeight ??= minHeight;
-    if (maxWidth != null && maxWidth < minWidth) minWidth = maxWidth;
-    maxWidth ??= minWidth;
-    return BoxConstraints(
-      minWidth: minWidth,
-      maxWidth: maxWidth,
-      minHeight: minHeight,
-      maxHeight: maxHeight,
-    );
-  }
-
-  List<Widget> _generateMenuChildren() {
-    final menuChildren = <Widget>[];
-    for (final item in _menuChildren) {
-      menuChildren.add(
-        BasicButton(
-          width: double.infinity,
-          buttonSize: BasicButtonSize.large,
-          onPressed: () {
-            widget.onSelected.call(item.value);
-            _menuController.close();
+  Widget _getPrefixIcon() {
+    final Widget prefixIcon = Padding(
+      padding: EdgeInsets.all(BasicPaddings.p8),
+      child: Wrap(
+        runSpacing: BasicPaddings.p8,
+        spacing: BasicPaddings.p8,
+        children: _menuChildrenSelected.map(
+          (item) {
+            return BasicDynamicTag(
+              textContent: item.label,
+              whenClose: () {
+                _menuChildrenSelected.remove(item);
+                widget.onSelected.call(
+                  item.value,
+                  _menuChildrenSelected.map((e) => e.value).toList(),
+                );
+                setState(() {});
+              },
+            );
           },
-          alignment: Alignment.centerLeft,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0)),
-          ),
-          background: Colors.transparent,
-          child: item.child != null ? item.child!(item.value, item.label) : Text(item.label),
-        ),
-      );
-    }
-    if (_menuChildren.length < _maxMenuChildren) {
-      // add loading
-      menuChildren.add(
-        Container(
-          alignment: Alignment.center,
-          height: BasicButtonSize.large.height,
-          child: Container(
-            height: BasicButtonSize.large.height - 10,
-            width: BasicButtonSize.large.height - 10,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: const CircularProgressIndicator(
-              strokeWidth: 3,
-            ),
-          ),
-        ),
-      );
-    }
-    return [
-      Container(
-        constraints: _getBoxConstraints(),
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollEndNotification &&
-                scrollNotification.metrics.extentAfter == 0) {
-              widget.onScrollNotification.call(scrollNotification);
-            }
-            return false;
-          },
-          child: SingleChildScrollView(
-            controller: widget.scrollController,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: menuChildren,
-            ),
-          ),
-        ),
+        ).toList(),
       ),
-    ];
+    );
+    if (widget.tagsAbleScroll) {
+      return Listener(
+        onPointerSignal: (pointerSignal) {
+          if (pointerSignal is PointerScrollEvent) {
+            final scroll = _scrollController.offset + pointerSignal.scrollDelta.dy;
+            if (scroll < 0) {
+              _scrollController.jumpTo(0);
+            } else if (scroll > _scrollController.position.maxScrollExtent) {
+              _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            } else {
+              _scrollController.jumpTo(scroll);
+            }
+          }
+        },
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          child: prefixIcon,
+        ),
+      );
+    }
+    return prefixIcon;
   }
 
   Widget _getSuffixIcon() {

@@ -223,9 +223,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
               for (final item in pagination.listItemsPerPage)
                 BasicInputDropdownItemModel<int>(
                   value: item,
-                  child: Text(
-                    item.toString(),
-                  ),
+                  label: item.toString(),
                 ),
             ],
             onSelected: (value) {

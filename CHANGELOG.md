@@ -1,3 +1,5 @@
+## 0.1.20
+* Add `BasicInputDropdownSelect`.
 ## 0.1.19
 * Fix bug 'calculate pagination' of `BasicDataTable`.
 ## 0.1.18

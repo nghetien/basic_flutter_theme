@@ -177,9 +177,24 @@ class BasicInput extends StatelessWidget {
   final int? errorMaxLines;
   final TextStyle? errorStyle;
 
+  EdgeInsets _getPaddingContent() {
+    if (contentPadding != null) return contentPadding!;
+    final EdgeInsets padding = inputSize?.padding ?? BasicInputSize.large.padding;
+    if (prefixIcon != null && suffixIcon != null) {
+      return EdgeInsets.fromLTRB(0, padding.top, 0, padding.bottom);
+    }
+    if (prefixIcon != null) {
+      return EdgeInsets.fromLTRB(0, padding.top, padding.right, padding.bottom);
+    }
+    if (suffixIcon != null) {
+      return EdgeInsets.fromLTRB(padding.left, padding.top, 0, padding.bottom);
+    }
+    return padding;
+  }
+
   @override
   Widget build(BuildContext context) => SizedBox(
-    width: width,
+        width: width,
         child: TextFormField(
           controller: controller,
           focusNode: focusNode,
@@ -210,7 +225,7 @@ class BasicInput extends StatelessWidget {
             filled: filled,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
-            contentPadding: contentPadding ?? inputSize?.padding ?? BasicInputSize.large.padding,
+            contentPadding: _getPaddingContent(),
             focusedBorder: focusedBorder,
             enabledBorder: enabledBorder,
             disabledBorder: disabledBorder,

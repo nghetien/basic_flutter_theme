@@ -1,19 +1,22 @@
 part of 'inputs.dart';
 
-class BasicInputDropdownItemModel<T>{
+class BasicInputDropdownItemModel<T> {
   const BasicInputDropdownItemModel({
     required this.value,
-    required this.child,
+    required this.label,
+    this.child,
   });
 
   final T value;
-  final Widget child;
+  final String label;
+  final Widget Function(T, String)? child;
 }
 
 class BasicInputDropdown<T> extends StatefulWidget {
   const BasicInputDropdown({
     Key? key,
-    this.autoOpenDropdown = true,
+    this.haveSearch = false,
+    this.filterOption,
     required this.menuChildren,
     required this.onSelected,
     this.offset,
@@ -49,7 +52,6 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.isDense,
     this.filled,
     this.prefixIcon,
-    this.suffixIcon,
     this.contentPadding,
     this.focusedBorder,
     this.enabledBorder,
@@ -67,11 +69,17 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.errorText,
     this.errorMaxLines,
     this.errorStyle,
-  }) : super(key: key);
+  })  : assert(
+          !(haveSearch == true && filterOption == null),
+          'If haveSearch is true, filterOption must not be null',
+        ),
+        super(key: key);
 
-  final bool autoOpenDropdown;
+  final bool haveSearch;
+  final List<BasicInputDropdownItemModel<T>> Function(String, List<BasicInputDropdownItemModel<T>>)?
+      filterOption;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
-  final Function(T)? onSelected;
+  final Function(T) onSelected;
   final Offset? offset;
   final double? maxHeightPopup;
   final double? minHeightPopup;
@@ -105,7 +113,6 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final bool? isDense;
   final bool? filled;
   final Widget? prefixIcon;
-  final Widget? suffixIcon;
   final EdgeInsets? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
@@ -135,15 +142,28 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   late final TextEditingController _controller;
   late AnimationController _animationController;
   late Animation<double> _rotateAnimation;
+  late List<BasicInputDropdownItemModel<T>> _menuChildren;
 
   void _onFocusChange() {
-    if (widget.autoOpenDropdown) {
+    if (widget.haveSearch) {
+      if (_focusNode.hasFocus) _menuController.open();
+    } else {
       if (_focusNode.hasFocus) {
         FocusManager.instance.primaryFocus?.unfocus();
         _menuController.open();
       }
     }
     widget.onFocusChange?.call(_focusNode.hasFocus);
+  }
+
+  void _listenOnChangeInput() {
+    if (widget.haveSearch) {
+      if (_controller.text.isNotEmpty) {
+        setState(() => _menuChildren = widget.filterOption!(_controller.text, widget.menuChildren));
+      } else {
+        setState(() => _menuChildren = widget.menuChildren);
+      }
+    }
   }
 
   @override
@@ -159,14 +179,17 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
         curve: Curves.easeInOut,
       ),
     );
+    _menuChildren = widget.menuChildren;
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
+    if (widget.haveSearch) _controller.addListener(_listenOnChangeInput);
   }
 
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
+    if (widget.haveSearch) _controller.removeListener(_listenOnChangeInput);
     super.dispose();
   }
 
@@ -194,25 +217,25 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
               Size(
                 widget.minWidthPopup ?? width,
                 widget.minHeightPopup ??
-                    widget.menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
+                    _menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
               ),
             ),
             maximumSize: MaterialStateProperty.all(
               Size(
                 widget.maxWidthPopup ?? width,
                 widget.maxHeightPopup ??
-                    widget.menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
+                    _menuChildren.length * BasicButtonSize.large.height + 11.scaleSize,
               ),
             ),
             visualDensity: VisualDensity.comfortable,
           ),
-          menuChildren: widget.menuChildren.map(
+          menuChildren: _menuChildren.map(
             (item) {
               return BasicButton(
                 width: double.infinity,
                 buttonSize: BasicButtonSize.large,
                 onPressed: () {
-                  widget.onSelected?.call(item.value);
+                  widget.onSelected.call(item.value);
                   _menuController.close();
                 },
                 alignment: Alignment.centerLeft,
@@ -220,7 +243,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
                   borderRadius: BorderRadius.all(Radius.circular(0)),
                 ),
                 background: Colors.transparent,
-                child: item.child,
+                child: item.child != null ? item.child!(item.value, item.label) : Text(item.label),
               );
             },
           ).toList(),
