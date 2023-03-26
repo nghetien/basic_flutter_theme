@@ -1,0 +1,110 @@
+import 'dart:math';
+
+import 'package:basic_flutter_theme/basic_flutter_theme.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+class BasicListView<T> extends StatelessWidget {
+  const BasicListView({
+    required this.items,
+    this.numberOfItemsInRow = 1,
+    this.spaceBetweenItemsInRow,
+    this.scrollDirection = Axis.vertical,
+    this.reverse = false,
+    this.controller,
+    this.primary,
+    this.physics,
+    this.shrinkWrap = false,
+    this.padding,
+    required this.itemBuilder,
+    this.separatorBuilder,
+    this.findChildIndexCallback,
+    this.addAutomaticKeepAlives = true,
+    this.addRepaintBoundaries = true,
+    this.addSemanticIndexes = true,
+    this.cacheExtent,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.restorationId,
+    this.clipBehavior = Clip.hardEdge,
+    Key? key,
+  }) : super(key: key);
+
+  final List<T> items;
+  final int numberOfItemsInRow;
+  final double? spaceBetweenItemsInRow;
+  final Axis scrollDirection;
+  final bool reverse;
+  final ScrollController? controller;
+  final bool? primary;
+  final ScrollPhysics? physics;
+  final bool shrinkWrap;
+  final EdgeInsetsGeometry? padding;
+  final Widget Function(BuildContext, int, T) itemBuilder;
+  final int? Function(Key)? findChildIndexCallback;
+  final Widget Function(BuildContext, int)? separatorBuilder;
+  final bool addAutomaticKeepAlives;
+  final bool addRepaintBoundaries;
+  final bool addSemanticIndexes;
+  final double? cacheExtent;
+  final DragStartBehavior dragStartBehavior;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+      ScrollViewKeyboardDismissBehavior.manual;
+  final String? restorationId;
+  final Clip clipBehavior;
+
+  int get itemCount => (items.length / numberOfItemsInRow).ceil();
+
+  int get numberOfItemsInLastRow => items.length % numberOfItemsInRow;
+
+  @override
+  Widget build(BuildContext context) => ListView.separated(
+        scrollDirection: scrollDirection,
+        reverse: reverse,
+        controller: controller,
+        primary: primary,
+        physics: physics,
+        shrinkWrap: shrinkWrap,
+        padding: padding,
+        itemBuilder: (context, index) {
+          final int startIndex = index * numberOfItemsInRow;
+          final int endIndex = min(startIndex + numberOfItemsInRow, items.length);
+          final List<T> itemsInRow = items.sublist(startIndex, endIndex);
+          return Row(
+            children: [
+              for (int i = 0; i < itemsInRow.length; i++)
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: i == 0
+                          ? 0
+                          : spaceBetweenItemsInRow ?? BasicPaddings.mainPadding,
+                    ),
+                    child: itemBuilder(context, startIndex + i, itemsInRow[i]),
+                  ),
+                ),
+              for (int i = endIndex; i < (startIndex + numberOfItemsInRow); i++)
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: i == 0
+                          ? 0
+                          : spaceBetweenItemsInRow ?? BasicPaddings.mainPadding,
+                    ),
+                    child: const SizedBox.shrink(),
+                  ),
+                ),
+            ],
+          );
+        },
+        clipBehavior: clipBehavior,
+        separatorBuilder: separatorBuilder ?? (_, __) => VSpace.mainSpace,
+        findChildIndexCallback: findChildIndexCallback,
+        itemCount: itemCount,
+        addAutomaticKeepAlives: addAutomaticKeepAlives,
+        addRepaintBoundaries: addRepaintBoundaries,
+        addSemanticIndexes: addSemanticIndexes,
+        cacheExtent: cacheExtent,
+        dragStartBehavior: dragStartBehavior,
+        restorationId: restorationId,
+      );
+}

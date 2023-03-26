@@ -82,8 +82,8 @@ class BasicPopupMenuButton<T> extends StatelessWidget {
       offset: offset,
       onSelected: onSelected,
       itemBuilder: (BuildContext context) => menuItems,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
       ),
       padding: padding ?? EdgeInsets.all(BasicPaddings.p8),
       child: child,

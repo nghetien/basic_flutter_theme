@@ -1,6 +1,6 @@
 name: basic_flutter_theme
 description: Flutter basic theme.
-version: 0.1.20
+version: 0.1.21
 homepage: https://github.com/nghetien/basic_flutter_theme
 
 environment:
@@ -18,7 +18,7 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
   shimmer: ^2.0.0
   flutter_dotenv: ^5.0.2
-  syncfusion_flutter_calendar: ^20.4.54
+  syncfusion_flutter_calendar: ^21.1.35
 
 dev_dependencies:
   flutter_test:

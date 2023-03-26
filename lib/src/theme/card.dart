@@ -31,7 +31,7 @@ class BasicCard extends StatelessWidget {
         padding: padding ?? EdgeInsets.all(BasicPaddings.mainPadding),
         decoration: BoxDecoration(
           color: backgroundColor ?? context.theme.colorScheme.background,
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
           border: border ??
               Border.all(
                 color: Colors.transparent,

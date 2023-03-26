@@ -44,7 +44,7 @@ class BasicDynamicTag extends StatelessWidget {
           ),
       decoration: BoxDecoration(
         color: backgroundColor ?? BasicAppColors.greyOpacity01,
-        borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+        borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

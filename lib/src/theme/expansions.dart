@@ -38,7 +38,7 @@ class BasicExpansion extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: color,
-        borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+        borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         border: border ??
             Border.all(
               color: BasicAppColors.greyOpacity04,
@@ -59,7 +59,7 @@ class BasicExpansion extends StatelessWidget {
         collapsedTextColor: collapsedTextColor,
         collapsedIconColor: collapsedIconColor,
         shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         iconColor: iconColor,
         children: children,

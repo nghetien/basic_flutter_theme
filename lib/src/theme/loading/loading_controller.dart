@@ -7,19 +7,21 @@ class BasicLoadingController {
 
   bool get statusLoading => _statusLoading;
 
-  Widget initBasicLoading(BuildContext context, Widget? child) => BasicLoadingWrapper(
+  Widget initBasicLoading(BuildContext context, Widget? child) =>
+      BasicLoadingWrapper(
         loadingController: this,
         child: child,
       );
 
   Widget _defaultW = Builder(
-    builder: (BuildContext context) => Container(
-      decoration: BoxDecoration(
-        borderRadius: BasicCorners.cornerBorder8,
-        color: context.theme.colorScheme.background.withOpacity(0.65),
-      ),
-      child: const BasicLoadingWidget(),
-    ),
+    builder: (BuildContext context) =>
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BasicCorners.cornerBorder8,
+            color: context.theme.colorScheme.background.withOpacity(0.65),
+          ),
+          child: const BasicLoadingWidget(),
+        ),
   );
 
   Widget get defaultW => _defaultW;
@@ -42,14 +44,14 @@ class BasicLoadingController {
   void _markNeedsBuild() => currentOverlayEntry?.markNeedsBuild();
 
   void show() {
-    if(statusLoading) return;
+    if (statusLoading) return;
     setStatusLoading(true);
     setW(_defaultW);
     _markNeedsBuild();
   }
 
   void dismiss() {
-    if(!statusLoading) return;
+    if (!statusLoading) return;
     setStatusLoading(false);
     setW(null);
     _markNeedsBuild();

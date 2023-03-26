@@ -32,7 +32,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
     if (fixedColumn == FixedColumn.left) {
       return Radius.zero;
     }
-    return BasicCorners.cornerRadius5;
+    return BasicCorners.mainCornerRadius;
   }
 
   Radius _getRadiusLeft() {
@@ -42,7 +42,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
     if (fixedColumn == FixedColumn.right) {
       return Radius.zero;
     }
-    return BasicCorners.cornerRadius5;
+    return BasicCorners.mainCornerRadius;
   }
 
   Widget _generateHeaderItem() {

@@ -43,36 +43,36 @@ class BasicAppThemes {
       ),
       // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.greyOpacity04,
           width: BasicBorders.thin,
         ),
       ),
       disabledBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.greyOpacity04,
           width: BasicBorders.thin,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.primary,
           width: BasicBorders.thin,
         ),
       ),
-      errorBorder: const OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
-        borderSide: BorderSide(
+      errorBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        borderSide: const BorderSide(
           color: BasicAppColors.red,
           width: BasicBorders.thin,
         ),
       ),
-      focusedErrorBorder: const OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
-        borderSide: BorderSide(
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        borderSide: const BorderSide(
           color: BasicAppColors.red,
           width: BasicBorders.thin,
         ),
@@ -100,8 +100,8 @@ class BasicAppThemes {
         backgroundColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeLight),
         foregroundColor: MaterialStateProperty.all(BasicAppColors.black),
         shape: MaterialStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BasicCorners.cornerBorder5,
+          RoundedRectangleBorder(
+            borderRadius: BasicCorners.mainCornerBorder,
           ),
         ),
       ),
@@ -110,7 +110,7 @@ class BasicAppThemes {
       color: BasicAppColors.bgSecondaryThemeLight,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
@@ -122,7 +122,7 @@ class BasicAppThemes {
     ),
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
@@ -178,36 +178,36 @@ class BasicAppThemes {
       ),
       // contentPadding: EdgeInsets.zero,
       enabledBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.bgPrimaryThemeDark,
           width: BasicBorders.thin,
         ),
       ),
       disabledBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.greyOpacity04,
           width: BasicBorders.thin,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         borderSide: BorderSide(
           color: BasicAppColors.primary,
           width: BasicBorders.thin,
         ),
       ),
-      errorBorder: const OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
-        borderSide: BorderSide(
+      errorBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        borderSide: const BorderSide(
           color: BasicAppColors.red,
           width: BasicBorders.thin,
         ),
       ),
-      focusedErrorBorder: const OutlineInputBorder(
-        borderRadius: BasicCorners.cornerBorder5,
-        borderSide: BorderSide(
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        borderSide: const BorderSide(
           color: BasicAppColors.red,
           width: BasicBorders.thin,
         ),
@@ -237,8 +237,8 @@ class BasicAppThemes {
         backgroundColor: MaterialStateProperty.all(BasicAppColors.bgSecondaryThemeDark),
         foregroundColor: MaterialStateProperty.all(BasicAppColors.white),
         shape: MaterialStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BasicCorners.cornerBorder5,
+          RoundedRectangleBorder(
+            borderRadius: BasicCorners.mainCornerBorder,
           ),
         ),
       ),
@@ -247,7 +247,7 @@ class BasicAppThemes {
       color: BasicAppColors.bgSecondaryThemeDark,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
@@ -259,7 +259,7 @@ class BasicAppThemes {
     ),
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(
-        borderRadius: BasicCorners.cornerBorder5,
+        borderRadius: BasicCorners.mainCornerBorder,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),

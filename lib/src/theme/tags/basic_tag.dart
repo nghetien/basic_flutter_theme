@@ -18,7 +18,7 @@ class BasicTags {
         height: height ?? _defaultHeight,
         decoration: BoxDecoration(
           color: BasicAppColors.green,
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         padding: padding ??
             EdgeInsets.symmetric(
@@ -50,7 +50,7 @@ class BasicTags {
         height: height ?? _defaultHeight,
         decoration: BoxDecoration(
           color: BasicAppColors.red,
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         padding: padding ??
             EdgeInsets.symmetric(
@@ -82,7 +82,7 @@ class BasicTags {
         height: height ?? _defaultHeight,
         decoration: BoxDecoration(
           color: BasicAppColors.yellow,
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         padding: padding ??
             EdgeInsets.symmetric(
@@ -114,7 +114,7 @@ class BasicTags {
         height: height ?? _defaultHeight,
         decoration: BoxDecoration(
           color: BasicAppColors.blueLight,
-          borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         padding: padding ??
             EdgeInsets.symmetric(

@@ -357,25 +357,9 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
       ),
     );
     if (widget.tagsAbleScroll) {
-      return Listener(
-        onPointerSignal: (pointerSignal) {
-          if (pointerSignal is PointerScrollEvent) {
-            final scroll = _scrollController.offset + pointerSignal.scrollDelta.dy;
-            if (scroll < 0) {
-              _scrollController.jumpTo(0);
-            } else if (scroll > _scrollController.position.maxScrollExtent) {
-              _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-            } else {
-              _scrollController.jumpTo(scroll);
-            }
-          }
-        },
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          controller: _scrollController,
-          scrollDirection: Axis.horizontal,
-          child: prefixIcon,
-        ),
+      return BasicWrapScrollHorizontal(
+        controller: _scrollController,
+        child: prefixIcon,
       );
     }
     return prefixIcon;

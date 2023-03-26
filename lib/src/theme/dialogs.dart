@@ -23,7 +23,6 @@ class BasicDialogs {
     required Widget content,
   }) {
     final widthDefault = min<double>(context.widthScreen, 420.scaleSize);
-    final heightDefault = min<double>(context.heightScreen, 500.scaleSize);
     return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
@@ -32,11 +31,11 @@ class BasicDialogs {
         backgroundColor: Colors.transparent,
         child: Container(
           width: width ?? widthDefault,
-          height: height ?? heightDefault,
+          height: height,
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).cardColor,
             shape: shape,
-            borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+            borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
           ),
           child: content,
         ),
@@ -56,9 +55,10 @@ class BasicDialogs {
     required String title,
     String? customizeOkText,
     String? customizeCancelText,
-    required VoidCallback onOkPressed,
-    required VoidCallback onCancelPressed,
+    VoidCallback? onOkPressed,
+    VoidCallback? onCancelPressed,
     required Widget content,
+    bool showFooter = true,
   }) {
     final widthDefault = min<double>(context.widthScreen, 420.scaleSize);
     final heightDefault = min<double>(context.heightScreen, 500.scaleSize);
@@ -75,7 +75,7 @@ class BasicDialogs {
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).cardColor,
             shape: shape,
-            borderRadius: borderRadius ?? BasicCorners.cornerBorder5,
+            borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
           ),
           child: Stack(
             children: <Widget>[
@@ -87,47 +87,43 @@ class BasicDialogs {
                     titleType: BasicTitleType.level5,
                     color: BasicAppColors.primary,
                   ),
-                  VSpace.p14,
+                  VSpace.mainSpace,
                   const BasicDivider(),
                   VSpace.p4,
-                  Expanded(
-                    child: ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                      child: SingleChildScrollView(
-                        child: content,
+                  Expanded(child: content),
+                  if (showFooter)
+                    Padding(
+                      padding: EdgeInsets.only(top: BasicPaddings.p4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          BasicButton(
+                            onPressed: () {
+                              onCancelPressed?.call();
+                              context.popNavigator();
+                            },
+                            buttonSize: BasicButtonSize.large,
+                            text: customizeOkText ?? 'Cancel',
+                            textColor: BasicAppColors.primary,
+                          ),
+                          HSpace.mainSpace,
+                          BasicButton(
+                            onPressed: onOkPressed ?? () {},
+                            buttonType: BasicButtonType.primary,
+                            buttonSize: BasicButtonSize.large,
+                            text: customizeOkText ?? 'Ok',
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  VSpace.p4,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      BasicButton(
-                        onPressed: () {
-                          onCancelPressed();
-                          context.popNavigator();
-                        },
-                        buttonSize: BasicButtonSize.large,
-                        text: customizeOkText ?? 'Cancel',
-                        textColor: BasicAppColors.primary,
-                      ),
-                      HSpace.p14,
-                      BasicButton(
-                        onPressed: onOkPressed,
-                        buttonType: BasicButtonType.primary,
-                        buttonSize: BasicButtonSize.large,
-                        text: customizeOkText ?? 'Ok',
-                      ),
-                    ],
-                  ),
                 ],
               ),
               Positioned(
-                top: -BasicPaddings.p8,
-                right: -BasicPaddings.p8,
+                top: 0,
+                right: 0,
                 child: BasicIconButtonClearAnimation(
                   onPressed: () {
-                    onCancelPressed();
+                    onCancelPressed?.call();
                     context.popNavigator();
                   },
                   icon: Icon(
@@ -173,9 +169,9 @@ class BasicDialogs {
                     : type == BasicDialogType.warning
                         ? BasicAppColors.yellow
                         : BasicAppColors.blueLight,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(BasicCorners.corner5),
-                  topRight: Radius.circular(BasicCorners.corner5),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(BasicCorners.mainCorners),
+                  topRight: Radius.circular(BasicCorners.mainCorners),
                 ),
               ),
               child: Column(
