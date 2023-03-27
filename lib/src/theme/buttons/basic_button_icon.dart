@@ -7,6 +7,7 @@ class BasicButtonIcon extends StatelessWidget {
     this.buttonType = BasicButtonType.none,
     required this.onPressed,
     this.text,
+    this.iconData,
     this.icon,
     this.iconBeforeText = true,
     this.iconIsInEdge = false,
@@ -33,6 +34,7 @@ class BasicButtonIcon extends StatelessWidget {
   final BasicButtonType buttonType;
   final VoidCallback onPressed;
   final String? text;
+  final IconData? iconData;
   final Icon? icon;
   final bool iconBeforeText;
   final bool iconIsInEdge;
@@ -56,7 +58,7 @@ class BasicButtonIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (icon == null) {
+    if (icon == null && iconData == null) {
       return BasicButton(
         key: key,
         buttonSize: buttonSize,
@@ -80,7 +82,7 @@ class BasicButtonIcon extends StatelessWidget {
     }
     Widget? children;
     if (text == null) {
-      children = icon;
+      children = _getIcon();
     } else {
       children = Row(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
@@ -89,8 +91,10 @@ class BasicButtonIcon extends StatelessWidget {
         children: [
           if (iconBeforeText)
             Padding(
-              padding: EdgeInsets.only(right: spaceBetweenIconAndText ?? BasicPaddings.p8),
-              child: icon,
+              padding: EdgeInsets.only(
+                right: spaceBetweenIconAndText ?? _getDefaultSpaceBetweenIconAndText(),
+              ),
+              child: _getIcon(),
             ),
           _textWidget(
             iconIsInEdge: iconIsInEdge,
@@ -110,8 +114,10 @@ class BasicButtonIcon extends StatelessWidget {
           ),
           if (!iconBeforeText)
             Padding(
-              padding: EdgeInsets.only(left: spaceBetweenIconAndText ?? BasicPaddings.p8),
-              child: icon,
+              padding: EdgeInsets.only(
+                left: spaceBetweenIconAndText ?? _getDefaultSpaceBetweenIconAndText(),
+              ),
+              child: _getIcon(),
             ),
         ],
       );
@@ -137,6 +143,27 @@ class BasicButtonIcon extends StatelessWidget {
       alignment: alignment,
       child: children,
     );
+  }
+
+  double _getDefaultSpaceBetweenIconAndText() {
+    if (buttonSize == null) {
+      return BasicPaddings.p8;
+    } else if (buttonSize == BasicButtonSize.small) {
+      return BasicPaddings.p4;
+    } else {
+      return BasicPaddings.p8;
+    }
+  }
+
+  Widget _getIcon() {
+    if (iconData != null) {
+      return Icon(
+        iconData,
+        color: textColor ?? (buttonType == BasicButtonType.none ? null : BasicAppColors.white),
+      );
+    } else {
+      return icon!;
+    }
   }
 
   Widget _textWidget({
