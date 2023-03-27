@@ -1,3 +1,5 @@
+## 0.1.22
+* Add custom tag for `BasicTags`.
 ## 0.1.21
 * Add main style.
 ## 0.1.20

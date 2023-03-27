@@ -13,28 +13,14 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      Container(
+      tag(
+        value,
+        height: height,
         alignment: alignment,
-        height: height ?? _defaultHeight,
-        decoration: BoxDecoration(
-          color: BasicAppColors.green,
-          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
-        ),
-        padding: padding ??
-            EdgeInsets.symmetric(
-              horizontal: BasicPaddings.p8,
-              vertical: BasicPaddings.p4,
-            ),
-        child: Center(
-          child: Text(
-            value,
-            style: textStyle ??
-                BasicTextStyles.body.copyWith(
-                  color: BasicAppColors.white,
-                  height: 0
-                ),
-          ),
-        ),
+        padding: padding,
+        borderRadius: borderRadius,
+        textStyle: textStyle,
+        color: BasicAppColors.green,
       );
 
   static Widget failure(
@@ -45,28 +31,14 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      Container(
+      tag(
+        value,
+        height: height,
         alignment: alignment,
-        height: height ?? _defaultHeight,
-        decoration: BoxDecoration(
-          color: BasicAppColors.red,
-          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
-        ),
-        padding: padding ??
-            EdgeInsets.symmetric(
-              horizontal: BasicPaddings.p8,
-              vertical: BasicPaddings.p4,
-            ),
-        child: Center(
-          child: Text(
-            value,
-            style: textStyle ??
-                BasicTextStyles.body.copyWith(
-                  color: BasicAppColors.white,
-                  height: 0,
-                ),
-          ),
-        ),
+        padding: padding,
+        borderRadius: borderRadius,
+        textStyle: textStyle,
+        color: BasicAppColors.red,
       );
 
   static Widget warning(
@@ -77,28 +49,14 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      Container(
+      tag(
+        value,
+        height: height,
         alignment: alignment,
-        height: height ?? _defaultHeight,
-        decoration: BoxDecoration(
-          color: BasicAppColors.yellow,
-          borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
-        ),
-        padding: padding ??
-            EdgeInsets.symmetric(
-              horizontal: BasicPaddings.p8,
-              vertical: BasicPaddings.p4,
-            ),
-        child: Center(
-          child: Text(
-            value,
-            style: textStyle ??
-                BasicTextStyles.body.copyWith(
-                  color: BasicAppColors.white,
-                  height: 0,
-                ),
-          ),
-        ),
+        padding: padding,
+        borderRadius: borderRadius,
+        textStyle: textStyle,
+        color: BasicAppColors.yellow,
       );
 
   static Widget info(
@@ -109,11 +67,48 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
+      tag(
+        value,
+        height: height,
+        alignment: alignment,
+        padding: padding,
+        borderRadius: borderRadius,
+        textStyle: textStyle,
+        color: BasicAppColors.blueLight,
+      );
+
+  static Widget draft(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+  }) =>
+      tag(
+        value,
+        height: height,
+        alignment: alignment,
+        padding: padding,
+        borderRadius: borderRadius,
+        textStyle: textStyle,
+        color: BasicAppColors.grey,
+      );
+
+  static Widget tag(
+    String value, {
+    double? height,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    BorderRadiusGeometry? borderRadius,
+    TextStyle? textStyle,
+    Color? color,
+  }) =>
       Container(
         alignment: alignment,
         height: height ?? _defaultHeight,
         decoration: BoxDecoration(
-          color: BasicAppColors.blueLight,
+          color: color,
           borderRadius: borderRadius ?? BasicCorners.mainCornerBorder,
         ),
         padding: padding ??
