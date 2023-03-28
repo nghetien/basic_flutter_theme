@@ -16,7 +16,7 @@ export 'measure_size.dart';
 export 'outline_border/outline_border.dart';
 export 'popup_menu_button/popup_menu_button.dart';
 export 'scrolls/scrolls.dart';
-export 'select_boxes/select_boxes.dart';
+export 'check_boxes/check_boxes.dart';
 export 'spaces.dart';
 export 'tags/tags.dart';
 export 'titles.dart';

@@ -10,14 +10,12 @@ part 'basic_asset_image.dart';
 
 part 'basic_network_image.dart';
 
-class BasicImageSize {
-  const BasicImageSize._(double size) : _size = size;
+enum BasicImageSize {
+  small(32),
+  medium(40),
+  large(60);
 
-  final double _size;
+  final double size;
 
-  double get size => _size;
-
-  static const BasicImageSize small = BasicImageSize._(32);
-  static const BasicImageSize medium = BasicImageSize._(40);
-  static const BasicImageSize large = BasicImageSize._(60);
+  const BasicImageSize(this.size);
 }

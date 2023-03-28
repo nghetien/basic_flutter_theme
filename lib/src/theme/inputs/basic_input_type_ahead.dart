@@ -13,7 +13,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.minHeightPopup,
     this.maxWidthPopup,
     this.minWidthPopup,
-    this.inputSize,
+    this.size,
     this.width,
     this.initialValue,
     this.controller,
@@ -71,7 +71,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final double? minHeightPopup;
   final double? maxWidthPopup;
   final double? minWidthPopup;
-  final BasicInputSize? inputSize;
+  final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -197,7 +197,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
           menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
-              inputSize: widget.inputSize,
+              size: widget.size,
               width: widget.width,
               controller: _controller,
               focusNode: _focusNode,
@@ -274,7 +274,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       menuChildren.add(
         BasicButton(
           width: double.infinity,
-          buttonSize: BasicButtonSize.large,
+          size: BasicButtonSize.large,
           onPressed: () {
             widget.onSelected.call(item.value);
             _menuController.close();

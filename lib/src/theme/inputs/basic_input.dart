@@ -1,90 +1,93 @@
 part of 'inputs.dart';
 
-class BasicInputSize {
-  const BasicInputSize(
-      double height, EdgeInsets padding, TextStyle textStyle, TextStyle hintStyle, int? maxLines)
-      : _height = height,
-        _padding = padding,
-        _textStyle = textStyle,
-        _hintStyle = hintStyle,
-        _maxLines = maxLines;
+enum BasicInputSize {
+  large,
+  medium,
+  areaSmall,
+  areaMedium,
+  areaLarge;
 
-  final double _height;
-  final EdgeInsets _padding;
-  final TextStyle _textStyle;
-  final TextStyle _hintStyle;
-  final int? _maxLines;
+  BasicInputStyle get style {
+    switch (this) {
+      case BasicInputSize.large:
+        return BasicInputStyle(
+          height: 42,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 14.5,
+          ),
+          textStyle: BasicTextStyles.body,
+          hintStyle: BasicTextStyles.body,
+          maxLines: 1,
+        );
+      case BasicInputSize.medium:
+        return BasicInputStyle(
+          height: 35,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 12.5,
+          ),
+          textStyle: BasicTextStyles.label,
+          hintStyle: BasicTextStyles.label,
+          maxLines: 1,
+        );
+      case BasicInputSize.areaSmall:
+        return BasicInputStyle(
+          height: 60,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 13,
+          ),
+          textStyle: BasicTextStyles.body,
+          hintStyle: BasicTextStyles.body,
+          maxLines: 2,
+        );
+      case BasicInputSize.areaMedium:
+        return BasicInputStyle(
+          height: 80,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 12.5,
+          ),
+          textStyle: BasicTextStyles.body,
+          hintStyle: BasicTextStyles.body,
+          maxLines: 3,
+        );
+      case BasicInputSize.areaLarge:
+        return BasicInputStyle(
+          height: 100,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 12,
+          ),
+          textStyle: BasicTextStyles.body,
+          hintStyle: BasicTextStyles.body,
+          maxLines: 4,
+        );
+    }
+  }
+}
 
-  double get height => _height;
+class BasicInputStyle {
+  final double height;
+  final EdgeInsets padding;
+  final TextStyle textStyle;
+  final TextStyle hintStyle;
+  final int? maxLines;
 
-  EdgeInsets get padding => _padding;
-
-  TextStyle get textStyle => _textStyle;
-
-  TextStyle get hintStyle => _hintStyle;
-
-  int? get maxLines => _maxLines;
-
-  static final BasicInputSize large = BasicInputSize(
-    42,
-    const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 14.5,
-    ),
-    BasicTextStyles.body,
-    BasicTextStyles.body,
-    1,
-  );
-
-  static final BasicInputSize medium = BasicInputSize(
-    35,
-    const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 12.5,
-    ),
-    BasicTextStyles.label,
-    BasicTextStyles.label,
-    1,
-  );
-
-  static final BasicInputSize areaSmall = BasicInputSize(
-    60,
-    const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 13,
-    ),
-    BasicTextStyles.body,
-    BasicTextStyles.body,
-    2,
-  );
-
-  static final BasicInputSize areaMedium = BasicInputSize(
-    80,
-    const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 12.5,
-    ),
-    BasicTextStyles.body,
-    BasicTextStyles.body,
-    3,
-  );
-
-  static final BasicInputSize areaLarge = BasicInputSize(
-    100,
-    const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 12,
-    ),
-    BasicTextStyles.body,
-    BasicTextStyles.body,
-    4,
-  );
+  const BasicInputStyle({
+    required this.height,
+    required this.padding,
+    required this.textStyle,
+    required this.hintStyle,
+    this.maxLines,
+  });
 }
 
 class BasicInput extends StatelessWidget {
   const BasicInput({
     Key? key,
-    this.inputSize,
+    this.size,
     this.width,
     this.initialValue,
     this.controller,
@@ -131,7 +134,7 @@ class BasicInput extends StatelessWidget {
     this.errorStyle,
   }) : super(key: key);
 
-  final BasicInputSize? inputSize;
+  final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -179,7 +182,7 @@ class BasicInput extends StatelessWidget {
 
   EdgeInsets _getPaddingContent() {
     if (contentPadding != null) return contentPadding!;
-    final EdgeInsets padding = inputSize?.padding ?? BasicInputSize.large.padding;
+    final EdgeInsets padding = size?.style.padding ?? BasicInputSize.large.style.padding;
     if (prefixIcon != null && suffixIcon != null) {
       return EdgeInsets.fromLTRB(0, padding.top, 0, padding.bottom);
     }
@@ -199,12 +202,12 @@ class BasicInput extends StatelessWidget {
           controller: controller,
           focusNode: focusNode,
           initialValue: initialValue,
-          style: textStyle ?? inputSize?.textStyle,
+          style: textStyle ?? size?.style.textStyle,
           textAlign: textAlign,
           textInputAction: textInputAction,
           textAlignVertical: textAlignVertical,
           keyboardType: keyboardType,
-          maxLines: maxLines ?? inputSize?.maxLines,
+          maxLines: maxLines ?? size?.style.maxLines,
           minLines: minLines,
           maxLength: maxLength,
           enabled: enabled,
@@ -238,7 +241,7 @@ class BasicInput extends StatelessWidget {
             floatingLabelStyle: floatingLabelStyle,
             floatingLabelBehavior: floatingLabelBehavior,
             hintText: hintText,
-            hintStyle: hintStyle ?? inputSize?.hintStyle,
+            hintStyle: hintStyle ?? size?.style.hintStyle,
             errorText: errorText,
             errorMaxLines: errorMaxLines,
             errorStyle: errorStyle,

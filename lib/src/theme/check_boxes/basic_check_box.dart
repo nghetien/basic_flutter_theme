@@ -1,7 +1,7 @@
-part of 'select_boxes.dart';
+part of 'check_boxes.dart';
 
-class BasicSelectBox extends StatelessWidget {
-  const BasicSelectBox({
+class BasicCheckBox extends StatelessWidget {
+  const BasicCheckBox({
     Key? key,
     this.isCircle = true,
     this.value = false,

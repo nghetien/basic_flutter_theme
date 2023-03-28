@@ -22,8 +22,8 @@ class BasicButtonDropdown extends StatefulWidget {
     this.children = const [],
     this.onPressedTitleButton,
     required this.onPressedItem,
-    this.buttonSize,
-    this.buttonType = BasicButtonType.none,
+    this.size,
+    this.type = BasicButtonType.none,
     this.width,
     this.height,
     this.padding,
@@ -48,8 +48,8 @@ class BasicButtonDropdown extends StatefulWidget {
   final List<BasicButtonDropdownModel> children;
   final VoidCallback? onPressedTitleButton;
   final Function(int) onPressedItem;
-  final BasicButtonSize? buttonSize;
-  final BasicButtonType buttonType;
+  final BasicButtonSize? size;
+  final BasicButtonType type;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
@@ -133,8 +133,8 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
           return Column(
             children: [
               BasicButton(
-                buttonSize: widget.buttonSize,
-                buttonType: widget.buttonType,
+                size: widget.size,
+                type: widget.type,
                 onPressed: () {
                   _toggle();
                   if (widget.onPressedTitleButton != null) widget.onPressedTitleButton!();
@@ -188,8 +188,8 @@ class _BasicButtonDropdownState extends State<BasicButtonDropdown>
           return widget.children[index].isButtonDropdown
               ? widget.children[index].child
               : BasicButton(
-                  buttonSize: widget.buttonSize,
-                  buttonType: widget.buttonType,
+                  size: widget.size,
+                  type: widget.type,
                   onPressed: () => widget.onPressedItem(index),
                   width: widget.width ?? double.infinity,
                   height: widget.height,

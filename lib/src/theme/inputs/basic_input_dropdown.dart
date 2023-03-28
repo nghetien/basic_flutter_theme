@@ -24,7 +24,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.minHeightPopup,
     this.maxWidthPopup,
     this.minWidthPopup,
-    this.inputSize,
+    this.size,
     this.width,
     this.initialValue,
     this.controller,
@@ -85,7 +85,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final double? minHeightPopup;
   final double? maxWidthPopup;
   final double? minWidthPopup;
-  final BasicInputSize? inputSize;
+  final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -187,6 +187,14 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   }
 
   @override
+  void didUpdateWidget(BasicInputDropdown<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.menuChildren != oldWidget.menuChildren) {
+      setState(() => _menuChildren = widget.menuChildren);
+    }
+  }
+
+  @override
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
     if (widget.haveSearch) _controller.removeListener(_listenOnChangeInput);
@@ -233,7 +241,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
             (item) {
               return BasicButton(
                 width: double.infinity,
-                buttonSize: BasicButtonSize.large,
+                size: BasicButtonSize.large,
                 onPressed: () {
                   widget.onSelected.call(item.value);
                   _menuController.close();
@@ -249,7 +257,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
           ).toList(),
           builder: (context, controller, child) {
             return BasicInput(
-              inputSize: widget.inputSize,
+              size: widget.size,
               width: widget.width,
               controller: _controller,
               focusNode: _focusNode,

@@ -139,7 +139,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
       child: BasicButton(
         height: sizePageNumber,
         width: sizePageNumber,
-        buttonSize: BasicButtonSize.medium,
+        size: BasicButtonSize.medium,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         text: number > 0 ? number.toString() : '...',

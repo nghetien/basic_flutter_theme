@@ -102,15 +102,15 @@ class BasicDialogs {
                               onCancelPressed?.call();
                               context.popNavigator();
                             },
-                            buttonSize: BasicButtonSize.large,
+                            size: BasicButtonSize.large,
                             text: customizeOkText ?? 'Cancel',
                             textColor: BasicAppColors.primary,
                           ),
                           HSpace.mainSpace,
                           BasicButton(
                             onPressed: onOkPressed ?? () {},
-                            buttonType: BasicButtonType.primary,
-                            buttonSize: BasicButtonSize.large,
+                            type: BasicButtonType.primary,
+                            size: BasicButtonSize.large,
                             text: customizeOkText ?? 'Ok',
                           ),
                         ],
@@ -121,7 +121,7 @@ class BasicDialogs {
               Positioned(
                 top: 0,
                 right: 0,
-                child: BasicIconButtonClearAnimation(
+                child: BasicIconButton(
                   onPressed: () {
                     onCancelPressed?.call();
                     context.popNavigator();
@@ -223,7 +223,7 @@ class BasicDialogs {
                               context.popNavigator();
                             }
                           },
-                          buttonSize: BasicButtonSize.large,
+                          size: BasicButtonSize.large,
                           text: buttonCancel ?? 'Cancel',
                           textColor: BasicAppColors.white,
                           background: BasicAppColors.grey,
@@ -232,7 +232,7 @@ class BasicDialogs {
                     ),
                   Expanded(
                     child: BasicButton(
-                      buttonSize: BasicButtonSize.large,
+                      size: BasicButtonSize.large,
                       onPressed: onClickButtonRight,
                       text: buttonText ?? 'OK',
                       background: type == BasicDialogType.delete

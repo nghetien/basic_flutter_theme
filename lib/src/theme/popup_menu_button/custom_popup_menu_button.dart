@@ -266,7 +266,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
     return Tooltip(
       message: widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
       child: BasicButton(
-        buttonType: BasicButtonType.primary,
+        type: BasicButtonType.primary,
         shape: BasicOutlineBorder.none,
         background: widget.backgroundIconColor,
         padding: widget.iconPadding,

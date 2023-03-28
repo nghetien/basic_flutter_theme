@@ -5,7 +5,7 @@ class BasicInputPassword extends StatefulWidget {
     Key? key,
     this.iconPasswordColor,
     this.iconPasswordSize,
-    this.inputSize,
+    this.size,
     this.width,
     this.initialValue,
     this.controller,
@@ -53,7 +53,7 @@ class BasicInputPassword extends StatefulWidget {
 
   final double? iconPasswordSize;
   final Color? iconPasswordColor;
-  final BasicInputSize? inputSize;
+  final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -107,7 +107,7 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   Widget _getSuffixIcon() {
     if (widget.suffixIcon != null) return widget.suffixIcon!;
-    return BasicIconButtonClearAnimation(
+    return BasicIconButton(
       icon: Icon(
         _isShowPassword ? Icons.visibility_rounded : Icons.visibility_off_rounded,
         color: widget.iconPasswordColor,
@@ -121,7 +121,7 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   @override
   Widget build(BuildContext context) => BasicInput(
-    inputSize: widget.inputSize,
+    size: widget.size,
         width: widget.width,
         controller: widget.controller,
         focusNode: widget.focusNode,

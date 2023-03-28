@@ -3,7 +3,7 @@ part of 'images.dart';
 class BasicNetworkImage extends StatelessWidget {
   const BasicNetworkImage({
     Key? key,
-    this.type = BasicImageSize.medium,
+    this.size = BasicImageSize.medium,
     required this.path,
     this.width,
     this.height,
@@ -16,7 +16,7 @@ class BasicNetworkImage extends StatelessWidget {
     this.imageProviderWhenError,
   }) : super(key: key);
 
-  final BasicImageSize type;
+  final BasicImageSize size;
   final String path;
   final double? width;
   final double? height;
@@ -31,8 +31,8 @@ class BasicNetworkImage extends StatelessWidget {
   Widget _error() => assetPathWhenError != null
       ? BasicAssetImage(
           path: assetPathWhenError!,
-          width: width ?? type.size,
-          height: height ?? type.size,
+          width: width ?? size.size,
+          height: height ?? size.size,
           borderWidth: borderWidth,
           borderColor: borderColor,
           shape: shape,
@@ -41,8 +41,8 @@ class BasicNetworkImage extends StatelessWidget {
           imageProvider: imageProviderWhenError,
         )
       : Container(
-          width: width ?? type.size,
-          height: height ?? type.size,
+          width: width ?? size.size,
+          height: height ?? size.size,
           decoration: BoxDecoration(
             color: BasicAppColors.greyOpacity04,
             border: Border.all(
@@ -59,8 +59,8 @@ class BasicNetworkImage extends StatelessWidget {
         baseColor: Colors.black12,
         highlightColor: context.theme.colorScheme.background,
         child: Container(
-          width: width ?? type.size,
-          height: height ?? type.size,
+          width: width ?? size.size,
+          height: height ?? size.size,
           decoration: BoxDecoration(
             color: BasicAppColors.greyOpacity01,
             border: Border.all(
@@ -78,8 +78,8 @@ class BasicNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) => CachedNetworkImage(
         imageUrl: path,
         imageBuilder: (_, imageProvider) => BasicAssetImage(
-          width: width ?? type.size,
-          height: height ?? type.size,
+          width: width ?? size.size,
+          height: height ?? size.size,
           borderWidth: borderWidth,
           borderColor: borderColor,
           shape: shape,

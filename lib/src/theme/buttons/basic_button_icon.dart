@@ -3,86 +3,112 @@ part of 'buttons.dart';
 class BasicButtonIcon extends StatelessWidget {
   const BasicButtonIcon({
     Key? key,
-    this.buttonSize,
-    this.buttonType = BasicButtonType.none,
-    required this.onPressed,
-    this.text,
     this.iconData,
     this.icon,
+    this.spaceBetweenIconAndText,
+    this.mainAxisAlignment,
+    this.mainAxisSize,
     this.iconBeforeText = true,
     this.iconIsInEdge = false,
+    this.size,
+    this.type = BasicButtonType.none,
+    required this.onPressed,
+    this.disabled = false,
+    this.loading = false,
+    this.text,
+    this.child,
     this.width,
     this.height,
     this.padding,
     this.background,
     this.hoverColor,
     this.shadowColor = Colors.transparent,
-    this.splashFactory,
+    this.elevation,
     this.boxShadow,
+    this.splashFactory,
     this.shape,
     this.textColor,
+    this.fontSize,
     this.textStyle,
     this.textAlign = TextAlign.center,
     this.maxLines = 4,
     this.alignment,
-    this.mainAxisAlignment,
-    this.spaceBetweenIconAndText,
-    this.mainAxisSize,
   }) : super(key: key);
 
-  final BasicButtonSize? buttonSize;
-  final BasicButtonType buttonType;
-  final VoidCallback onPressed;
-  final String? text;
   final IconData? iconData;
   final Icon? icon;
+  final double? spaceBetweenIconAndText;
+  final MainAxisSize? mainAxisSize;
+  final MainAxisAlignment? mainAxisAlignment;
   final bool iconBeforeText;
   final bool iconIsInEdge;
+  final BasicButtonSize? size;
+  final BasicButtonType type;
+  final VoidCallback onPressed;
+  final bool disabled;
+  final bool loading;
+  final String? text;
+  final Widget? child;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
   final Color? background;
   final Color? hoverColor;
   final Color shadowColor;
+  final double? elevation;
   final InteractiveInkFeatureFactory? splashFactory;
   final List<BoxShadow>? boxShadow;
   final OutlinedBorder? shape;
   final Color? textColor;
+  final double? fontSize;
   final TextStyle? textStyle;
   final TextAlign textAlign;
   final int maxLines;
   final AlignmentGeometry? alignment;
-  final MainAxisAlignment? mainAxisAlignment;
-  final double? spaceBetweenIconAndText;
-  final MainAxisSize? mainAxisSize;
+
+  double _getDefaultSpaceBetweenIconAndText() {
+    if (size == null) {
+      return BasicPaddings.p4;
+    } else if (size == BasicButtonSize.small) {
+      return BasicPaddings.p4;
+    } else {
+      return BasicPaddings.p4;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (icon == null && iconData == null) {
+    if ((icon == null && iconData == null) || loading) {
       return BasicButton(
         key: key,
-        buttonSize: buttonSize,
-        buttonType: buttonType,
+        size: size,
+        type: type,
         onPressed: onPressed,
+        disabled: disabled,
+        loading: loading,
+        text: text,
         width: width,
         height: height,
         padding: padding,
         background: background,
         hoverColor: hoverColor,
         shadowColor: shadowColor,
-        splashFactory: splashFactory,
+        elevation: elevation,
         boxShadow: boxShadow,
+        splashFactory: splashFactory,
         shape: shape,
         textColor: textColor,
+        fontSize: fontSize,
         textStyle: textStyle,
         textAlign: textAlign,
         maxLines: maxLines,
         alignment: alignment,
+        child: child,
       );
     }
-    Widget? children;
+    late final Widget children;
     if (text == null) {
-      children = _getIcon();
+      children = _getIcon(context);
     } else {
       children = Row(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
@@ -94,22 +120,25 @@ class BasicButtonIcon extends StatelessWidget {
               padding: EdgeInsets.only(
                 right: spaceBetweenIconAndText ?? _getDefaultSpaceBetweenIconAndText(),
               ),
-              child: _getIcon(),
+              child: _getIcon(context),
             ),
-          _textWidget(
-            iconIsInEdge: iconIsInEdge,
-            child: Text(
-              text ?? '',
-              textAlign: TextAlign.center,
-              maxLines: maxLines,
-              style: textStyle ??
-                  BasicTextStyles.body.copyWith(
-                    color: textColor ??
-                        (buttonType.outlinedBorder == null
-                            ? BasicAppColors.white
-                            : BasicAppColors.black),
-                    height: 0,
-                  ),
+          child ??
+              _textWidget(
+                iconIsInEdge: iconIsInEdge,
+                child: Text(
+                  text ?? '',
+                  textAlign: TextAlign.center,
+                  maxLines: maxLines,
+                  style: textStyle ??
+                      BasicTextStyles.body.copyWith(
+                        color: type.getTextColor(
+                          context,
+                          disabled: disabled,
+                          loading: loading,
+                          textColor: textColor,
+                        ),
+                        height: 0,
+                      ),
             ),
           ),
           if (!iconBeforeText)
@@ -117,26 +146,31 @@ class BasicButtonIcon extends StatelessWidget {
               padding: EdgeInsets.only(
                 left: spaceBetweenIconAndText ?? _getDefaultSpaceBetweenIconAndText(),
               ),
-              child: _getIcon(),
+              child: _getIcon(context),
             ),
         ],
       );
     }
     return BasicButton(
       key: key,
-      buttonSize: buttonSize,
-      buttonType: buttonType,
+      size: size,
+      type: type,
       onPressed: onPressed,
+      disabled: disabled,
+      loading: loading,
+      text: text,
       width: width,
       height: height,
       padding: padding,
       background: background,
       hoverColor: hoverColor,
       shadowColor: shadowColor,
-      splashFactory: splashFactory,
+      elevation: elevation,
       boxShadow: boxShadow,
+      splashFactory: splashFactory,
       shape: shape,
       textColor: textColor,
+      fontSize: fontSize,
       textStyle: textStyle,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -145,21 +179,16 @@ class BasicButtonIcon extends StatelessWidget {
     );
   }
 
-  double _getDefaultSpaceBetweenIconAndText() {
-    if (buttonSize == null) {
-      return BasicPaddings.p8;
-    } else if (buttonSize == BasicButtonSize.small) {
-      return BasicPaddings.p4;
-    } else {
-      return BasicPaddings.p8;
-    }
-  }
-
-  Widget _getIcon() {
+  Widget _getIcon(BuildContext context) {
     if (iconData != null) {
       return Icon(
         iconData,
-        color: textColor ?? (buttonType == BasicButtonType.none ? null : BasicAppColors.white),
+        color: type.getTextColor(
+          context,
+          disabled: disabled,
+          loading: loading,
+          textColor: textColor,
+        ),
       );
     } else {
       return icon!;

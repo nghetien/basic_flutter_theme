@@ -17,7 +17,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
     this.minHeightPopup,
     this.maxWidthPopup,
     this.minWidthPopup,
-    this.inputSize,
+    this.size,
     this.width,
     this.initialValue,
     this.controller,
@@ -78,7 +78,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
   final double? minHeightPopup;
   final double? maxWidthPopup;
   final double? minWidthPopup;
-  final BasicInputSize? inputSize;
+  final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -210,7 +210,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
                 widget.minHeightPopup ??
                     _menuChildren.length * BasicButtonSize.large.height +
                         24.scaleSize +
-                        (widget.inputSize ?? BasicInputSize.large).height,
+                        (widget.size ?? BasicInputSize.large).style.height,
               ),
             ),
             maximumSize: MaterialStateProperty.all(
@@ -219,7 +219,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
                 widget.maxHeightPopup ??
                     _menuChildren.length * BasicButtonSize.large.height +
                         24.scaleSize +
-                        (widget.inputSize ?? BasicInputSize.large).height,
+                        (widget.size ?? BasicInputSize.large).style.height,
               ),
             ),
             visualDensity: VisualDensity.comfortable,
@@ -230,7 +230,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
               child: BasicInput(
                 focusNode: _searchFocusNode,
                 controller: _searchController,
-                inputSize: widget.inputSize ?? BasicInputSize.large,
+                size: widget.size ?? BasicInputSize.large,
                 prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
                 hintText: widget.hintTextSearch,
               ),
@@ -240,7 +240,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
                 final bool isSelected = _menuChildrenSelected.contains(item);
                 return BasicButton(
                   width: double.infinity,
-                  buttonSize: BasicButtonSize.large,
+                  size: BasicButtonSize.large,
                   onPressed: () {
                     if (_menuChildrenSelected.contains(item)) {
                       _menuChildrenSelected.remove(item);
@@ -283,7 +283,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
           ],
           builder: (context, controller, child) {
             return BasicInput(
-              inputSize: widget.inputSize,
+              size: widget.size,
               width: widget.width,
               focusNode: _focusNode,
               initialValue: widget.initialValue,

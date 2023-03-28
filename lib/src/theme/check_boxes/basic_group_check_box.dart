@@ -1,7 +1,7 @@
-part of 'select_boxes.dart';
+part of 'check_boxes.dart';
 
-class BasicGroupSelectBox extends StatefulWidget {
-  const BasicGroupSelectBox({
+class BasicGroupCheckBox extends StatefulWidget {
+  const BasicGroupCheckBox({
     Key? key,
     this.height,
     this.width,
@@ -43,10 +43,10 @@ class BasicGroupSelectBox extends StatefulWidget {
   final TextStyle? textStyle;
 
   @override
-  State<BasicGroupSelectBox> createState() => BasicGroupSelectBoxState();
+  State<BasicGroupCheckBox> createState() => BasicGroupCheckBoxState();
 }
 
-class BasicGroupSelectBoxState extends State<BasicGroupSelectBox> {
+class BasicGroupCheckBoxState extends State<BasicGroupCheckBox> {
   late List<dynamic> _listItem = [];
   late List<bool> _listResult = [];
   int _currentSelected = -1;
@@ -107,7 +107,7 @@ class BasicGroupSelectBoxState extends State<BasicGroupSelectBox> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () => _onSelect(index, !_listResult[index]),
-            child: BasicSelectBox(
+            child: BasicCheckBox(
               isCircle: widget.isCircle,
               value: _isSelected(index),
               onChanged: (value) {

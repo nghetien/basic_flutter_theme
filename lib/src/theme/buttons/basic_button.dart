@@ -1,72 +1,142 @@
 part of 'buttons.dart';
 
-class BasicButtonSize {
-  const BasicButtonSize(double height) : _height = height;
-  final double _height;
+enum BasicButtonSize {
+  large(42),
+  medium(35),
+  small(26);
 
-  double get height => _height;
+  const BasicButtonSize(this.height);
 
-  static const BasicButtonSize large = BasicButtonSize(42);
-  static const BasicButtonSize medium = BasicButtonSize(35);
-  static const BasicButtonSize small = BasicButtonSize(26);
+  final double height;
+
+  static double getPaddingHorizontal(BasicButtonSize? size) {
+    if (size == null) return BasicPaddings.mainPadding;
+    switch (size) {
+      case BasicButtonSize.large:
+        return BasicPaddings.mainPadding;
+      case BasicButtonSize.medium:
+        return BasicPaddings.p8;
+      case BasicButtonSize.small:
+        return BasicPaddings.p8;
+      default:
+        return BasicPaddings.mainPadding;
+    }
+  }
+
+  static double getPaddingVertical(BasicButtonSize? size) {
+    if (size == null) return BasicPaddings.p8;
+    return 0;
+  }
+
+  static double getWidthLoading(BasicButtonSize? size) {
+    if (size == null) return 20;
+    switch (size) {
+      case BasicButtonSize.large:
+        return 14;
+      case BasicButtonSize.medium:
+        return 12;
+      case BasicButtonSize.small:
+        return 10;
+      default:
+        return 20;
+    }
+  }
 }
 
-class BasicButtonType {
-  const BasicButtonType({
-    Color? color,
-    OutlinedBorder? outlinedBorder,
-  })  : _color = color,
-        _outlinedBorder = outlinedBorder;
+class BasicButtonTypeStyle {
+  final Color? backgroundColor;
+  final Color? textColor;
+  final OutlinedBorder? outlinedBorder;
 
-  final Color? _color;
-  final OutlinedBorder? _outlinedBorder;
+  const BasicButtonTypeStyle({
+    this.backgroundColor,
+    this.textColor,
+    this.outlinedBorder,
+  });
+}
 
-  Color? get color => _color;
+enum BasicButtonType {
+  primary,
+  outline,
+  danger,
+  warning,
+  success,
+  info,
+  none;
 
-  OutlinedBorder? get outlinedBorder => _outlinedBorder;
+  Color? getTextColor(
+    BuildContext context, {
+    bool disabled = false,
+    bool loading = false,
+    Color? textColor,
+  }) {
+    return (disabled || loading)
+        ? (textColor ?? style(context: context).textColor)?.withOpacity(0.4)
+        : (textColor ?? style(context: context).textColor);
+  }
 
-  static final BasicButtonType primary = BasicButtonType(
-    color: BasicAppColors.primary,
-    outlinedBorder: null,
-  );
-  static final BasicButtonType outline = BasicButtonType(
-    color: Colors.transparent,
-    outlinedBorder: BeveledRectangleBorder(
-      side: BorderSide(
-        color: BasicAppColors.primary,
-        width: BasicBorders.mainBorders,
-      ),
-      borderRadius: BasicCorners.mainCornerBorder,
-    ),
-  );
-  static const BasicButtonType danger = BasicButtonType(
-    color: BasicAppColors.red,
-    outlinedBorder: null,
-  );
-  static const BasicButtonType warning = BasicButtonType(
-    color: BasicAppColors.yellow,
-    outlinedBorder: null,
-  );
-  static const BasicButtonType success = BasicButtonType(
-    color: BasicAppColors.green,
-    outlinedBorder: null,
-  );
-  static const BasicButtonType info = BasicButtonType(
-    color: BasicAppColors.blueLight,
-    outlinedBorder: null,
-  );
-  static const BasicButtonType none = BasicButtonType(
-    color: null,
-    outlinedBorder: null,
-  );
+  BasicButtonTypeStyle style({BuildContext? context}) {
+    switch (this) {
+      case BasicButtonType.primary:
+        return BasicButtonTypeStyle(
+          backgroundColor: BasicAppColors.primary,
+          textColor: Colors.white,
+          outlinedBorder: null,
+        );
+      case BasicButtonType.outline:
+        return BasicButtonTypeStyle(
+          backgroundColor: Colors.transparent,
+          textColor: context?.theme.textTheme.bodyMedium?.color ?? BasicAppColors.grey,
+          outlinedBorder: RoundedRectangleBorder(
+            side: BorderSide(
+              color: context?.theme.textTheme.bodyMedium?.color ?? BasicAppColors.grey,
+              width: BasicBorders.mainBorders,
+            ),
+            borderRadius: BasicCorners.mainCornerBorder,
+          ),
+        );
+      case BasicButtonType.danger:
+        return const BasicButtonTypeStyle(
+          backgroundColor: BasicAppColors.red,
+          textColor: Colors.white,
+          outlinedBorder: null,
+        );
+      case BasicButtonType.warning:
+        return const BasicButtonTypeStyle(
+          backgroundColor: BasicAppColors.yellow,
+          textColor: Colors.white,
+          outlinedBorder: null,
+        );
+      case BasicButtonType.success:
+        return const BasicButtonTypeStyle(
+          backgroundColor: BasicAppColors.green,
+          textColor: Colors.white,
+          outlinedBorder: null,
+        );
+      case BasicButtonType.info:
+        return const BasicButtonTypeStyle(
+          backgroundColor: BasicAppColors.blueLight,
+          textColor: Colors.white,
+          outlinedBorder: null,
+        );
+      case BasicButtonType.none:
+        return BasicButtonTypeStyle(
+          backgroundColor: Colors.transparent,
+          textColor: context?.theme.textTheme.bodyMedium?.color,
+          outlinedBorder: null,
+        );
+    }
+  }
 }
 
 class BasicButton extends StatelessWidget {
   const BasicButton({
     Key? key,
-    this.buttonSize,
-    this.buttonType = BasicButtonType.none,
+    this.size,
+    this.type = BasicButtonType.none,
     required this.onPressed,
+    this.disabled = false,
+    this.loading = false,
     this.text,
     this.child,
     this.width,
@@ -87,9 +157,11 @@ class BasicButton extends StatelessWidget {
     this.alignment,
   }) : super(key: key);
 
-  final BasicButtonSize? buttonSize;
-  final BasicButtonType buttonType;
+  final BasicButtonSize? size;
+  final BasicButtonType type;
   final VoidCallback onPressed;
+  final bool disabled;
+  final bool loading;
   final String? text;
   final Widget? child;
   final double? width;
@@ -111,52 +183,107 @@ class BasicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.zero,
+    padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
-        height: height ?? buttonSize?.height,
+        height: height ?? size?.height,
         width: width,
         decoration: BoxDecoration(boxShadow: boxShadow),
         child: ElevatedButton(
           key: key,
-          onPressed: onPressed,
+          onPressed: () {
+            if (disabled || loading) return;
+            onPressed();
+          },
           style: ElevatedButton.styleFrom(
             alignment: alignment,
-            backgroundColor: background ?? buttonType.color,
-            shape: shape,
+            backgroundColor: (disabled || loading)
+                ? (background ?? type.style().backgroundColor)?.withOpacity(0.4)
+                : (background ?? type.style().backgroundColor),
+            shape: shape ??
+                type.style(context: context).outlinedBorder?.copyWith(
+                      side: BorderSide(
+                        color: ((disabled || loading)
+                                ? type
+                                    .style(context: context)
+                                    .outlinedBorder
+                                    ?.side
+                                    .color
+                                    .withOpacity(0)
+                                : type.style(context: context).outlinedBorder?.side.color) ??
+                            Colors.transparent,
+                      ),
+                    ),
             padding: EdgeInsets.zero,
             shadowColor: shadowColor,
             elevation: elevation ?? 0,
             minimumSize: Size.zero,
             foregroundColor: hoverColor,
             splashFactory: splashFactory,
+            enabledMouseCursor:
+                (disabled || loading) ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
           ),
           child: Container(
             padding: padding ??
-                (buttonSize == null
-                    ? EdgeInsets.symmetric(
-                        horizontal: BasicPaddings.mainPadding,
-                        vertical: BasicPaddings.p8,
-                      )
-                    : EdgeInsets.symmetric(
-                        horizontal: BasicPaddings.mainPadding,
-                        vertical: 0,
-                      )),
-            child: child ??
-                Text(
-                  text ?? '',
-                  textAlign: TextAlign.center,
-                  maxLines: maxLines,
-                  style: textStyle ??
-                      BasicTextStyles.body.copyWith(
-                        color: textColor ??
-                            (buttonType.outlinedBorder != null
-                                ? context.theme.textTheme.bodyMedium?.color
-                                : BasicAppColors.white),
-                        height: 0,
-                        fontSize: fontSize,
-                      ),
+                EdgeInsets.symmetric(
+                  horizontal: BasicButtonSize.getPaddingHorizontal(size),
+                  vertical: BasicButtonSize.getPaddingVertical(size),
                 ),
+            child: _getContent(context),
           ),
         ),
       );
+
+  Widget _getContent(BuildContext context) {
+    Widget? content;
+    if (child != null) {
+      content = child!;
+    } else if (text != null) {
+      content = Text(
+        text!,
+        textAlign: TextAlign.center,
+        maxLines: maxLines,
+        style: textStyle ??
+            BasicTextStyles.body.copyWith(
+              color: type.getTextColor(
+                context,
+                disabled: disabled,
+                loading: loading,
+                textColor: textColor,
+              ),
+              height: 0,
+              fontSize: fontSize,
+            ),
+      );
+    }
+
+    if (loading) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: BasicButtonSize.getWidthLoading(size),
+            width: BasicButtonSize.getWidthLoading(size),
+            child: CircularProgressIndicator(
+              strokeWidth: BasicBorders.mainBorders,
+              color: type.getTextColor(
+                context,
+                disabled: disabled,
+                loading: loading,
+                textColor: textColor,
+              ),
+            ),
+          ),
+          if (content != null)
+            Padding(
+              padding: EdgeInsets.only(
+                left: BasicButtonSize.getPaddingHorizontal(size),
+              ),
+              child: content,
+            )
+        ],
+      );
+    }
+    return content ?? const SizedBox.shrink();
+  }
 }
