@@ -1,3 +1,5 @@
+## 0.2.1
+* Remove `clearDefaultValidate` in `BasicInputDateTime`.
 ## 0.2.0
 * Update size, type for all Widget and add (disable and loading) for `BasicButton`.
 ## 0.1.23

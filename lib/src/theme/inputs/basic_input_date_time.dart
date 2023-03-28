@@ -16,7 +16,6 @@ class BasicInputDateTime extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.currentDate,
-    this.clearDefaultValidate,
     this.size,
     this.width,
     this.controller,
@@ -71,7 +70,6 @@ class BasicInputDateTime extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
   final DateTime? currentDate;
-  final bool? clearDefaultValidate;
   final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
@@ -283,16 +281,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
         obscureText: widget.obscureText,
         cursorColor: widget.cursorColor,
         autoValidateMode: widget.autoValidateMode,
-    validator: widget.clearDefaultValidate == true
-            ? null
-            : widget.validator ??
-                BasicFormValidator.compose(
-                  [
-                    BasicFormValidator.required(
-                        errorText: BasicFormValidatorMessageError().required),
-                    _getValidator(),
-                  ],
-                ),
+        validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
         inputFormatters: widget.inputFormatters ?? [_getFormatter()],
         onChanged: _onChanged,
         onTap: widget.onTap,
