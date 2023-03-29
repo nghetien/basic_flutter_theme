@@ -8,7 +8,7 @@ class BasicGroupCheckBox extends StatefulWidget {
     this.initValue,
     this.listTitle,
     this.listWidget,
-    this.isCircle = true,
+    this.type = BasicCheckBoxType.check,
     this.canUnSelect = true,
     required this.onChanged,
     this.activeColor,
@@ -32,7 +32,7 @@ class BasicGroupCheckBox extends StatefulWidget {
   final List<bool>? initValue;
   final List<String>? listTitle;
   final List<Widget>? listWidget;
-  final bool isCircle;
+  final BasicCheckBoxType type;
   final bool canUnSelect;
   final Function(int, bool?) onChanged;
   final Color? activeColor;
@@ -69,7 +69,7 @@ class BasicGroupCheckBoxState extends State<BasicGroupCheckBox> {
   }
 
   void _onSelect(int index, bool value) {
-    if (widget.isCircle == false) {
+    if (widget.type.isCheck) {
       setState(() => _listResult[index] = value);
     } else {
       _listResult = List.generate(_listResult.length, (index) => false);
@@ -93,7 +93,7 @@ class BasicGroupCheckBoxState extends State<BasicGroupCheckBox> {
   }
 
   bool _isSelected(int index) {
-    if (widget.isCircle == false) return _listResult[index];
+    if (widget.type.isCheck) return _listResult[index];
     return _currentSelected == index;
   }
 
@@ -107,8 +107,8 @@ class BasicGroupCheckBoxState extends State<BasicGroupCheckBox> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () => _onSelect(index, !_listResult[index]),
-            child: BasicCheckBox(
-              isCircle: widget.isCircle,
+            child: BasicCheckBoxTitle(
+              type: widget.type,
               value: _isSelected(index),
               onChanged: (value) {
                 if (value != null) _onSelect(index, value);

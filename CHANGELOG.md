@@ -1,3 +1,5 @@
+## 0.2.2
+* Update `check_boxes`.
 ## 0.2.1
 * Remove `clearDefaultValidate` in `BasicInputDateTime`.
 ## 0.2.0
