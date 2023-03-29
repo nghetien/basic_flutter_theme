@@ -1,3 +1,5 @@
+## 0.2.3
+* Fix bug `BasicIconButton` and `BasicTextButton`.
 ## 0.2.2
 * Update `check_boxes`.
 ## 0.2.1

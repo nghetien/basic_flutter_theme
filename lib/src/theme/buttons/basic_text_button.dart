@@ -9,6 +9,7 @@ class BasicTextButton extends StatelessWidget {
     this.textColor,
     this.textFontSize,
     this.textFontWeight,
+    this.cursor = SystemMouseCursors.click,
   }) : super(key: key);
 
   final String? text;
@@ -17,20 +18,25 @@ class BasicTextButton extends StatelessWidget {
   final Color? textColor;
   final double? textFontSize;
   final FontWeight? textFontWeight;
+  final MouseCursor cursor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: onPressed,
-        child: child ?? Text(
-          text ?? "",
-          style: BasicTextStyles.body.copyWith(
-            color: textColor,
-            fontSize: textFontSize,
-            fontWeight: textFontWeight,
-            height: 0,
-          ),
-        )
+      onTap: onPressed,
+      child: MouseRegion(
+        cursor: cursor,
+        child: child ??
+            Text(
+              text ?? "",
+              style: BasicTextStyles.body.copyWith(
+                color: textColor,
+                fontSize: textFontSize,
+                fontWeight: textFontWeight,
+                height: 0,
+              ),
+            ),
+      ),
     );
   }
 }

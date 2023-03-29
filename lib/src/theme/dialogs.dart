@@ -223,6 +223,7 @@ class BasicDialogs {
                               context.popNavigator();
                             }
                           },
+                          type: BasicButtonType.none,
                           size: BasicButtonSize.large,
                           text: buttonCancel ?? 'Cancel',
                           textColor: BasicAppColors.white,
@@ -233,6 +234,7 @@ class BasicDialogs {
                   Expanded(
                     child: BasicButton(
                       size: BasicButtonSize.large,
+                      type: BasicButtonType.primary,
                       onPressed: onClickButtonRight,
                       text: buttonText ?? 'OK',
                       background: type == BasicDialogType.delete

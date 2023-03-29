@@ -8,6 +8,7 @@ class BasicIconButton extends StatelessWidget {
     this.size,
     this.color,
     required this.icon,
+    this.cursor = SystemMouseCursors.click,
   }) : super(key: key);
 
   final void Function()? onPressed;
@@ -15,16 +16,20 @@ class BasicIconButton extends StatelessWidget {
   final double? size;
   final Color? color;
   final Widget? icon;
+  final MouseCursor cursor;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: onPressed,
-        child: iconData != null
-            ? Icon(
-                iconData,
-                size: size,
-                color: color,
-              )
-            : icon,
+        child: MouseRegion(
+          cursor: cursor,
+          child: iconData != null
+              ? Icon(
+                  iconData,
+                  size: size,
+                  color: color,
+                )
+              : icon,
+        ),
       );
 }
