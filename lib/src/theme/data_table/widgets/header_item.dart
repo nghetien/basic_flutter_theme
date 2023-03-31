@@ -11,6 +11,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
     required this.column,
     required this.dataTableOptionUI,
     required this.additionFilter,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final int index;
@@ -21,6 +22,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
   final DataTableOptionUI dataTableOptionUI;
   final SortDataVoid? sortDataVoid;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,13 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
 
   Widget _getWidgetHeaderItem() {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
-      return SizedBox(width: column.width, child: CheckBoxColumn(controller: controller));
+      return SizedBox(
+        width: column.width,
+        child: CheckBoxColumn(
+          controller: controller,
+          onSelectCheckBox: onSelectCheckBox,
+        ),
+      );
     }
     if (column.key == DataTableAdditionColumn.numbered.toString()) {
       return SizedBox(

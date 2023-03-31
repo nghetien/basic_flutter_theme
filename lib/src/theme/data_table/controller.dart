@@ -136,6 +136,8 @@ class DataTableController<T> extends ChangeNotifier {
 
   bool get isLoading => _state.isLoading;
 
+  Map<int, T> get dataSelected => _state.dataSelected;
+
   void setDataSources(List<T> dataSources) {
     _state.dataSources = dataSources;
     notifyListeners();

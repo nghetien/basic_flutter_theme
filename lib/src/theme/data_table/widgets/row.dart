@@ -13,6 +13,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
     required this.onPressed,
     this.height,
     required this.dataTableOptionUI,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -25,6 +26,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
   final double? height;
   final DataTableOptionUI dataTableOptionUI;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
             controller: controller,
             column: tableColumns[indexColumn],
             dataTableOptionUI: dataTableOptionUI,
+            onSelectCheckBox: onSelectCheckBox,
           ),
         );
       }

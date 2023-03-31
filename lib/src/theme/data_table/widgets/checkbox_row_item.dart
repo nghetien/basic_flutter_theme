@@ -5,16 +5,19 @@ class CheckBoxRowItem<T> extends StatelessWidget {
     Key? key,
     required this.rowData,
     required this.controller,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final T rowData;
   final DataTableController<T> controller;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   bool _getValueCheckBox() => controller.elementIsSelected(rowData);
 
   void _handleSelectBox(bool? value) {
     if (value == null) return;
     controller.selectElement(value, rowData);
+    onSelectCheckBox?.call(controller.dataSelected);
   }
 
   @override

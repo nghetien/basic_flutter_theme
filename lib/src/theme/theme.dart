@@ -1,7 +1,6 @@
 export 'app_refresher.dart';
 export 'badge.dart';
 export 'buttons/buttons.dart';
-export 'calendar/calendar.dart';
 export 'card.dart';
 export 'data_table/data_table.dart';
 export 'dialogs.dart';

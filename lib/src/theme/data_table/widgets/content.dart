@@ -12,6 +12,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
     this.verticalScrollState,
     this.onPressRowItem,
     required this.dataTableOptionUI,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -23,6 +24,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   final BasicVerticalScrollState? verticalScrollState;
   final Function(T)? onPressRowItem;
   final DataTableOptionUI dataTableOptionUI;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   DataTableContentWidgetState<T> createState() => DataTableContentWidgetState<T>();
@@ -129,6 +131,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
             onPressed: () => _handleClickContent(index, rowData),
             showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
             dataTableOptionUI: widget.dataTableOptionUI,
+            onSelectCheckBox: widget.onSelectCheckBox,
           );
         },
       );

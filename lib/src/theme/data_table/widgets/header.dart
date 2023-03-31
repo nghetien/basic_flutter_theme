@@ -9,6 +9,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
     this.sortDataVoid,
     required this.dataTableOptionUI,
     required this.additionFilter,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -17,6 +18,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
   final SortDataVoid? sortDataVoid;
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   static final double defaultHeightHeader = 40.scaleSize;
 
@@ -59,6 +61,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
             dataTableOptionUI: dataTableOptionUI,
             additionFilter: additionFilter,
             fixedColumn: fixedColumn,
+            onSelectCheckBox: onSelectCheckBox,
           ),
         );
       }

@@ -1,3 +1,5 @@
+## 0.2.4
+* Add `onSelectCheckBox` to `BasicDataTable`.
 ## 0.2.3
 * Fix bug `BasicIconButton` and `BasicTextButton`.
 ## 0.2.2

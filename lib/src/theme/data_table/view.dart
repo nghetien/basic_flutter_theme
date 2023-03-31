@@ -14,6 +14,7 @@ class BasicDataTable<T> extends StatefulWidget {
     this.sortDataVoid,
     this.additionFilter = const {},
     this.onPressRowItem,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -27,6 +28,7 @@ class BasicDataTable<T> extends StatefulWidget {
   final SortDataVoid? sortDataVoid;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final Function(T)? onPressRowItem;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   BasicDataTableState<T> createState() => BasicDataTableState<T>();
@@ -123,6 +125,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
         handleChangeData: widget.handleChangeData,
         onPressRowItem: widget.onPressRowItem,
+        onSelectCheckBox: widget.onSelectCheckBox,
       );
     }
     return DefaultDataTableWidget(
@@ -135,6 +138,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
       handleChangeData: widget.handleChangeData,
       onPressRowItem: widget.onPressRowItem,
+      onSelectCheckBox: widget.onSelectCheckBox,
     );
   }
 }

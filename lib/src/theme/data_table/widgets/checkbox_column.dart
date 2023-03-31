@@ -4,13 +4,16 @@ class CheckBoxColumn<T> extends StatelessWidget {
   const CheckBoxColumn({
     Key? key,
     required this.controller,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final DataTableController<T> controller;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   void _handleSelectAll(bool? value) {
     if (value == null) return;
     controller.selectAll(value);
+    onSelectCheckBox?.call(controller.dataSelected);
   }
 
   bool _getValueCheckBoxAll() {

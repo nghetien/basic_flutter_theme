@@ -9,6 +9,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
     required this.dataTableOptionUI,
     required this.additionFilter,
     this.onPressRowItem,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final FixedColumn type;
@@ -17,6 +18,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
   final DataTableOptionUI dataTableOptionUI;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final Function(T)? onPressRowItem;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -53,12 +55,14 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
             sortDataVoid: sortDataVoid,
             dataTableOptionUI: dataTableOptionUI,
             additionFilter: additionFilter,
+            onSelectCheckBox: onSelectCheckBox,
           ),
           DataTableFixedColumnContentWidget(
             type: type,
             controller: controller,
             onPressRowItem: onPressRowItem,
             dataTableOptionUI: dataTableOptionUI,
+            onSelectCheckBox: onSelectCheckBox,
           ),
         ],
       ),

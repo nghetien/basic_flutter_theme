@@ -11,6 +11,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     required this.controller,
     required this.column,
     required this.dataTableOptionUI,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final FixedColumn fixedColumn;
@@ -21,6 +22,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
   final DataTableOptionUI dataTableOptionUI;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
       return CheckBoxRowItem(
         rowData: rowData,
         controller: controller,
+        onSelectCheckBox: onSelectCheckBox,
       );
     }
     if (column.key == DataTableAdditionColumn.numbered.toString()) {

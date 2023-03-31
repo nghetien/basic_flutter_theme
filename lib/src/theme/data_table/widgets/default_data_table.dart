@@ -12,6 +12,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
     this.onPressRowItem,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -23,6 +24,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
   final Function(T)? onPressRowItem;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   State<DefaultDataTableWidget<T>> createState() => _DefaultDataTableWidgetState<T>();
@@ -59,6 +61,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                       dataTableOptionUI: widget.dataTableOptionUI,
                       additionFilter: widget.additionFilter,
                       onPressRowItem: widget.onPressRowItem,
+                      onSelectCheckBox: widget.onSelectCheckBox,
                     ),
                   ),
                 Expanded(
@@ -80,6 +83,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                                 sortDataVoid: widget.sortDataVoid,
                                 dataTableOptionUI: widget.dataTableOptionUI,
                                 additionFilter: widget.additionFilter,
+                                onSelectCheckBox: widget.onSelectCheckBox,
                               ),
                               DataTableContentWidget<T>(
                                 tableColumns: widget.controller.tableColumnsContent,
@@ -89,6 +93,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                                 showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
                                 onPressRowItem: widget.onPressRowItem,
                                 dataTableOptionUI: widget.dataTableOptionUI,
+                                onSelectCheckBox: widget.onSelectCheckBox,
                               ),
                             ],
                           ),
@@ -107,6 +112,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                       dataTableOptionUI: widget.dataTableOptionUI,
                       additionFilter: widget.additionFilter,
                       onPressRowItem: widget.onPressRowItem,
+                      onSelectCheckBox: widget.onSelectCheckBox,
                     ),
                   ),
               ],

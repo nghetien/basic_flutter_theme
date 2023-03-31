@@ -10,6 +10,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
     required this.additionFilter,
     required this.verticalFixedColumnScrollController,
     this.onPressRowItem,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final FixedColumn type;
@@ -19,6 +20,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final ScrollController verticalFixedColumnScrollController;
   final Function(T)? onPressRowItem;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -55,6 +57,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
             sortDataVoid: sortDataVoid,
             dataTableOptionUI: dataTableOptionUI,
             additionFilter: additionFilter,
+            onSelectCheckBox: onSelectCheckBox,
           ),
           Expanded(
             child: ScrollConfiguration(
@@ -67,6 +70,7 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
                   controller: controller,
                   onPressRowItem: onPressRowItem,
                   dataTableOptionUI: dataTableOptionUI,
+                  onSelectCheckBox: onSelectCheckBox,
                 ),
               ),
             ),

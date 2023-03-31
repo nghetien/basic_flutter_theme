@@ -12,6 +12,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
     this.onPressRowItem,
+    this.onSelectCheckBox,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -23,6 +24,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
   final Function(T)? onPressRowItem;
+  final Function(Map<int, T>)? onSelectCheckBox;
 
   @override
   State<FixedDataTableWidget<T>> createState() => _FixedDataTableWidgetState<T>();
@@ -144,6 +146,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                 verticalFixedColumnScrollController:
                                     _verticalFixedColumnLeftScrollController,
                                 onPressRowItem: widget.onPressRowItem,
+                                onSelectCheckBox: widget.onSelectCheckBox,
                               ),
                             ),
                           Expanded(
@@ -166,6 +169,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                             sortDataVoid: widget.sortDataVoid,
                                             dataTableOptionUI: widget.dataTableOptionUI,
                                             additionFilter: widget.additionFilter,
+                                            onSelectCheckBox: widget.onSelectCheckBox,
                                           ),
                                           Expanded(
                                             child: wrapperVerticalContent(
@@ -184,6 +188,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                                       widget.showerMoreContentIntoRowWidget,
                                                   onPressRowItem: widget.onPressRowItem,
                                                   dataTableOptionUI: widget.dataTableOptionUI,
+                                                  onSelectCheckBox: widget.onSelectCheckBox,
                                                 ),
                                               ),
                                             ),
@@ -208,6 +213,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                                 verticalFixedColumnScrollController:
                                     _verticalFixedColumnRightScrollController,
                                 onPressRowItem: widget.onPressRowItem,
+                                onSelectCheckBox: widget.onSelectCheckBox,
                               ),
                             ),
                         ],
