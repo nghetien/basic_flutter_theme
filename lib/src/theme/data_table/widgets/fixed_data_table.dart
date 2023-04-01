@@ -13,6 +13,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
     required this.handleChangeData,
     this.onPressRowItem,
     this.onSelectCheckBox,
+    this.isShowPagination = true,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -25,6 +26,7 @@ class FixedDataTableWidget<T> extends StatefulWidget {
   final AsyncDataSource<T> handleChangeData;
   final Function(T)? onPressRowItem;
   final Function(Map<int, T>)? onSelectCheckBox;
+  final bool isShowPagination;
 
   @override
   State<FixedDataTableWidget<T>> createState() => _FixedDataTableWidgetState<T>();
@@ -232,6 +234,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                   controller: widget.controller,
                   handleChangeData: widget.handleChangeData,
                   dataTableOptionUI: widget.dataTableOptionUI,
+                  isShowPagination: widget.isShowPagination,
                 ),
               ],
             ),

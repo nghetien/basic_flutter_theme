@@ -6,11 +6,13 @@ class DataTablePaginationWidget<T> extends StatefulWidget {
     required this.handleChangeData,
     required this.controller,
     required this.dataTableOptionUI,
+    this.isShowPagination = true,
   }) : super(key: key);
 
   final DataTableController<T> controller;
   final AsyncDataSource<T> handleChangeData;
   final DataTableOptionUI dataTableOptionUI;
+  final bool isShowPagination;
 
   @override
   State<DataTablePaginationWidget> createState() => _DataTablePaginationWidgetState();
@@ -82,26 +84,37 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
             bottomRight: BasicCorners.mainCornerRadius,
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+        child: widget.isShowPagination
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _nextPageLeft(),
-                  _pageNumberWidget(),
-                  _nextPageRight(),
-                  HSpace.p14,
-                  _dropdownItemsPerPage(),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        _nextPageLeft(),
+                        _pageNumberWidget(),
+                        _nextPageRight(),
+                        HSpace.p14,
+                        _dropdownItemsPerPage(),
+                      ],
+                    ),
+                  ),
+                  if (BasicConfigResponsive.screenDevice.isDesktop) _fromToItemsInPage(),
                 ],
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _fromToItemsInPage(),
+                  ],
+                ),
               ),
-            ),
-            if (BasicConfigResponsive.screenDevice.isDesktop) _fromToItemsInPage(),
-          ],
-        ),
       ),
     );
   }

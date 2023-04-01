@@ -1,3 +1,5 @@
+## 0.2.6
+* Add `isShowPagination` to `BasicDataTable`.
 ## 0.2.5
 * Add `initialTime` to `BasicInputDateTime`.
 ## 0.2.4

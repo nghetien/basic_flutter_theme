@@ -15,6 +15,7 @@ class BasicDataTable<T> extends StatefulWidget {
     this.additionFilter = const {},
     this.onPressRowItem,
     this.onSelectCheckBox,
+    this.isShowPagination = true,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -29,6 +30,7 @@ class BasicDataTable<T> extends StatefulWidget {
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final Function(T)? onPressRowItem;
   final Function(Map<int, T>)? onSelectCheckBox;
+  final bool isShowPagination;
 
   @override
   BasicDataTableState<T> createState() => BasicDataTableState<T>();
@@ -126,6 +128,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
         handleChangeData: widget.handleChangeData,
         onPressRowItem: widget.onPressRowItem,
         onSelectCheckBox: widget.onSelectCheckBox,
+        isShowPagination: widget.isShowPagination,
       );
     }
     return DefaultDataTableWidget(
@@ -139,6 +142,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       handleChangeData: widget.handleChangeData,
       onPressRowItem: widget.onPressRowItem,
       onSelectCheckBox: widget.onSelectCheckBox,
+      isShowPagination: widget.isShowPagination,
     );
   }
 }

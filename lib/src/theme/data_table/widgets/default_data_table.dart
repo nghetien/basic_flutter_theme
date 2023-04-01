@@ -13,6 +13,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
     required this.handleChangeData,
     this.onPressRowItem,
     this.onSelectCheckBox,
+    this.isShowPagination = true,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -25,6 +26,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
   final AsyncDataSource<T> handleChangeData;
   final Function(T)? onPressRowItem;
   final Function(Map<int, T>)? onSelectCheckBox;
+  final bool isShowPagination;
 
   @override
   State<DefaultDataTableWidget<T>> createState() => _DefaultDataTableWidgetState<T>();
@@ -122,6 +124,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
               controller: widget.controller,
               handleChangeData: widget.handleChangeData,
               dataTableOptionUI: widget.dataTableOptionUI,
+              isShowPagination: widget.isShowPagination,
             ),
           ],
         ),
