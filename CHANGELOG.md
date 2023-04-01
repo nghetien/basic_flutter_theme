@@ -1,3 +1,5 @@
+## 0.2.5
+* Add `initialTime` to `BasicInputDateTime`.
 ## 0.2.4
 * Add `onSelectCheckBox` to `BasicDataTable`.
 ## 0.2.3

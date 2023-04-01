@@ -16,6 +16,7 @@ class BasicInputDateTime extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.currentDate,
+    this.initialTime,
     this.size,
     this.width,
     this.controller,
@@ -70,6 +71,7 @@ class BasicInputDateTime extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
   final DateTime? currentDate;
+  final TimeOfDay? initialTime;
   final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
@@ -121,12 +123,17 @@ class BasicInputDateTime extends StatefulWidget {
 }
 
 class _BasicInputDateTimeState extends State<BasicInputDateTime> {
+  bool _isShowSelectDate = false;
+
+  void setIsShowSelectDate(bool value) => _isShowSelectDate = value;
+
   late FocusNode _focusNode;
   late TextEditingController _controller;
 
   void _onFocusChange() {
     if (widget.autoOpenSelectDate && _focusNode.hasFocus) {
       FocusManager.instance.primaryFocus?.unfocus();
+      if (_isShowSelectDate) return;
       _onSelectDate();
     }
     widget.onFocusChange?.call(_focusNode.hasFocus);
@@ -188,6 +195,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
   }
 
   void _onSelectDate() async {
+    setIsShowSelectDate(true);
     DateTime? date;
     switch (widget.type) {
       case BasicInputDateTimeType.date:
@@ -202,7 +210,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
       case BasicInputDateTimeType.time:
         final TimeOfDay? time = await showTimePicker(
           context: context,
-          initialTime: TimeOfDay.now(),
+          initialTime: widget.initialTime ?? TimeOfDay.now(),
         );
         if (time != null) {
           date = DateTime.now().copyWith(
@@ -219,14 +227,14 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
           lastDate: widget.lastDate ?? DateTime(DateTime.now().year + 5),
           currentDate: widget.currentDate,
         ).then(
-          (dateResult) async {
+              (dateResult) async {
             date = dateResult;
             if (date != null) {
               await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
               ).then(
-                (time) {
+                    (time) {
                   if (time != null) {
                     date = DateTime(
                       date!.year,
@@ -258,6 +266,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
             _getDateTimeValidator(),
           ),
     );
+    setIsShowSelectDate(false);
   }
 
   void _onChanged(String value) {
@@ -267,49 +276,49 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
   @override
   Widget build(BuildContext context) => BasicInput(
     size: widget.size,
-        width: widget.width,
-        controller: _controller,
-        focusNode: _focusNode,
-        textAlign: widget.textAlign,
-        textAlignVertical: widget.textAlignVertical,
-        textInputAction: widget.textInputAction,
-        keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        maxLength: widget.maxLength,
-        enabled: widget.enabled,
-        obscureText: widget.obscureText,
-        cursorColor: widget.cursorColor,
-        autoValidateMode: widget.autoValidateMode,
-        validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
-        inputFormatters: widget.inputFormatters ?? [_getFormatter()],
-        onChanged: _onChanged,
-        onTap: widget.onTap,
-        onEditingComplete: widget.onEditingComplete,
-        onFieldSubmitted: widget.onFieldSubmitted,
-        onSaved: widget.onSaved,
-        isDense: widget.isDense,
-        filled: widget.filled,
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.suffixIcon ?? _getIcon(),
-        contentPadding: widget.contentPadding,
-        focusedBorder: widget.focusedBorder,
-        enabledBorder: widget.enabledBorder,
-        disabledBorder: widget.disabledBorder,
-        errorBorder: widget.errorBorder,
-        focusedErrorBorder: widget.focusedErrorBorder,
-        fillColor: widget.fillColor,
-        hoverColor: widget.hoverColor,
-        labelText: widget.labelText,
-        labelStyle: widget.labelStyle,
-        floatingLabelStyle: widget.floatingLabelStyle,
-        floatingLabelBehavior: widget.floatingLabelBehavior,
-        hintText: _getHintText(),
-        hintStyle: widget.hintStyle,
-        errorText: widget.errorText,
-        errorMaxLines: widget.errorMaxLines,
-        errorStyle: widget.errorStyle,
-      );
+    width: widget.width,
+    controller: _controller,
+    focusNode: _focusNode,
+    textAlign: widget.textAlign,
+    textAlignVertical: widget.textAlignVertical,
+    textInputAction: widget.textInputAction,
+    keyboardType: widget.keyboardType,
+    maxLines: widget.maxLines,
+    minLines: widget.minLines,
+    maxLength: widget.maxLength,
+    enabled: widget.enabled,
+    obscureText: widget.obscureText,
+    cursorColor: widget.cursorColor,
+    autoValidateMode: widget.autoValidateMode,
+    validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
+    inputFormatters: widget.inputFormatters ?? [_getFormatter()],
+    onChanged: _onChanged,
+    onTap: widget.onTap,
+    onEditingComplete: widget.onEditingComplete,
+    onFieldSubmitted: widget.onFieldSubmitted,
+    onSaved: widget.onSaved,
+    isDense: widget.isDense,
+    filled: widget.filled,
+    prefixIcon: widget.prefixIcon,
+    suffixIcon: widget.suffixIcon ?? _getIcon(),
+    contentPadding: widget.contentPadding,
+    focusedBorder: widget.focusedBorder,
+    enabledBorder: widget.enabledBorder,
+    disabledBorder: widget.disabledBorder,
+    errorBorder: widget.errorBorder,
+    focusedErrorBorder: widget.focusedErrorBorder,
+    fillColor: widget.fillColor,
+    hoverColor: widget.hoverColor,
+    labelText: widget.labelText,
+    labelStyle: widget.labelStyle,
+    floatingLabelStyle: widget.floatingLabelStyle,
+    floatingLabelBehavior: widget.floatingLabelBehavior,
+    hintText: _getHintText(),
+    hintStyle: widget.hintStyle,
+    errorText: widget.errorText,
+    errorMaxLines: widget.errorMaxLines,
+    errorStyle: widget.errorStyle,
+  );
 
   Widget _getIcon() {
     IconData iconData = Icons.calendar_today_rounded;
