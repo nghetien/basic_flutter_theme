@@ -39,21 +39,18 @@ class BasicDataTable<T> extends StatefulWidget {
 class BasicDataTableState<T> extends State<BasicDataTable<T>> {
   late DataTableController<T> _webDataTableController;
 
-  @override
-  void initState() {
+  void _handleSetState() {
+    if (mounted) setState(() {});
+  }
+
+  void _handleInitState() {
     assert(
       widget.tableColumns.map((e) => e.key).toSet().length == widget.tableColumns.length,
       'Mỗi key của từng cột phải khác nhau',
     );
-    _webDataTableController = widget.controller;
     _webDataTableController.initDataTable(
       initTableColumns: widget.tableColumns,
       additionColumns: widget.additionColumns,
-    );
-    _webDataTableController.addListener(
-      () {
-        if (mounted) setState(() {});
-      },
     );
     assert(
       _webDataTableController.dataSources.every(
@@ -83,6 +80,13 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       ),
       'Tất cả các cột nếu set FixedColumn left hoặc right đều phải có width',
     );
+  }
+
+  @override
+  void initState() {
+    _webDataTableController = widget.controller;
+    _handleInitState();
+    _webDataTableController.addListener(_handleSetState);
     super.initState();
   }
 
@@ -91,7 +95,18 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
     if (widget.controller != oldWidget.controller) {
       _webDataTableController = widget.controller;
     }
+    if ((widget.tableColumns != oldWidget.tableColumns) ||
+        (widget.tableColumns.length != oldWidget.tableColumns.length)) {
+      _handleInitState();
+      setState(() {});
+    }
     super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _webDataTableController.removeListener(_handleSetState);
+    super.dispose();
   }
 
   @override

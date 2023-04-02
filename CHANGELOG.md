@@ -1,3 +1,5 @@
+## 0.2.7
+* Hotfix `BasicDataTable`.
 ## 0.2.6
 * Add `isShowPagination` to `BasicDataTable`.
 ## 0.2.5

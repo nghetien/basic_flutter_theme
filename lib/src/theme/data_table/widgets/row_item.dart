@@ -26,10 +26,11 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double? widthOfRowItem = fixedColumn != FixedColumn.none
+        ? column.width
+        : controller.mapKeyToWidthOfEachColumnContent[column.key];
     return SizedBox(
-      width: fixedColumn != FixedColumn.none
-          ? column.width
-          : controller.mapKeyToWidthOfEachColumnContent[column.key],
+      width: widthOfRowItem,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -41,12 +42,16 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
                 : BorderSide.none,
           ),
         ),
-        child: _getWidgetRowItem(context, column),
+        child: _getWidgetRowItem(context, column, widthOfRowItem),
       ),
     );
   }
 
-  Widget _getWidgetRowItem(BuildContext context, DataTableColumn<T> column) {
+  Widget _getWidgetRowItem(
+    BuildContext context,
+    DataTableColumn<T> column,
+    double? width,
+  ) {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
       return CheckBoxRowItem(
         rowData: rowData,
@@ -66,7 +71,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
           rowData,
           column.key,
           column.name,
-          column.width,
+          width,
           column.showOnScreens,
         ),
       );

@@ -42,12 +42,12 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                 : BorderSide.none,
           ),
         ),
-        child: _getWidgetHeaderItem(),
+        child: _getWidgetHeaderItem(context),
       ),
     );
   }
 
-  Widget _getWidgetHeaderItem() {
+  Widget _getWidgetHeaderItem(BuildContext context) {
     if (column.key == DataTableAdditionColumn.checkbox.toString()) {
       return SizedBox(
         width: column.width,
@@ -73,21 +73,31 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
         ),
       );
     }
+    final double? widthOfRowItem = fixedColumn != FixedColumn.none
+        ? column.width
+        : controller.mapKeyToWidthOfEachColumnContent[column.key];
     return Stack(
       children: <Widget>[
-        Container(
-          alignment: column.customizeTitleWidget?.alignment ?? Alignment.center,
-          padding: column.customizeTitleWidget?.padding ??
-              EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
-          child: Text(
-            column.customizeTitleWidget?.title ?? column.name,
-            textAlign: TextAlign.center,
-            style: BasicTextStyles.body.copyWith(
-              fontWeight: FontWeight.bold,
-              color: BasicAppColors.white,
-            ),
-          ),
-        ),
+        column.customizeTitleWidget != null
+            ? column.customizeTitleWidget!(
+                context,
+                column.key,
+                column.name,
+                widthOfRowItem,
+                column.showOnScreens,
+              )
+            : Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
+                child: Text(
+                  column.name,
+                  textAlign: TextAlign.center,
+                  style: BasicTextStyles.body.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: BasicAppColors.white,
+                  ),
+                ),
+              ),
         if (dataTableOptionUI.isShowSortFilter)
           Positioned(
             right: 0,

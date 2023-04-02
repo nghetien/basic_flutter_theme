@@ -8,17 +8,13 @@ enum FixedColumn {
   right,
 }
 
-class CustomizeTitleWidget {
-  const CustomizeTitleWidget({
-    this.title,
-    this.alignment,
-    this.padding,
-  });
-
-  final String? title;
-  final Alignment? alignment;
-  final EdgeInsetsGeometry? padding;
-}
+typedef CustomizeTitleWidget = Widget Function(
+  BuildContext context,
+  String columnKey,
+  String columnName,
+  double? width,
+  List<BasicScreenDevice>? showOnScreens,
+);
 
 typedef TableItemWidget<T> = Widget Function(
   BuildContext context,
