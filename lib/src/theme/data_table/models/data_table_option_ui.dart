@@ -11,6 +11,7 @@ class DataTableOptionUI {
     this.customizeSortAsc = 'Sort Asc',
     this.paddingOfRowItem,
     this.heightOfRowItem,
+    this.heightOfHeaderItem,
   });
 
   final bool fixTableInAScreen;
@@ -22,4 +23,5 @@ class DataTableOptionUI {
   final String customizeSortAsc;
   final EdgeInsets? paddingOfRowItem;
   final double? heightOfRowItem;
+  final double? heightOfHeaderItem;
 }

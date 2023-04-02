@@ -223,7 +223,8 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                       if (scrollVerticalWidget != null)
                         Positioned(
                           right: 0,
-                          top: DataTableHeaderWidget.defaultHeightHeader,
+                          top: widget.dataTableOptionUI.heightOfHeaderItem ??
+                              DataTableHeaderWidget.defaultHeightHeader,
                           child: scrollVerticalWidget,
                         ),
                     ],

@@ -30,7 +30,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
       width: fixedColumn == FixedColumn.none
           ? controller.mapKeyToWidthOfEachColumnContent[column.key]
           : column.width,
-      height: DataTableHeaderWidget.defaultHeightHeader,
+      height: dataTableOptionUI.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -139,7 +139,10 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                   if (additionFilter[column.key] != null) ...additionFilter[column.key]!,
                 ];
               },
-              offset: Offset(0, DataTableHeaderWidget.defaultHeightHeader),
+              offset: Offset(
+                  0,
+                  dataTableOptionUI.heightOfHeaderItem ??
+                      DataTableHeaderWidget.defaultHeightHeader),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
                 child: Icon(
