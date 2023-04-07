@@ -7,7 +7,7 @@ class BasicIconButton extends StatelessWidget {
     this.iconData,
     this.size,
     this.color,
-    required this.icon,
+    this.icon,
     this.cursor = SystemMouseCursors.click,
   }) : super(key: key);
 

@@ -1,3 +1,5 @@
+## 0.2.9
+* Remove required icon in `BasicIconButton`.
 ## 0.2.8
 * Hotfix `BasicDataTable`.
 ## 0.2.7
