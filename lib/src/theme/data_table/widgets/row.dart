@@ -12,8 +12,8 @@ class DataTableRowWidget<T> extends StatelessWidget {
     this.showerMoreContentRowWidget,
     required this.onPressed,
     this.height,
-    required this.dataTableOptionUI,
-    this.onSelectCheckBox,
+    required this.rowOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -25,8 +25,8 @@ class DataTableRowWidget<T> extends StatelessWidget {
   final VoidCallback onPressed;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
   final double? height;
-  final DataTableOptionUI dataTableOptionUI;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableRowOption<T> rowOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +88,8 @@ class DataTableRowWidget<T> extends StatelessWidget {
             rowData: rowData,
             controller: controller,
             column: tableColumns[indexColumn],
-            dataTableOptionUI: dataTableOptionUI,
-            onSelectCheckBox: onSelectCheckBox,
+            rowOption: rowOption,
+            checkBoxOption: checkBoxOption,
           ),
         );
       }

@@ -10,9 +10,8 @@ class DataTableContentWidget<T> extends StatefulWidget {
     this.bottomContent,
     this.showerMoreContentRowWidget,
     this.verticalScrollState,
-    this.onPressRowItem,
-    required this.dataTableOptionUI,
-    this.onSelectCheckBox,
+    required this.rowOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final List<DataTableColumn<T>> tableColumns;
@@ -22,9 +21,8 @@ class DataTableContentWidget<T> extends StatefulWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
   final BasicVerticalScrollState? verticalScrollState;
-  final Function(T)? onPressRowItem;
-  final DataTableOptionUI dataTableOptionUI;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableRowOption<T> rowOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   DataTableContentWidgetState<T> createState() => DataTableContentWidgetState<T>();
@@ -59,7 +57,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
   }
 
   void _handleClickContent(int index, T rowData){
-    widget.onPressRowItem?.call(rowData);
+    widget.rowOption.onPressRowItem?.call(rowData);
     if (widget.showerMoreContentRowWidget != null) {
       isCompareDataSource = false;
       _expandedDataIndex = _expandedDataIndex != index ? index : -1;
@@ -102,8 +100,8 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
   }
 
   double? getHeightOfRow(int index) {
-    if(widget.dataTableOptionUI.heightOfRowItem != null){
-      return widget.dataTableOptionUI.heightOfRowItem;
+    if (widget.rowOption.heightOfRowItem != null) {
+      return widget.rowOption.heightOfRowItem;
     }
     if (widget.fixedColumn != FixedColumn.none &&
         widget.controller.mapIndexToHeightOfEachRow.isNotEmpty &&
@@ -119,19 +117,27 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
         itemCount: widget.controller.dataSources.length,
         itemBuilder: (context, index) {
           T rowData = widget.controller.dataSources[index];
-          return DataTableRowWidget<T>(
-            key: ObjectKey(rowData),
-            tableColumns: widget.tableColumns,
-            fixedColumn: widget.fixedColumn,
-            height: getHeightOfRow(index),
-            controller: widget.controller,
-            indexRow: index,
-            rowData: rowData,
-            isShowMore: _isShowMore(index),
-            onPressed: () => _handleClickContent(index, rowData),
-            showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
-            dataTableOptionUI: widget.dataTableOptionUI,
-            onSelectCheckBox: widget.onSelectCheckBox,
+          return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(width: 0, color: BasicAppColors.greyOpacity01),
+                left: BorderSide(width: 0, color: BasicAppColors.greyOpacity01),
+              ),
+            ),
+            child: DataTableRowWidget<T>(
+              key: ObjectKey(rowData),
+              tableColumns: widget.tableColumns,
+              fixedColumn: widget.fixedColumn,
+              height: getHeightOfRow(index),
+              controller: widget.controller,
+              indexRow: index,
+              rowData: rowData,
+              isShowMore: _isShowMore(index),
+              onPressed: () => _handleClickContent(index, rowData),
+              showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
+              rowOption: widget.rowOption,
+              checkBoxOption: widget.checkBoxOption,
+            ),
           );
         },
       );

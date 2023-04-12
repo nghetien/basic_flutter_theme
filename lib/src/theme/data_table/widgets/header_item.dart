@@ -7,11 +7,9 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
     required this.lengthOfColumn,
     this.fixedColumn = FixedColumn.none,
     required this.controller,
-    this.sortDataVoid,
     required this.column,
-    required this.dataTableOptionUI,
-    required this.additionFilter,
-    this.onSelectCheckBox,
+    required this.headerOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final int index;
@@ -19,10 +17,8 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
   final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
-  final DataTableOptionUI dataTableOptionUI;
-  final SortDataVoid? sortDataVoid;
-  final Map<String, List<PopupMenuItem<String>>> additionFilter;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableHeaderOption headerOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
       width: fixedColumn == FixedColumn.none
           ? controller.mapKeyToWidthOfEachColumnContent[column.key]
           : column.width,
-      height: dataTableOptionUI.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader,
+      height: headerOption.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -53,7 +49,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
         width: column.width,
         child: CheckBoxColumn(
           controller: controller,
-          onSelectCheckBox: onSelectCheckBox,
+          onSelectCheckBox: checkBoxOption.onSelectCheckBox,
         ),
       );
     }
@@ -98,7 +94,7 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                   ),
                 ),
               ),
-        if (dataTableOptionUI.isShowSortFilter)
+        if (headerOption.isShowSortFilter)
           Positioned(
             right: 0,
             top: 0,
@@ -111,12 +107,12 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(dataTableOptionUI.customizeSortDesc),
+                        Text(headerOption.customizeSortDesc),
                         HSpace.p8,
                         const Icon(Icons.arrow_downward_rounded),
                       ],
                     ),
-                    onTap: () => sortDataVoid?.call(
+                    onTap: () => headerOption.sortDataVoid?.call(
                       keyColumn: column.key,
                       typeSort: DataTableSortType.desc,
                     ),
@@ -126,23 +122,22 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(dataTableOptionUI.customizeSortAsc),
+                        Text(headerOption.customizeSortAsc),
                         HSpace.p8,
                         const Icon(Icons.arrow_upward_rounded),
                       ],
                     ),
-                    onTap: () => sortDataVoid?.call(
+                    onTap: () => headerOption.sortDataVoid?.call(
                       keyColumn: column.key,
                       typeSort: DataTableSortType.asc,
                     ),
                   ),
-                  if (additionFilter[column.key] != null) ...additionFilter[column.key]!,
+                  if (headerOption.additionFilter[column.key] != null)
+                    ...headerOption.additionFilter[column.key]!,
                 ];
               },
               offset: Offset(
-                  0,
-                  dataTableOptionUI.heightOfHeaderItem ??
-                      DataTableHeaderWidget.defaultHeightHeader),
+                  0, headerOption.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
                 child: Icon(

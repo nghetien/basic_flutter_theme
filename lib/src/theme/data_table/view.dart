@@ -10,12 +10,12 @@ class BasicDataTable<T> extends StatefulWidget {
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
-    required this.dataTableOptionUI,
-    this.sortDataVoid,
-    this.additionFilter = const {},
-    this.onPressRowItem,
-    this.onSelectCheckBox,
-    this.isShowPagination = true,
+    this.optionUI = const DataTableOptionUI(),
+    this.headerOption = const DataTableHeaderOption(),
+    this.rowOption = const DataTableRowOption(),
+    this.columnOption = const DataTableColumnOption(),
+    this.paginationOption = const DataTablePaginationOption(),
+    this.checkBoxOption = const DataTableCheckBoxOption(),
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -25,12 +25,12 @@ class BasicDataTable<T> extends StatefulWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
-  final DataTableOptionUI dataTableOptionUI;
-  final SortDataVoid? sortDataVoid;
-  final Map<String, List<PopupMenuItem<String>>> additionFilter;
-  final Function(T)? onPressRowItem;
-  final Function(Map<int, T>)? onSelectCheckBox;
-  final bool isShowPagination;
+  final DataTableOptionUI optionUI;
+  final DataTableHeaderOption headerOption;
+  final DataTableRowOption<T> rowOption;
+  final DataTableColumnOption columnOption;
+  final DataTablePaginationOption paginationOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   BasicDataTableState<T> createState() => BasicDataTableState<T>();
@@ -131,33 +131,31 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       );
 
   Widget _genContentTable() {
-    if (widget.dataTableOptionUI.fixTableInAScreen) {
+    if (widget.optionUI.fixTableInAScreen) {
       return FixedDataTableWidget<T>(
         controller: _webDataTableController,
-        sortDataVoid: widget.sortDataVoid,
-        dataTableOptionUI: widget.dataTableOptionUI,
-        additionFilter: widget.additionFilter,
         topContent: widget.topContent,
         bottomContent: widget.bottomContent,
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
         handleChangeData: widget.handleChangeData,
-        onPressRowItem: widget.onPressRowItem,
-        onSelectCheckBox: widget.onSelectCheckBox,
-        isShowPagination: widget.isShowPagination,
+        headerOption: widget.headerOption,
+        rowOption: widget.rowOption,
+        columnOption: widget.columnOption,
+        paginationOption: widget.paginationOption,
+        checkBoxOption: widget.checkBoxOption,
       );
     }
-    return DefaultDataTableWidget(
+    return DefaultDataTableWidget<T>(
       controller: _webDataTableController,
-      sortDataVoid: widget.sortDataVoid,
-      dataTableOptionUI: widget.dataTableOptionUI,
-      additionFilter: widget.additionFilter,
       topContent: widget.topContent,
       bottomContent: widget.bottomContent,
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
       handleChangeData: widget.handleChangeData,
-      onPressRowItem: widget.onPressRowItem,
-      onSelectCheckBox: widget.onSelectCheckBox,
-      isShowPagination: widget.isShowPagination,
+      headerOption: widget.headerOption,
+      rowOption: widget.rowOption,
+      columnOption: widget.columnOption,
+      paginationOption: widget.paginationOption,
+      checkBoxOption: widget.checkBoxOption,
     );
   }
 }

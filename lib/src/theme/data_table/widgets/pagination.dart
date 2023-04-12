@@ -5,14 +5,12 @@ class DataTablePaginationWidget<T> extends StatefulWidget {
     Key? key,
     required this.handleChangeData,
     required this.controller,
-    required this.dataTableOptionUI,
-    this.isShowPagination = true,
+    required this.paginationOption,
   }) : super(key: key);
 
   final DataTableController<T> controller;
   final AsyncDataSource<T> handleChangeData;
-  final DataTableOptionUI dataTableOptionUI;
-  final bool isShowPagination;
+  final DataTablePaginationOption paginationOption;
 
   @override
   State<DataTablePaginationWidget> createState() => _DataTablePaginationWidgetState();
@@ -84,7 +82,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
             bottomRight: BasicCorners.mainCornerRadius,
           ),
         ),
-        child: widget.isShowPagination
+        child: widget.paginationOption.isShowPagination
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,25 +143,23 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
   Widget _customBtnPageNumber({
     required int number,
     required VoidCallback onPressed,
-  }) {
-    return Container(
-      key: ValueKey(number),
-      padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p4),
-      child: BasicButton(
-        height: sizePageNumber,
-        width: sizePageNumber,
-        size: BasicButtonSize.medium,
-        onPressed: onPressed,
-        padding: EdgeInsets.zero,
-        text: number > 0 ? number.toString() : '...',
-        textStyle: TextStyle(
-          color: number == pagination.currentPage ? BasicAppColors.primary : BasicAppColors.white,
+  }) =>
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p4),
+        child: BasicButton(
+          height: sizePageNumber,
+          width: sizePageNumber,
+          size: BasicButtonSize.medium,
+          onPressed: onPressed,
+          padding: EdgeInsets.zero,
+          text: number > 0 ? number.toString() : '...',
+          textStyle: TextStyle(
+            color: number == pagination.currentPage ? BasicAppColors.primary : BasicAppColors.white,
+          ),
+          background:
+              number == pagination.currentPage ? BasicAppColors.white : BasicAppColors.primary,
         ),
-        background:
-        number == pagination.currentPage ? BasicAppColors.white : BasicAppColors.primary,
-      ),
-    );
-  }
+      );
 
   Widget _pageNumberWidget() {
     return Row(
@@ -250,7 +246,7 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
             child: Padding(
               padding: EdgeInsets.only(left: BasicPaddings.p8),
               child: Text(
-                widget.dataTableOptionUI.customizeItemPerPage,
+                widget.paginationOption.customizeItemPerPage,
                 style: const TextStyle(
                   color: BasicAppColors.white,
                 ),
@@ -268,8 +264,8 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     final int fromItemStr = fromItem > 0 ? fromItem : toItemStr == 0 ? 0 : 1;
     final int totalRecords = widget.controller.totalRecords;
     return Text(
-      widget.dataTableOptionUI.customizeFromToItemInPage != null
-          ? widget.dataTableOptionUI.customizeFromToItemInPage!(
+      widget.paginationOption.customizeFromToItemInPage != null
+          ? widget.paginationOption.customizeFromToItemInPage!(
               fromItem,
               toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem,
               widget.controller.totalRecords,

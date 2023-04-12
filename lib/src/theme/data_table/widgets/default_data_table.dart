@@ -4,29 +4,27 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
   const DefaultDataTableWidget({
     Key? key,
     required this.controller,
-    this.sortDataVoid,
-    required this.dataTableOptionUI,
-    this.additionFilter = const {},
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
-    this.onPressRowItem,
-    this.onSelectCheckBox,
-    this.isShowPagination = true,
+    required this.headerOption,
+    required this.rowOption,
+    required this.columnOption,
+    required this.paginationOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final DataTableController<T> controller;
-  final SortDataVoid? sortDataVoid;
-  final DataTableOptionUI dataTableOptionUI;
-  final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
-  final Function(T)? onPressRowItem;
-  final Function(Map<int, T>)? onSelectCheckBox;
-  final bool isShowPagination;
+  final DataTableHeaderOption headerOption;
+  final DataTableRowOption<T> rowOption;
+  final DataTableColumnOption columnOption;
+  final DataTablePaginationOption paginationOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   State<DefaultDataTableWidget<T>> createState() => _DefaultDataTableWidgetState<T>();
@@ -59,11 +57,9 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                     child: DataTableFixedColumnWidget<T>(
                       type: FixedColumn.left,
                       controller: widget.controller,
-                      sortDataVoid: widget.sortDataVoid,
-                      dataTableOptionUI: widget.dataTableOptionUI,
-                      additionFilter: widget.additionFilter,
-                      onPressRowItem: widget.onPressRowItem,
-                      onSelectCheckBox: widget.onSelectCheckBox,
+                      headerOption: widget.headerOption,
+                      checkBoxOption: widget.checkBoxOption,
+                      rowOption: widget.rowOption,
                     ),
                   ),
                 Expanded(
@@ -82,10 +78,8 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                               DataTableHeaderWidget<T>(
                                 tableColumns: widget.controller.tableColumnsContent,
                                 controller: widget.controller,
-                                sortDataVoid: widget.sortDataVoid,
-                                dataTableOptionUI: widget.dataTableOptionUI,
-                                additionFilter: widget.additionFilter,
-                                onSelectCheckBox: widget.onSelectCheckBox,
+                                checkBoxOption: widget.checkBoxOption,
+                                headerOption: widget.headerOption,
                               ),
                               DataTableContentWidget<T>(
                                 tableColumns: widget.controller.tableColumnsContent,
@@ -93,9 +87,8 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                                 topContent: widget.topContent,
                                 bottomContent: widget.bottomContent,
                                 showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
-                                onPressRowItem: widget.onPressRowItem,
-                                dataTableOptionUI: widget.dataTableOptionUI,
-                                onSelectCheckBox: widget.onSelectCheckBox,
+                                checkBoxOption: widget.checkBoxOption,
+                                rowOption: widget.rowOption,
                               ),
                             ],
                           ),
@@ -110,11 +103,9 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                     child: DataTableFixedColumnWidget<T>(
                       type: FixedColumn.right,
                       controller: widget.controller,
-                      sortDataVoid: widget.sortDataVoid,
-                      dataTableOptionUI: widget.dataTableOptionUI,
-                      additionFilter: widget.additionFilter,
-                      onPressRowItem: widget.onPressRowItem,
-                      onSelectCheckBox: widget.onSelectCheckBox,
+                      rowOption: widget.rowOption,
+                      checkBoxOption: widget.checkBoxOption,
+                      headerOption: widget.headerOption,
                     ),
                   ),
               ],
@@ -123,8 +114,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
             DataTablePaginationWidget(
               controller: widget.controller,
               handleChangeData: widget.handleChangeData,
-              dataTableOptionUI: widget.dataTableOptionUI,
-              isShowPagination: widget.isShowPagination,
+              paginationOption: widget.paginationOption,
             ),
           ],
         ),

@@ -5,16 +5,14 @@ class DataTableFixedColumnContentWidget<T> extends StatefulWidget {
     Key? key,
     required this.type,
     required this.controller,
-    this.onPressRowItem,
-    required this.dataTableOptionUI,
-    this.onSelectCheckBox,
+    required this.rowOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final FixedColumn type;
   final DataTableController<T> controller;
-  final Function(T)? onPressRowItem;
-  final DataTableOptionUI dataTableOptionUI;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableCheckBoxOption<T> checkBoxOption;
+  final DataTableRowOption<T> rowOption;
 
   @override
   State<DataTableFixedColumnContentWidget<T>> createState() =>
@@ -52,9 +50,8 @@ class _DataTableFixedColumnContentWidgetState<T>
             : widget.controller.fixedColumnsRight,
         fixedColumn: widget.type,
         controller: widget.controller,
-        onPressRowItem: widget.onPressRowItem,
-        dataTableOptionUI: widget.dataTableOptionUI,
-        onSelectCheckBox: widget.onSelectCheckBox,
+        rowOption: widget.rowOption,
+        checkBoxOption: widget.checkBoxOption,
       ),
     );
   }

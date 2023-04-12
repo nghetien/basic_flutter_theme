@@ -5,22 +5,18 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
     Key? key,
     required this.type,
     required this.controller,
-    this.sortDataVoid,
-    required this.dataTableOptionUI,
-    required this.additionFilter,
     required this.verticalFixedColumnScrollController,
-    this.onPressRowItem,
-    this.onSelectCheckBox,
+    required this.headerOption,
+    required this.rowOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final FixedColumn type;
   final DataTableController<T> controller;
-  final SortDataVoid? sortDataVoid;
-  final DataTableOptionUI dataTableOptionUI;
-  final Map<String, List<PopupMenuItem<String>>> additionFilter;
   final ScrollController verticalFixedColumnScrollController;
-  final Function(T)? onPressRowItem;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableHeaderOption headerOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
+  final DataTableRowOption<T> rowOption;
 
   Border _getBorder() {
     if (type == FixedColumn.left) {
@@ -54,10 +50,8 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
                 : controller.fixedColumnsRight,
             fixedColumn: type,
             controller: controller,
-            sortDataVoid: sortDataVoid,
-            dataTableOptionUI: dataTableOptionUI,
-            additionFilter: additionFilter,
-            onSelectCheckBox: onSelectCheckBox,
+            checkBoxOption: checkBoxOption,
+            headerOption: headerOption,
           ),
           Expanded(
             child: ScrollConfiguration(
@@ -68,9 +62,8 @@ class FixedColumnForFixedTable<T> extends StatelessWidget {
                 child: DataTableFixedColumnContentWidget<T>(
                   type: type,
                   controller: controller,
-                  onPressRowItem: onPressRowItem,
-                  dataTableOptionUI: dataTableOptionUI,
-                  onSelectCheckBox: onSelectCheckBox,
+                  checkBoxOption: checkBoxOption,
+                  rowOption: rowOption,
                 ),
               ),
             ),

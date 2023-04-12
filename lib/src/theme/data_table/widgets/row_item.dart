@@ -10,8 +10,8 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     required this.rowData,
     required this.controller,
     required this.column,
-    required this.dataTableOptionUI,
-    this.onSelectCheckBox,
+    required this.rowOption,
+    required this.checkBoxOption,
   }) : super(key: key);
 
   final FixedColumn fixedColumn;
@@ -21,8 +21,8 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
   final T rowData;
   final DataTableController<T> controller;
   final DataTableColumn<T> column;
-  final DataTableOptionUI dataTableOptionUI;
-  final Function(Map<int, T>)? onSelectCheckBox;
+  final DataTableRowOption<T> rowOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
       return CheckBoxRowItem(
         rowData: rowData,
         controller: controller,
-        onSelectCheckBox: onSelectCheckBox,
+        onSelectCheckBox: checkBoxOption.onSelectCheckBox,
       );
     }
     if (column.key == DataTableAdditionColumn.numbered.toString()) {
@@ -64,7 +64,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     }
     if (column.customizeItemWidget != null) {
       return Padding(
-        padding: dataTableOptionUI.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
+        padding: rowOption.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
         child: column.customizeItemWidget!(
           context,
           (rowData as dynamic).toJson()[column.key],
@@ -77,7 +77,7 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
       );
     }
     return Padding(
-      padding: dataTableOptionUI.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
+      padding: rowOption.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
       child: _defaultRowItem(
         value: (rowData as dynamic).toJson()[column.key],
         rowData: rowData,
