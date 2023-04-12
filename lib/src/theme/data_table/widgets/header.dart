@@ -14,7 +14,7 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
   final FixedColumn fixedColumn;
   final DataTableController<T> controller;
   final DataTableHeaderOption headerOption;
-  final DataTableCheckBoxOption checkBoxOption;
+  final DataTableCheckBoxOption<T> checkBoxOption;
 
   static final double defaultHeightHeader = 40.scaleSize;
 

@@ -1,3 +1,5 @@
+## 0.3.1
+* Fix generic type for `BasicDataTable`.
 ## 0.3.0
 * Change property of `BasicDataTable`.
 ## 0.2.9

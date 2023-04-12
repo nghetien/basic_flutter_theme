@@ -10,12 +10,12 @@ class BasicDataTable<T> extends StatefulWidget {
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
     required this.handleChangeData,
-    this.optionUI = const DataTableOptionUI(),
-    this.headerOption = const DataTableHeaderOption(),
-    this.rowOption = const DataTableRowOption(),
-    this.columnOption = const DataTableColumnOption(),
-    this.paginationOption = const DataTablePaginationOption(),
-    this.checkBoxOption = const DataTableCheckBoxOption(),
+    this.optionUI,
+    this.headerOption,
+    this.rowOption,
+    this.columnOption,
+    this.paginationOption,
+    this.checkBoxOption,
   }) : super(key: key);
 
   final DataTableController<T> controller;
@@ -25,12 +25,12 @@ class BasicDataTable<T> extends StatefulWidget {
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
-  final DataTableOptionUI optionUI;
-  final DataTableHeaderOption headerOption;
-  final DataTableRowOption<T> rowOption;
-  final DataTableColumnOption columnOption;
-  final DataTablePaginationOption paginationOption;
-  final DataTableCheckBoxOption<T> checkBoxOption;
+  final DataTableOptionUI? optionUI;
+  final DataTableHeaderOption? headerOption;
+  final DataTableRowOption<T>? rowOption;
+  final DataTableColumnOption? columnOption;
+  final DataTablePaginationOption? paginationOption;
+  final DataTableCheckBoxOption<T>? checkBoxOption;
 
   @override
   BasicDataTableState<T> createState() => BasicDataTableState<T>();
@@ -38,6 +38,12 @@ class BasicDataTable<T> extends StatefulWidget {
 
 class BasicDataTableState<T> extends State<BasicDataTable<T>> {
   late DataTableController<T> _webDataTableController;
+  late final DataTableOptionUI _optionUI;
+  late final DataTableHeaderOption _headerOption;
+  late final DataTableRowOption<T> _rowOption;
+  late final DataTableColumnOption _columnOption;
+  late final DataTablePaginationOption _paginationOption;
+  late final DataTableCheckBoxOption<T> _checkBoxOption;
 
   void _handleSetState() {
     if (mounted) setState(() {});
@@ -85,6 +91,12 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
   @override
   void initState() {
     _webDataTableController = widget.controller;
+    _optionUI = widget.optionUI ?? const DataTableOptionUI();
+    _headerOption = widget.headerOption ?? const DataTableHeaderOption();
+    _rowOption = widget.rowOption ?? const DataTableRowOption();
+    _columnOption = widget.columnOption ?? const DataTableColumnOption();
+    _paginationOption = widget.paginationOption ?? const DataTablePaginationOption();
+    _checkBoxOption = widget.checkBoxOption ?? const DataTableCheckBoxOption();
     _handleInitState();
     _webDataTableController.addListener(_handleSetState);
     super.initState();
@@ -131,18 +143,18 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       );
 
   Widget _genContentTable() {
-    if (widget.optionUI.fixTableInAScreen) {
+    if (_optionUI.fixTableInAScreen) {
       return FixedDataTableWidget<T>(
         controller: _webDataTableController,
         topContent: widget.topContent,
         bottomContent: widget.bottomContent,
         showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
         handleChangeData: widget.handleChangeData,
-        headerOption: widget.headerOption,
-        rowOption: widget.rowOption,
-        columnOption: widget.columnOption,
-        paginationOption: widget.paginationOption,
-        checkBoxOption: widget.checkBoxOption,
+        headerOption: _headerOption,
+        rowOption: _rowOption,
+        columnOption: _columnOption,
+        paginationOption: _paginationOption,
+        checkBoxOption: _checkBoxOption,
       );
     }
     return DefaultDataTableWidget<T>(
@@ -151,11 +163,11 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       bottomContent: widget.bottomContent,
       showerMoreContentIntoRowWidget: widget.showerMoreContentIntoRowWidget,
       handleChangeData: widget.handleChangeData,
-      headerOption: widget.headerOption,
-      rowOption: widget.rowOption,
-      columnOption: widget.columnOption,
-      paginationOption: widget.paginationOption,
-      checkBoxOption: widget.checkBoxOption,
+      headerOption: _headerOption,
+      rowOption: _rowOption,
+      columnOption: _columnOption,
+      paginationOption: _paginationOption,
+      checkBoxOption: _checkBoxOption,
     );
   }
 }

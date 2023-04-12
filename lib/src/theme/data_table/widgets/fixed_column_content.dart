@@ -44,7 +44,7 @@ class _DataTableFixedColumnContentWidgetState<T>
       width: widget.type == FixedColumn.left
           ? widget.controller.widthOfLeftColumns
           : widget.controller.widthOfRightColumns,
-      child: DataTableContentWidget(
+      child: DataTableContentWidget<T>(
         tableColumns: widget.type == FixedColumn.left
             ? widget.controller.fixedColumnsLeft
             : widget.controller.fixedColumnsRight,

@@ -1,14 +1,14 @@
 part of '../data_table.dart';
 
 class DataTableFixedColumnWidget<T> extends StatelessWidget {
-  const DataTableFixedColumnWidget(
-      {Key? key,
-      required this.type,
-      required this.controller,
-      required this.headerOption,
-      required this.rowOption,
-      required this.checkBoxOption})
-      : super(key: key);
+  const DataTableFixedColumnWidget({
+    Key? key,
+    required this.type,
+    required this.controller,
+    required this.headerOption,
+    required this.rowOption,
+    required this.checkBoxOption,
+  }) : super(key: key);
 
   final FixedColumn type;
   final DataTableController<T> controller;
@@ -42,7 +42,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          DataTableHeaderWidget(
+          DataTableHeaderWidget<T>(
             tableColumns: type == FixedColumn.left
                 ? controller.fixedColumnsLeft
                 : controller.fixedColumnsRight,
@@ -51,7 +51,7 @@ class DataTableFixedColumnWidget<T> extends StatelessWidget {
             headerOption: headerOption,
             checkBoxOption: checkBoxOption,
           ),
-          DataTableFixedColumnContentWidget(
+          DataTableFixedColumnContentWidget<T>(
             type: type,
             controller: controller,
             rowOption: rowOption,

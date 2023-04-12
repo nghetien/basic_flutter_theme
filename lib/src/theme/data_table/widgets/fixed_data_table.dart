@@ -137,7 +137,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                           if (widget.controller.haveFixedColumnsLeft)
                             SizedBox(
                               width: widget.controller.widthOfLeftColumns,
-                              child: FixedColumnForFixedTable(
+                              child: FixedColumnForFixedTable<T>(
                                 type: FixedColumn.left,
                                 controller: widget.controller,
                                 verticalFixedColumnScrollController:
@@ -199,7 +199,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                           if (widget.controller.haveFixedColumnsRight)
                             SizedBox(
                               width: widget.controller.widthOfRightColumns,
-                              child: FixedColumnForFixedTable(
+                              child: FixedColumnForFixedTable<T>(
                                 type: FixedColumn.right,
                                 controller: widget.controller,
                                 verticalFixedColumnScrollController:
@@ -222,7 +222,7 @@ class _FixedDataTableWidgetState<T> extends State<FixedDataTableWidget<T>> {
                   ),
                 ),
                 if (scrollHorizontalWidget != null) scrollHorizontalWidget,
-                DataTablePaginationWidget(
+                DataTablePaginationWidget<T>(
                   controller: widget.controller,
                   handleChangeData: widget.handleChangeData,
                   paginationOption: widget.paginationOption,
