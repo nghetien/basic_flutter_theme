@@ -87,6 +87,7 @@ class BasicInputStyle {
 class BasicInput extends StatelessWidget {
   const BasicInput({
     Key? key,
+    this.name,
     this.size,
     this.width,
     this.initialValue,
@@ -100,16 +101,16 @@ class BasicInput extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.maxLength,
-    this.enabled,
+    this.enabled = true,
     this.obscureText = false,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
-    this.onFieldSubmitted,
     this.onSaved,
     this.isDense,
     this.filled,
@@ -134,6 +135,7 @@ class BasicInput extends StatelessWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final String? name;
   final BasicInputSize? size;
   final double? width;
   final TextEditingController? controller;
@@ -147,16 +149,16 @@ class BasicInput extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final int? maxLength;
-  final bool? enabled;
+  final bool enabled;
   final bool obscureText;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
+  final ValueTransformer<String?>? valueTransformer;
+  final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
@@ -198,7 +200,7 @@ class BasicInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
         width: width,
-        child: TextFormField(
+    child: FormBuilderTextField(
           controller: controller,
           focusNode: focusNode,
           initialValue: initialValue,
@@ -216,10 +218,10 @@ class BasicInput extends StatelessWidget {
           autovalidateMode: autoValidateMode,
           validator: validator,
           inputFormatters: inputFormatters,
+          valueTransformer: valueTransformer,
           onChanged: onChanged,
           onTap: onTap,
           onEditingComplete: onEditingComplete,
-          onFieldSubmitted: onFieldSubmitted,
           onSaved: onSaved,
           decoration: basicInputDecoration(
             context,
@@ -246,6 +248,7 @@ class BasicInput extends StatelessWidget {
             errorMaxLines: errorMaxLines,
             errorStyle: errorStyle,
           ),
+          name: name ?? '',
         ),
       );
 }

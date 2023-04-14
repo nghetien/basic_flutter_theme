@@ -3,6 +3,7 @@ part of 'inputs.dart';
 class BasicInputTypeAhead<T> extends StatefulWidget {
   const BasicInputTypeAhead({
     Key? key,
+    this.name,
     required this.menuChildren,
     required this.maxMenuChildren,
     required this.onSelected,
@@ -26,17 +27,17 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.maxLines = 1,
     this.minLines,
     this.maxLength,
-    this.enabled,
+    this.enabled = true,
     this.obscureText = false,
     this.scrollPadding,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
-    this.onFieldSubmitted,
     this.onSaved,
     this.isDense,
     this.filled,
@@ -61,6 +62,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final String? name;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
   final int maxMenuChildren;
   final Function(T) onSelected;
@@ -84,17 +86,17 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final int maxLines;
   final int? minLines;
   final int? maxLength;
-  final bool? enabled;
+  final bool enabled;
   final bool obscureText;
   final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
+  final ValueTransformer<String?>? valueTransformer;
+  final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
@@ -197,6 +199,7 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
           menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
+              name: widget.name,
               size: widget.size,
               width: widget.width,
               controller: _controller,
@@ -215,10 +218,10 @@ class _BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
               autoValidateMode: widget.autoValidateMode,
               validator: widget.validator,
               inputFormatters: widget.inputFormatters,
+              valueTransformer: widget.valueTransformer,
               onChanged: widget.onChanged,
               onTap: widget.onTap,
               onEditingComplete: widget.onEditingComplete,
-              onFieldSubmitted: widget.onFieldSubmitted,
               onSaved: widget.onSaved,
               isDense: widget.isDense,
               filled: widget.filled,

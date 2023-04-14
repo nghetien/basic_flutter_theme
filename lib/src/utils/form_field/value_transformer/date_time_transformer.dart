@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class DateTimeTransformer {
-  const DateTimeTransformer._();
+class BasicDateTimeTransformer {
+  const BasicDateTimeTransformer._();
 
   static DateTime? parse(
     String value, {

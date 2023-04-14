@@ -3,6 +3,7 @@ part of 'inputs.dart';
 class BasicInputPassword extends StatefulWidget {
   const BasicInputPassword({
     Key? key,
+    this.name,
     this.iconPasswordColor,
     this.iconPasswordSize,
     this.size,
@@ -18,15 +19,15 @@ class BasicInputPassword extends StatefulWidget {
     this.maxLines,
     this.minLines,
     this.maxLength,
-    this.enabled,
+    this.enabled = true,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
-    this.onFieldSubmitted,
     this.onSaved,
     this.isDense,
     this.filled,
@@ -51,6 +52,7 @@ class BasicInputPassword extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final String? name;
   final double? iconPasswordSize;
   final Color? iconPasswordColor;
   final BasicInputSize? size;
@@ -66,15 +68,15 @@ class BasicInputPassword extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
   final int? maxLength;
-  final bool? enabled;
+  final bool enabled;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
+  final ValueTransformer<String?>? valueTransformer;
+  final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
@@ -121,7 +123,8 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   @override
   Widget build(BuildContext context) => BasicInput(
-    size: widget.size,
+        name: widget.name,
+        size: widget.size,
         width: widget.width,
         controller: widget.controller,
         focusNode: widget.focusNode,
@@ -140,10 +143,10 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
         autoValidateMode: widget.autoValidateMode,
         validator: widget.validator,
         inputFormatters: widget.inputFormatters,
+        valueTransformer: widget.valueTransformer,
         onChanged: widget.onChanged,
         onTap: widget.onTap,
         onEditingComplete: widget.onEditingComplete,
-        onFieldSubmitted: widget.onFieldSubmitted,
         onSaved: widget.onSaved,
         isDense: widget.isDense,
         filled: widget.filled,

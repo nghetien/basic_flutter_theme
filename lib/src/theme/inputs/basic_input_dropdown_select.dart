@@ -3,6 +3,7 @@ part of 'inputs.dart';
 class BasicInputDropdownSelect<T> extends StatefulWidget {
   const BasicInputDropdownSelect({
     Key? key,
+    this.name,
     required this.filterOption,
     required this.menuChildren,
     required this.onSelected,
@@ -30,17 +31,17 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
     this.maxLines = 1,
     this.minLines,
     this.maxLength,
-    this.enabled,
+    this.enabled = true,
     this.obscureText = false,
     this.scrollPadding,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
-    this.onFieldSubmitted,
     this.onSaved,
     this.isDense,
     this.filled,
@@ -63,6 +64,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final String? name;
   final List<BasicInputDropdownItemModel<T>> Function(String, List<BasicInputDropdownItemModel<T>>)
       filterOption;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
@@ -91,17 +93,17 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
   final int maxLines;
   final int? minLines;
   final int? maxLength;
-  final bool? enabled;
+  final bool enabled;
   final bool obscureText;
   final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
+  final ValueTransformer<String?>? valueTransformer;
+  final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
@@ -283,6 +285,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
           ],
           builder: (context, controller, child) {
             return BasicInput(
+              name: widget.name,
               size: widget.size,
               width: widget.width,
               focusNode: _focusNode,
@@ -300,10 +303,10 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
               autoValidateMode: widget.autoValidateMode,
               validator: widget.validator,
               inputFormatters: widget.inputFormatters,
+              valueTransformer: widget.valueTransformer,
               onChanged: widget.onChanged,
               onTap: widget.onTap,
               onEditingComplete: widget.onEditingComplete,
-              onFieldSubmitted: widget.onFieldSubmitted,
               onSaved: widget.onSaved,
               isDense: widget.isDense,
               filled: widget.filled,

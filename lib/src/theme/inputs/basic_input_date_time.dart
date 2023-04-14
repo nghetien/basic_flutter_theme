@@ -9,6 +9,7 @@ enum BasicInputDateTimeType {
 class BasicInputDateTime extends StatefulWidget {
   const BasicInputDateTime({
     Key? key,
+    this.name,
     this.type = BasicInputDateTimeType.date,
     this.autoOpenSelectDate = true,
     required this.onDateChanged,
@@ -29,17 +30,17 @@ class BasicInputDateTime extends StatefulWidget {
     this.maxLines = 1,
     this.minLines,
     this.maxLength,
-    this.enabled,
+    this.enabled = true,
     this.obscureText = false,
     this.scrollPadding,
     this.cursorColor,
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
-    this.onFieldSubmitted,
     this.onSaved,
     this.isDense,
     this.filled,
@@ -64,6 +65,7 @@ class BasicInputDateTime extends StatefulWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final String? name;
   final BasicInputDateTimeType type;
   final bool autoOpenSelectDate;
   final Function(DateTime?) onDateChanged;
@@ -84,17 +86,17 @@ class BasicInputDateTime extends StatefulWidget {
   final int maxLines;
   final int? minLines;
   final int? maxLength;
-  final bool? enabled;
+  final bool enabled;
   final bool obscureText;
   final EdgeInsets? scrollPadding;
   final Color? cursorColor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
+  final ValueTransformer<String?>? valueTransformer;
+  final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
   final FormFieldSetter? onSaved;
   final bool? isDense;
   final bool? filled;
@@ -269,35 +271,36 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
     setIsShowSelectDate(false);
   }
 
-  void _onChanged(String value) {
+  void _onChanged(String? value) {
     widget.onChanged?.call(value);
   }
 
   @override
   Widget build(BuildContext context) => BasicInput(
-    size: widget.size,
-    width: widget.width,
-    controller: _controller,
-    focusNode: _focusNode,
-    textAlign: widget.textAlign,
-    textAlignVertical: widget.textAlignVertical,
-    textInputAction: widget.textInputAction,
-    keyboardType: widget.keyboardType,
-    maxLines: widget.maxLines,
-    minLines: widget.minLines,
-    maxLength: widget.maxLength,
-    enabled: widget.enabled,
-    obscureText: widget.obscureText,
-    cursorColor: widget.cursorColor,
-    autoValidateMode: widget.autoValidateMode,
-    validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
-    inputFormatters: widget.inputFormatters ?? [_getFormatter()],
-    onChanged: _onChanged,
-    onTap: widget.onTap,
-    onEditingComplete: widget.onEditingComplete,
-    onFieldSubmitted: widget.onFieldSubmitted,
-    onSaved: widget.onSaved,
-    isDense: widget.isDense,
+        name: widget.name,
+        size: widget.size,
+        width: widget.width,
+        controller: _controller,
+        focusNode: _focusNode,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        textInputAction: widget.textInputAction,
+        keyboardType: widget.keyboardType,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        maxLength: widget.maxLength,
+        enabled: widget.enabled,
+        obscureText: widget.obscureText,
+        cursorColor: widget.cursorColor,
+        autoValidateMode: widget.autoValidateMode,
+        validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
+        inputFormatters: widget.inputFormatters ?? [_getFormatter()],
+        valueTransformer: widget.valueTransformer,
+        onChanged: _onChanged,
+        onTap: widget.onTap,
+        onEditingComplete: widget.onEditingComplete,
+        onSaved: widget.onSaved,
+        isDense: widget.isDense,
     filled: widget.filled,
     prefixIcon: widget.prefixIcon,
     suffixIcon: widget.suffixIcon ?? _getIcon(),
