@@ -19,7 +19,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
     this.haveSearch = false,
     this.filterOption,
     required this.menuChildren,
-    required this.onSelected,
+    this.onSelected,
     this.offset,
     this.maxHeightPopup,
     this.minHeightPopup,
@@ -81,7 +81,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final List<BasicInputDropdownItemModel<T>> Function(String, List<BasicInputDropdownItemModel<T>>)?
       filterOption;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
-  final Function(T) onSelected;
+  final Function(BasicInputDropdownItemModel<T>)? onSelected;
   final Offset? offset;
   final double? maxHeightPopup;
   final double? minHeightPopup;
@@ -92,7 +92,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(bool)? onFocusChange;
-  final String? initialValue;
+  final BasicInputDropdownItemModel<T>? initialValue;
   final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final TextAlignVertical? textAlignVertical;
@@ -185,6 +185,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
+    if(widget.initialValue != null) _controller.text = widget.initialValue!.label;
     if (widget.haveSearch) _controller.addListener(_listenOnChangeInput);
   }
 
@@ -200,6 +201,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   void dispose() {
     _focusNode.removeListener(_onFocusChange);
     if (widget.haveSearch) _controller.removeListener(_listenOnChangeInput);
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -245,7 +247,8 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
                 width: double.infinity,
                 size: BasicButtonSize.large,
                 onPressed: () {
-                  widget.onSelected.call(item.value);
+                  _controller.text = item.label;
+                  widget.onSelected?.call(item);
                   _menuController.close();
                 },
                 alignment: Alignment.centerLeft,
@@ -264,7 +267,6 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
               width: widget.width,
               controller: _controller,
               focusNode: _focusNode,
-              initialValue: widget.initialValue,
               textAlign: widget.textAlign,
               textAlignVertical: widget.textAlignVertical,
               textInputAction: widget.textInputAction,

@@ -235,9 +235,9 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
                   label: item.toString(),
                 ),
             ],
-            onSelected: (value) {
-              _itemPerPageValueController.text = value.toString();
-              _handleChangeItemPerPage(value);
+            onSelected: (item) {
+              _itemPerPageValueController.text = item.value.toString();
+              _handleChangeItemPerPage(item.value);
             },
           ),
         ),
@@ -264,13 +264,15 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
     final int fromItemStr = fromItem > 0 ? fromItem : toItemStr == 0 ? 0 : 1;
     final int totalRecords = widget.controller.totalRecords;
     return Text(
-      widget.paginationOption.customizeFromToItemInPage != null
-          ? widget.paginationOption.customizeFromToItemInPage!(
-              fromItem,
-              toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem,
-              widget.controller.totalRecords,
-            )
-          : '$fromItemStr - $toItemStr of $totalRecords items',
+      widget.paginationOption.isShowPagination
+          ? (widget.paginationOption.customizeFromToItemInPage != null
+              ? widget.paginationOption.customizeFromToItemInPage!(
+                  fromItem,
+                  toItem > widget.controller.totalRecords ? widget.controller.totalRecords : toItem,
+                  widget.controller.totalRecords,
+                )
+              : '$fromItemStr - $toItemStr of $totalRecords items')
+          : '$totalRecords items',
       style: const TextStyle(
         color: BasicAppColors.white,
       ),

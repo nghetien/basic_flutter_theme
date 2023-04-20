@@ -12,7 +12,8 @@ class BasicInputDateTime extends StatefulWidget {
     this.name,
     this.type = BasicInputDateTimeType.date,
     this.autoOpenSelectDate = true,
-    required this.onDateChanged,
+    this.initialValue,
+    this.onDateChanged,
     this.initialDate,
     this.firstDate,
     this.lastDate,
@@ -68,7 +69,8 @@ class BasicInputDateTime extends StatefulWidget {
   final String? name;
   final BasicInputDateTimeType type;
   final bool autoOpenSelectDate;
-  final Function(DateTime?) onDateChanged;
+  final String? initialValue;
+  final Function(DateTime?)? onDateChanged;
   final DateTime? initialDate;
   final DateTime? firstDate;
   final DateTime? lastDate;
@@ -147,6 +149,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
+    if (widget.initialValue != null) _controller.text = widget.initialValue!;
   }
 
   @override
@@ -262,7 +265,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
       );
     }
     FocusManager.instance.primaryFocus?.unfocus();
-    widget.onDateChanged(
+    widget.onDateChanged?.call(
       date ??
           _controller.text.toDateTimeFromFormat(
             _getDateTimeValidator(),
@@ -301,27 +304,27 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
         onEditingComplete: widget.onEditingComplete,
         onSaved: widget.onSaved,
         isDense: widget.isDense,
-    filled: widget.filled,
-    prefixIcon: widget.prefixIcon,
-    suffixIcon: widget.suffixIcon ?? _getIcon(),
-    contentPadding: widget.contentPadding,
-    focusedBorder: widget.focusedBorder,
-    enabledBorder: widget.enabledBorder,
-    disabledBorder: widget.disabledBorder,
-    errorBorder: widget.errorBorder,
-    focusedErrorBorder: widget.focusedErrorBorder,
-    fillColor: widget.fillColor,
-    hoverColor: widget.hoverColor,
-    labelText: widget.labelText,
-    labelStyle: widget.labelStyle,
-    floatingLabelStyle: widget.floatingLabelStyle,
-    floatingLabelBehavior: widget.floatingLabelBehavior,
-    hintText: _getHintText(),
-    hintStyle: widget.hintStyle,
-    errorText: widget.errorText,
-    errorMaxLines: widget.errorMaxLines,
-    errorStyle: widget.errorStyle,
-  );
+        filled: widget.filled,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.suffixIcon ?? _getIcon(),
+        contentPadding: widget.contentPadding,
+        focusedBorder: widget.focusedBorder,
+        enabledBorder: widget.enabledBorder,
+        disabledBorder: widget.disabledBorder,
+        errorBorder: widget.errorBorder,
+        focusedErrorBorder: widget.focusedErrorBorder,
+        fillColor: widget.fillColor,
+        hoverColor: widget.hoverColor,
+        labelText: widget.labelText,
+        labelStyle: widget.labelStyle,
+        floatingLabelStyle: widget.floatingLabelStyle,
+        floatingLabelBehavior: widget.floatingLabelBehavior,
+        hintText: _getHintText(),
+        hintStyle: widget.hintStyle,
+        errorText: widget.errorText,
+        errorMaxLines: widget.errorMaxLines,
+        errorStyle: widget.errorStyle,
+      );
 
   Widget _getIcon() {
     IconData iconData = Icons.calendar_today_rounded;

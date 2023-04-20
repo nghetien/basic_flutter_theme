@@ -26,6 +26,8 @@ class BasicListView<T> extends StatelessWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
     Key? key,
   }) : super(key: key);
 
@@ -51,6 +53,8 @@ class BasicListView<T> extends StatelessWidget {
       ScrollViewKeyboardDismissBehavior.manual;
   final String? restorationId;
   final Clip clipBehavior;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
 
   int get itemCount => (items.length / numberOfItemsInRow).ceil();
 
@@ -70,14 +74,14 @@ class BasicListView<T> extends StatelessWidget {
           final int endIndex = min(startIndex + numberOfItemsInRow, items.length);
           final List<T> itemsInRow = items.sublist(startIndex, endIndex);
           return Row(
+            mainAxisAlignment: mainAxisAlignment,
+            crossAxisAlignment: crossAxisAlignment,
             children: [
               for (int i = 0; i < itemsInRow.length; i++)
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      left: i == 0
-                          ? 0
-                          : spaceBetweenItemsInRow ?? BasicPaddings.mainPadding,
+                      left: i == 0 ? 0 : spaceBetweenItemsInRow ?? BasicPaddings.mainPadding,
                     ),
                     child: itemBuilder(context, startIndex + i, itemsInRow[i]),
                   ),

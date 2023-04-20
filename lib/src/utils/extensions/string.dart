@@ -31,6 +31,7 @@ extension BasicStringExtension on String {
   }
 
   DateTime? toDateTimeFromFormat(String format) {
+    if(isEmpty) return null;
     try {
       return DateFormat(format).parse(this);
     } catch (e) {

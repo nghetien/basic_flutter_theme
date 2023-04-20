@@ -1,3 +1,5 @@
+## 0.3.3
+* Add `BasicCheckBoxForm` and `BasicInkwellButton` and `initValue` for `BasicInput`.
 ## 0.3.2
 * All input use `flutter_form_builder1` and add validate number.
 ## 0.3.1

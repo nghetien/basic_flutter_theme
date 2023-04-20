@@ -9,6 +9,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
     required this.onSelected,
     this.tagsAbleScroll = false,
     this.closeDropdownAfterSelect = true,
+    this.searchController,
     this.hintTextSearch = 'Search',
     this.prefixIconSearch,
     this.backgroundColorSelected,
@@ -68,9 +69,10 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
   final List<BasicInputDropdownItemModel<T>> Function(String, List<BasicInputDropdownItemModel<T>>)
       filterOption;
   final List<BasicInputDropdownItemModel<T>> menuChildren;
-  final Function(T, List<T>) onSelected;
+  final Function(BasicInputDropdownItemModel<T>, List<BasicInputDropdownItemModel<T>>) onSelected;
   final bool tagsAbleScroll;
   final bool closeDropdownAfterSelect;
+  final TextEditingController? searchController;
   final String hintTextSearch;
   final Widget? prefixIconSearch;
   final Color? backgroundColorSelected;
@@ -151,7 +153,8 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
   void _listenOnChangeInput() {
     if (_searchController.text.isNotEmpty) {
       setState(
-          () => _menuChildren = widget.filterOption(_searchController.text, widget.menuChildren));
+        () => _menuChildren = widget.filterOption(_searchController.text, widget.menuChildren),
+      );
     } else {
       setState(() => _menuChildren = widget.menuChildren);
     }
@@ -174,7 +177,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
     _menuChildrenSelected = [];
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
-    _searchController = widget.controller ?? TextEditingController();
+    _searchController = widget.searchController ?? TextEditingController();
     _searchController.addListener(_listenOnChangeInput);
     if (widget.tagsAbleScroll) _scrollController = ScrollController();
   }
@@ -226,65 +229,10 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
             ),
             visualDensity: VisualDensity.comfortable,
           ),
-          menuChildren: [
-            Padding(
-              padding: EdgeInsets.all(BasicPaddings.p8).copyWith(top: BasicPaddings.p4),
-              child: BasicInput(
-                focusNode: _searchFocusNode,
-                controller: _searchController,
-                size: widget.size ?? BasicInputSize.large,
-                prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
-                hintText: widget.hintTextSearch,
-              ),
-            ),
-            ..._menuChildren.map(
-              (item) {
-                final bool isSelected = _menuChildrenSelected.contains(item);
-                return BasicButton(
-                  width: double.infinity,
-                  size: BasicButtonSize.large,
-                  onPressed: () {
-                    if (_menuChildrenSelected.contains(item)) {
-                      _menuChildrenSelected.remove(item);
-                    } else {
-                      _menuChildrenSelected.add(item);
-                    }
-                    widget.onSelected.call(
-                      item.value,
-                      _menuChildrenSelected.map((e) => e.value).toList(),
-                    );
-                    if (widget.closeDropdownAfterSelect) _menuController.close();
-                    setState(() {});
-                  },
-                  alignment: Alignment.centerLeft,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                  ),
-                  background: isSelected
-                      ? widget.backgroundColorSelected ?? BasicAppColors.greenOpacity01
-                      : Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      item.child != null
-                          ? item.child!(item.value, item.label)
-                          : Flexible(
-                              child: Text(item.label),
-                            ),
-                      if (isSelected)
-                        widget.iconSelected ??
-                            const Icon(
-                              Icons.check,
-                              color: BasicAppColors.green,
-                            )
-                    ],
-                  ),
-                );
-              },
-            ).toList(),
-          ],
+          menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
+              controller: widget.controller,
               name: widget.name,
               size: widget.size,
               width: widget.width,
@@ -336,6 +284,66 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
     );
   }
 
+  List<Widget> _generateMenuChildren() {
+    return [
+      Padding(
+        padding: EdgeInsets.all(BasicPaddings.p8).copyWith(top: BasicPaddings.p4),
+        child: BasicInput(
+          focusNode: _searchFocusNode,
+          controller: _searchController,
+          size: widget.size ?? BasicInputSize.large,
+          prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
+          hintText: widget.hintTextSearch,
+        ),
+      ),
+      ..._menuChildren.map(
+        (item) {
+          final bool isSelected = _menuChildrenSelected.contains(item);
+          return BasicButton(
+            width: double.infinity,
+            size: BasicButtonSize.large,
+            onPressed: () {
+              if (_menuChildrenSelected.contains(item)) {
+                _menuChildrenSelected.remove(item);
+              } else {
+                _menuChildrenSelected.add(item);
+              }
+              widget.onSelected.call(
+                item,
+                _menuChildrenSelected,
+              );
+              if (widget.closeDropdownAfterSelect) _menuController.close();
+              setState(() {});
+            },
+            alignment: Alignment.centerLeft,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(0)),
+            ),
+            background: isSelected
+                ? widget.backgroundColorSelected ?? BasicAppColors.greenOpacity01
+                : Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                item.child != null
+                    ? item.child!(item.value, item.label)
+                    : Flexible(
+                        child: Text(item.label),
+                      ),
+                if (isSelected)
+                  widget.iconSelected ??
+                      const Icon(
+                        Icons.check,
+                        color: BasicAppColors.green,
+                      )
+              ],
+            ),
+          );
+        },
+      ).toList(),
+    ];
+  }
+
   Widget _getPrefixIcon() {
     final Widget prefixIcon = Padding(
       padding: EdgeInsets.all(BasicPaddings.p8),
@@ -349,8 +357,8 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
               whenClose: () {
                 _menuChildrenSelected.remove(item);
                 widget.onSelected.call(
-                  item.value,
-                  _menuChildrenSelected.map((e) => e.value).toList(),
+                  item,
+                  _menuChildrenSelected,
                 );
                 setState(() {});
               },

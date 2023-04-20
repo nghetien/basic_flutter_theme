@@ -48,29 +48,45 @@ class DataTableRowWidget<T> extends StatelessWidget {
         ],
       );
     }
-    return MeasureSize(
-      onChange: (Size size) {
-        final bool canEdit = controller.canEditHeightOfEachRow(
-          indexRow,
-          size.height,
-        );
-        if(canEdit) controller.reloadHeightFixedContent();
-      },
-      child: Column(
-        children: <Widget>[
-          _wrapContent(
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: _generateRowItem(context),
+    return Container(
+      decoration: BoxDecoration(
+        border: rowOption.bordered
+            ? Border(
+                left: BorderSide(
+                  width: 0,
+                  color: BasicAppColors.greyOpacity04,
+                ),
+                right: BorderSide(
+                  width: 0,
+                  color: BasicAppColors.greyOpacity04,
+                ),
+              )
+            : null,
+      ),
+      child: MeasureSize(
+        onChange: (Size size) {
+          final bool canEdit = controller.canEditHeightOfEachRow(
+            indexRow,
+            size.height,
+          );
+          if (canEdit) controller.reloadHeightFixedContent();
+        },
+        child: Column(
+          children: <Widget>[
+            _wrapContent(
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: _generateRowItem(context),
+                ),
               ),
             ),
-          ),
-          if (isShowMore)
-            _wrapShowMore(
-              child: showerMoreContentRowWidget!(rowData),
-            )
-        ],
+            if (isShowMore)
+              _wrapShowMore(
+                child: showerMoreContentRowWidget!(rowData),
+              )
+          ],
+        ),
       ),
     );
   }

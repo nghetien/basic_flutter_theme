@@ -8,6 +8,8 @@ part 'basic_button.dart';
 
 part 'basic_button_dropdown.dart';
 
-part 'basic_text_button.dart';
-
 part 'basic_button_icon.dart';
+
+part 'basic_inkwell_button.dart';
+
+part 'basic_text_button.dart';

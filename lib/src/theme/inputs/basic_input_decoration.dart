@@ -24,6 +24,7 @@ InputDecoration basicInputDecoration(
   String? errorText,
   int? errorMaxLines,
   TextStyle? errorStyle,
+  InputBorder? border,
 }) =>
     InputDecoration(
       isDense: isDense,
@@ -49,4 +50,5 @@ InputDecoration basicInputDecoration(
       errorText: errorText,
       errorMaxLines: errorMaxLines,
       errorStyle: errorStyle,
+      border: border,
     );

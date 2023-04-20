@@ -10,24 +10,27 @@ class BasicNumberFormatter {
 
   static final TextInputFormatter digitsOnly = FilteringTextInputFormatter.digitsOnly;
 
-  static final digitsWithComma = FilteringTextInputFormatter.allow(RegExp(r'[\d.,-]'));
+  static final digitsWithDotAndCommaAndDash = FilteringTextInputFormatter.allow(RegExp(r'[\d.,-]'));
+
+  static final digitsWithDotAndDash = FilteringTextInputFormatter.allow(RegExp(r'[\d.-]'));
+
+  static final digitsWithDot = FilteringTextInputFormatter.allow(RegExp(r'[\d.]'));
 
   static final TextInputFormatter currency = _FormatTextToCurrency();
-}
 
-
-class _FormatTextToCurrency implements TextInputFormatter {
-
-  String truncateNumberToString(dynamic number) {
+  static String truncateNumberToString(dynamic number) {
+    if(number == null) return '0';
     final f = NumberFormat("###,###.###", "tr_TR");
     return f.format(number).replaceAll(',', '*').replaceAll('.', ',').replaceAll('*', '.');
   }
+}
 
+class _FormatTextToCurrency implements TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isEmpty) {
       return newValue.copyWith(
         text: '0',
@@ -35,9 +38,9 @@ class _FormatTextToCurrency implements TextInputFormatter {
       );
     }
 
-    if (newValue.text.length >= 25) return oldValue;
+    if (newValue.text == '-') return newValue;
 
-    if (newValue.text.length == 1 && newValue.text.contains('-',0)) return newValue;
+    if (newValue.text.length >= 25) return oldValue;
 
     if (newValue.text.compareTo(oldValue.text) != 0) {
       final int selectionIndexFromTheRight = newValue.text.length - newValue.selection.end;
@@ -50,13 +53,12 @@ class _FormatTextToCurrency implements TextInputFormatter {
       final splitDotNewText = handleText.split('.');
       if (splitDotNewText[0].isEmpty) splitDotNewText[0] = '0';
       splitDotNewText[0] = (splitDotNewText[0][0] == '-' ? '-' : '') +
-          truncateNumberToString(
+          BasicNumberFormatter.truncateNumberToString(
             int.parse(
               splitDotNewText[0].replaceAll("-", "").trim(),
             ),
           );
       String newString = splitDotNewText[0];
-
       bool isThreeZero = false;
       if (splitDotNewText.length >= 2 && splitDotNewText[1].length >= 3) {
         final textAfterDot = splitDotNewText[1].substring(0, 3);
@@ -67,7 +69,6 @@ class _FormatTextToCurrency implements TextInputFormatter {
           '0.$textAfterDot',
         ).toString().split('.')[1];
       }
-
       if (splitDotNewText.length >= 2) {
         newString = '${splitDotNewText[0]}.${splitDotNewText[1]}';
       }
