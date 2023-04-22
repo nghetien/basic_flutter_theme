@@ -1,12 +1,5 @@
+import 'package:basic_flutter_theme/basic_flutter_theme.dart';
 import 'package:flutter/material.dart';
-
-import 'basic_validator_mess_error.dart';
-import 'credit_card_validator.dart';
-import 'date_time_validator.dart';
-import 'email_validator.dart';
-import 'ip_validator.dart';
-import 'phone_validator.dart';
-import 'url_validator.dart';
 
 class BasicFormValidator {
   const BasicFormValidator._();
@@ -22,9 +15,9 @@ class BasicFormValidator {
   }
 
   static FormFieldValidator<String> email({String? errorText}) => (valueCandidate) =>
-      (valueCandidate?.isNotEmpty ?? false) && !BasicEmailValidator.isEmail(valueCandidate!)
-          ? errorText ?? BasicFormValidatorMessageError().email
-          : null;
+  (valueCandidate?.isNotEmpty ?? false) && !BasicEmailValidator.isEmail(valueCandidate!)
+      ? errorText ?? BasicFormValidatorMessageError().email
+      : null;
 
   static FormFieldValidator<T> required<T>({String? errorText}) {
     return (T? valueCandidate) {
@@ -38,13 +31,31 @@ class BasicFormValidator {
     };
   }
 
-  static FormFieldValidator<T> equal<T>(Object value, {String? errorText}) => (valueCandidate) =>
-      valueCandidate != value ? errorText ?? BasicFormValidatorMessageError().equal!(value) : null;
+  static FormFieldValidator<T> equal<T>(
+    Object value, {
+    String? errorText,
+    bool isNumber = true,
+  }) =>
+      (valueCandidate) => isNumber
+          ? (value != BasicNumberTransformer.currencyToNumber(valueCandidate.toString())
+              ? errorText ?? BasicFormValidatorMessageError().equal!(value)
+              : null)
+          : (valueCandidate != value
+              ? errorText ?? BasicFormValidatorMessageError().equal!(value)
+              : null);
 
-  static FormFieldValidator<T> notEqual<T>(Object value, {String? errorText}) =>
-      (valueCandidate) => valueCandidate == value
-          ? errorText ?? BasicFormValidatorMessageError().notEqual!(value)
-          : null;
+  static FormFieldValidator<T> notEqual<T>(
+    Object value, {
+    String? errorText,
+    bool isNumber = true,
+  }) =>
+      (valueCandidate) => isNumber
+          ? (value == BasicNumberTransformer.currencyToNumber(valueCandidate.toString())
+              ? errorText ?? BasicFormValidatorMessageError().notEqual!(value)
+              : null)
+          : (valueCandidate == value
+              ? errorText ?? BasicFormValidatorMessageError().notEqual!(value)
+              : null);
 
   static FormFieldValidator<T> min<T>(
     num min, {
@@ -54,9 +65,7 @@ class BasicFormValidator {
     return (T? valueCandidate) {
       if (valueCandidate != null) {
         assert(valueCandidate is num || valueCandidate is String);
-        final number =
-            valueCandidate is num ? valueCandidate : num.tryParse(valueCandidate.toString());
-
+        final number = BasicNumberTransformer.currencyToNumber(valueCandidate.toString());
         if (number != null && (inclusive ? number < min : number <= min)) {
           return errorText ?? BasicFormValidatorMessageError().min!(min);
         }
@@ -65,17 +74,14 @@ class BasicFormValidator {
     };
   }
 
-  static FormFieldValidator<T> max<T>(
-    num max, {
+  static FormFieldValidator<T> max<T>(num max, {
     bool inclusive = true,
     String? errorText,
   }) {
     return (T? valueCandidate) {
       if (valueCandidate != null) {
         assert(valueCandidate is num || valueCandidate is String);
-        final number =
-            valueCandidate is num ? valueCandidate : num.tryParse(valueCandidate.toString());
-
+        final number = BasicNumberTransformer.currencyToNumber(valueCandidate.toString());
         if (number != null && (inclusive ? number > max : number >= max)) {
           return errorText ?? BasicFormValidatorMessageError().max!(max);
         }
@@ -84,8 +90,7 @@ class BasicFormValidator {
     };
   }
 
-  static FormFieldValidator<T> minLength<T>(
-    int minLength, {
+  static FormFieldValidator<T> minLength<T>(int minLength, {
     bool allowEmpty = false,
     String? errorText,
   }) {
@@ -114,8 +119,7 @@ class BasicFormValidator {
     };
   }
 
-  static FormFieldValidator<T> equalLength<T>(
-    int length, {
+  static FormFieldValidator<T> equalLength<T>(int length, {
     bool allowEmpty = false,
     String? errorText,
   }) {
@@ -146,65 +150,65 @@ class BasicFormValidator {
     List<String> hostWhitelist = const [],
     List<String> hostBlacklist = const [],
   }) =>
-      (valueCandidate) => true == valueCandidate?.isNotEmpty &&
-              !BasicUrlValidator.isURL(valueCandidate,
-                  protocols: protocols,
-                  requireTld: requireTld,
-                  requireProtocol: requireProtocol,
-                  allowUnderscore: allowUnderscore,
-                  hostWhitelist: hostWhitelist,
-                  hostBlacklist: hostBlacklist)
+          (valueCandidate) => true == valueCandidate?.isNotEmpty &&
+          !BasicUrlValidator.isURL(valueCandidate,
+              protocols: protocols,
+              requireTld: requireTld,
+              requireProtocol: requireProtocol,
+              allowUnderscore: allowUnderscore,
+              hostWhitelist: hostWhitelist,
+              hostBlacklist: hostBlacklist)
           ? errorText ?? BasicFormValidatorMessageError().url
           : null;
 
   static FormFieldValidator<String> match(String pattern, {String? errorText}) =>
-      (valueCandidate) =>
-          true == valueCandidate?.isNotEmpty && !RegExp(pattern).hasMatch(valueCandidate!)
-              ? errorText ?? BasicFormValidatorMessageError().match!(pattern)
-              : null;
+          (valueCandidate) =>
+      true == valueCandidate?.isNotEmpty && !RegExp(pattern).hasMatch(valueCandidate!)
+          ? errorText ?? BasicFormValidatorMessageError().match!(pattern)
+          : null;
 
   static FormFieldValidator<String> numeric({String? errorText}) => (valueCandidate) =>
-      true == valueCandidate?.isNotEmpty && null == num.tryParse(valueCandidate!)
-          ? errorText ?? BasicFormValidatorMessageError().numeric
-          : null;
+  true == valueCandidate?.isNotEmpty && null == num.tryParse(valueCandidate!)
+      ? errorText ?? BasicFormValidatorMessageError().numeric
+      : null;
 
   static FormFieldValidator<String> integer({String? errorText, int? radix}) => (valueCandidate) =>
-      true == valueCandidate?.isNotEmpty && null == int.tryParse(valueCandidate!, radix: radix)
-          ? errorText ?? BasicFormValidatorMessageError().integer
-          : null;
+  true == valueCandidate?.isNotEmpty && null == int.tryParse(valueCandidate!, radix: radix)
+      ? errorText ?? BasicFormValidatorMessageError().integer
+      : null;
 
   static FormFieldValidator<String> creditCard({
     String? errorText,
   }) =>
-      (valueCandidate) => true == valueCandidate?.isNotEmpty &&
-              !BasicCreditCardValidator.isCreditCard(valueCandidate!)
+          (valueCandidate) => true == valueCandidate?.isNotEmpty &&
+          !BasicCreditCardValidator.isCreditCard(valueCandidate!)
           ? errorText ?? BasicFormValidatorMessageError().creditCard
           : null;
 
   static FormFieldValidator<String> ip({int? version, String? errorText}) => (valueCandidate) =>
-      true == valueCandidate?.isNotEmpty && !BasicIPValidator.isIP(valueCandidate!, version)
-          ? errorText ?? BasicFormValidatorMessageError().ip
-          : null;
+  true == valueCandidate?.isNotEmpty && !BasicIPValidator.isIP(valueCandidate!, version)
+      ? errorText ?? BasicFormValidatorMessageError().ip
+      : null;
 
   static FormFieldValidator<String> dateTime({String? errorText, String? validator}) =>
-      (valueCandidate) => true == valueCandidate?.isNotEmpty &&
-              !BasicDateTimeValidator.isDateTime(
-                valueCandidate!,
-                validator: validator,
-              )
+          (valueCandidate) => true == valueCandidate?.isNotEmpty &&
+          !BasicDateTimeValidator.isDateTime(
+            valueCandidate!,
+            validator: validator,
+          )
           ? errorText ?? BasicFormValidatorMessageError().dateTime
           : null;
 
   static FormFieldValidator<String> timeOfDay({String? errorText}) =>
-      (valueCandidate) => true == valueCandidate?.isNotEmpty &&
-              !BasicDateTimeValidator.isTimeOfDay(
-                valueCandidate!,
-              )
+          (valueCandidate) => true == valueCandidate?.isNotEmpty &&
+          !BasicDateTimeValidator.isTimeOfDay(
+            valueCandidate!,
+          )
           ? errorText ?? BasicFormValidatorMessageError().timeOfDay
           : null;
 
   static FormFieldValidator<String> phone({String? errorText}) => (valueCandidate) =>
-      true == valueCandidate?.isNotEmpty && !BasicPhoneValidator.isPhone(valueCandidate!)
-          ? errorText ?? BasicFormValidatorMessageError().phone
-          : null;
+  true == valueCandidate?.isNotEmpty && !BasicPhoneValidator.isPhone(valueCandidate!)
+      ? errorText ?? BasicFormValidatorMessageError().phone
+      : null;
 }

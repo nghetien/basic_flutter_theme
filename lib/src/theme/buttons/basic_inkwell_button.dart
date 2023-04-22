@@ -30,7 +30,7 @@ class BasicInkwellButton extends StatelessWidget {
         child: child ?? Text(
           text ?? "",
           style: BasicTextStyles.body.copyWith(
-            color: textColor,
+            color: textColor ?? BasicAppColors.blueLight,
             fontSize: textFontSize,
             fontWeight: textFontWeight,
             height: 0,

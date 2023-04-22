@@ -107,7 +107,7 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueTransformer<String?>? valueTransformer;
+  final ValueTransformer<BasicInputDropdownItemModel<T>?>? valueTransformer;
   final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
@@ -146,6 +146,8 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
   late Animation<double> _rotateAnimation;
   late List<BasicInputDropdownItemModel<T>> _menuChildren;
 
+  BasicInputDropdownItemModel<T>? _currentSelected;
+
   void _onFocusChange() {
     if (widget.haveSearch) {
       if (_focusNode.hasFocus) _menuController.open();
@@ -181,6 +183,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
         curve: Curves.easeInOut,
       ),
     );
+    if(widget.initialValue != null) _currentSelected = widget.initialValue;
     _menuChildren = widget.menuChildren;
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
@@ -247,6 +250,7 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
                 width: double.infinity,
                 size: BasicButtonSize.large,
                 onPressed: () {
+                  _currentSelected = item;
                   _controller.text = item.label;
                   widget.onSelected?.call(item);
                   _menuController.close();
@@ -280,7 +284,10 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
               autoValidateMode: widget.autoValidateMode,
               validator: widget.validator,
               inputFormatters: widget.inputFormatters,
-              valueTransformer: widget.valueTransformer,
+              valueTransformer: (value) {
+                if (_currentSelected == null) return widget.valueTransformer?.call(null);
+                return widget.valueTransformer?.call(_currentSelected);
+              },
               onChanged: widget.onChanged,
               onTap: widget.onTap,
               onEditingComplete: widget.onEditingComplete,

@@ -1,3 +1,5 @@
+## 0.3.4
+* Change `valueTransformer` of `InputDropdown`.
 ## 0.3.3
 * Add `BasicCheckBoxForm` and `BasicInkwellButton` and `initValue` for `BasicInput`.
 ## 0.3.2

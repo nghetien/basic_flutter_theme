@@ -42,4 +42,6 @@ extension BasicStringExtension on String {
   TimeOfDay get toTimeOfDay => TimeOfDay.fromDateTime(toDateTime);
 
   ValueKey get valueKey => ValueKey(this);
+
+  String capitalize() => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 }
