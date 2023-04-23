@@ -43,5 +43,5 @@ extension BasicStringExtension on String {
 
   ValueKey get valueKey => ValueKey(this);
 
-  String capitalize() => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  String get capitalize => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 }

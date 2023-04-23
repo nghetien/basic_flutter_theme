@@ -1,3 +1,5 @@
+## 0.3.5
+* Fix bug custom name of button cancel for `customizeDialog` and change `capitalize` to get method.
 ## 0.3.4
 * Change `valueTransformer` of `InputDropdown`.
 ## 0.3.3

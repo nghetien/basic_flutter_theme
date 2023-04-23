@@ -103,7 +103,7 @@ class BasicDialogs {
                               context.popNavigator();
                             },
                             size: BasicButtonSize.large,
-                            text: customizeOkText ?? 'Cancel',
+                            text: customizeCancelText ?? 'Cancel',
                             textColor: BasicAppColors.primary,
                           ),
                           HSpace.mainSpace,
