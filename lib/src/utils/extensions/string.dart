@@ -1,3 +1,4 @@
+import 'package:basic_flutter_theme/basic_flutter_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -44,4 +45,14 @@ extension BasicStringExtension on String {
   ValueKey get valueKey => ValueKey(this);
 
   String get capitalize => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+
+  TimeOfDay? get convertTimeOfDay {
+    try {
+      final time = split(':');
+      return TimeOfDay(hour: int.parse(time[0]), minute: int.parse(time[1]));
+    } catch (e) {
+      BasicLogger.errorLog("convertTimeOfDay: $e");
+      return null;
+    }
+  }
 }

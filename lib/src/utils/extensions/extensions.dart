@@ -5,3 +5,4 @@ export 'map.dart';
 export 'num.dart';
 export 'screen_width.dart';
 export 'string.dart';
+export 'time_of_day.dart';
