@@ -1,3 +1,5 @@
+## 0.3.7
+* Hot fix.
 ## 0.3.6
 * Add `BasicTimeOfDayExtension` and `BasicTimeOfDayExtension`.
 ## 0.3.5

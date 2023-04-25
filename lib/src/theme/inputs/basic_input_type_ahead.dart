@@ -20,7 +20,8 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
     required this.initMenuChildren,
     required this.onLoadingMenuChildren,
     required this.onRefreshMenuChildren,
-    required this.onSearchMenuChildren,
+    this.onSearchMenuChildren,
+    this.reloadMenuChildrenEachOpen = false,
     this.closeDropdownAfterSelect = true,
     this.searchController,
     this.tagsAbleScroll = false,
@@ -89,7 +90,9 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final Future<List<BasicInputTypeAheadDropdownItemModel<T>>> Function() initMenuChildren;
   final Future<List<BasicInputTypeAheadDropdownItemModel<T>>> Function() onLoadingMenuChildren;
   final Future<List<BasicInputTypeAheadDropdownItemModel<T>>> Function() onRefreshMenuChildren;
-  final Future<List<BasicInputTypeAheadDropdownItemModel<T>>> Function(String) onSearchMenuChildren;
+  final Future<List<BasicInputTypeAheadDropdownItemModel<T>>> Function(String)?
+      onSearchMenuChildren;
+  final bool reloadMenuChildrenEachOpen;
   final bool closeDropdownAfterSelect;
   final bool tagsAbleScroll;
   final TextEditingController? searchController;
@@ -189,7 +192,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     _searchController = widget.searchController ?? TextEditingController();
     if (widget.tagsAbleScroll) _scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
+          (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
     );
   }
 
@@ -215,8 +218,8 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
 
   void _listenOnChangeInput() => _debounce.run(
         () {
-          _loading.show();
-          widget.onSearchMenuChildren(_searchController.text).then(
+          if (widget.onSearchMenuChildren != null) _loading.show();
+          widget.onSearchMenuChildren?.call(_searchController.text).then(
             (value) {
               setState(() => _menuChildren = value);
               _loading.dismiss();
@@ -243,7 +246,18 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       builder: (_, constraints) {
         _widthPopupMenu = widget.width ?? constraints.maxWidth;
         return MenuAnchor(
-          onOpen: () => _setPopupIsOpen(true),
+          onOpen: () {
+            _setPopupIsOpen(true);
+            if (widget.reloadMenuChildrenEachOpen) {
+              _loading.show();
+              widget.initMenuChildren().then(
+                (value) {
+                  _loading.dismiss();
+                  setState(() => _menuChildren = value);
+                },
+              );
+            }
+          },
           onClose: () => _setPopupIsOpen(false),
           crossAxisUnconstrained: false,
           controller: _menuController,
@@ -324,17 +338,18 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
 
   List<Widget> _generateMenuChildren() {
     return [
-      Padding(
-        padding: EdgeInsets.all(BasicPaddings.p8).copyWith(top: BasicPaddings.p4),
-        child: BasicInput(
-          focusNode: _searchFocusNode,
-          controller: _searchController,
-          size: widget.size ?? BasicInputSize.large,
-          prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
-          hintText: widget.hintTextSearch,
-          onChanged: (_) => _listenOnChangeInput(),
+      if (widget.onSearchMenuChildren != null)
+        Padding(
+          padding: EdgeInsets.all(BasicPaddings.p8).copyWith(top: BasicPaddings.p4),
+          child: BasicInput(
+            focusNode: _searchFocusNode,
+            controller: _searchController,
+            size: widget.size ?? BasicInputSize.large,
+            prefixIcon: widget.prefixIconSearch ?? const Icon(Icons.search),
+            hintText: widget.hintTextSearch,
+            onChanged: (_) => _listenOnChangeInput(),
+          ),
         ),
-      ),
       Container(
         constraints: _getBoxConstraints(),
         child: _loading.initBasicLoading(
@@ -364,6 +379,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
                       itemCount: _menuChildren.length,
                       separatorBuilder: (BuildContext context, int index) => VSpace.p4,
                       itemBuilder: (context, index) {
+                        if (_menuChildren.isEmpty) return const SizedBox.shrink();
                         final BasicInputTypeAheadDropdownItemModel<T> item = _menuChildren[index];
                         return BasicButton(
                           width: double.infinity,
@@ -471,7 +487,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
         runSpacing: BasicPaddings.p8,
         spacing: BasicPaddings.p8,
         children: _selectedItems.values.map(
-          (item) {
+              (item) {
             return BasicDynamicTag(
               textContent: item.label,
               whenClose: () {
