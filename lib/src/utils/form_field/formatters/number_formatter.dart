@@ -16,6 +16,8 @@ class BasicNumberFormatter {
 
   static final digitsWithDot = FilteringTextInputFormatter.allow(RegExp(r'[\d.]'));
 
+  static final digitsWithDotAndComma = FilteringTextInputFormatter.allow(RegExp(r'[\d.,]'));
+
   static final TextInputFormatter currency = _FormatTextToCurrency();
 
   static String truncateNumberToString(dynamic number) {

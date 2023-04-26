@@ -1,3 +1,5 @@
+## 0.3.9
+* Add 'digitsWithDotAndComma'
 ## 0.3.8
 * Update `BasicInputTypeAheadDropdownItemModel` add 'valueTransformer' and 'initialValue'
 ## 0.3.7
