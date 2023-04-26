@@ -1,3 +1,5 @@
+## 0.3.8
+* Update `BasicInputTypeAheadDropdownItemModel` add 'valueTransformer' and 'initialValue'
 ## 0.3.7
 * Hot fix.
 ## 0.3.6

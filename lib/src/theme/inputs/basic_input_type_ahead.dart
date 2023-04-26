@@ -110,7 +110,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(bool)? onFocusChange;
-  final String? initialValue;
+  final List<BasicInputTypeAheadDropdownItemModel<T>>? initialValue;
   final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final TextAlignVertical? textAlignVertical;
@@ -125,7 +125,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final ValueTransformer<String?>? valueTransformer;
+  final ValueTransformer<List<BasicInputTypeAheadDropdownItemModel<T>>?>? valueTransformer;
   final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
@@ -170,6 +170,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
   late double _widthPopupMenu;
   final BasicDebounce _debounce = BasicDebounce(milliseconds: 500);
   late final ScrollController _scrollController;
+  late final TextEditingController _textEditingController;
 
   MapEntry<String, BasicInputTypeAheadDropdownItemModel<T>>? _selectedItem;
   final Map<String, BasicInputTypeAheadDropdownItemModel<T>> _selectedItems = {};
@@ -191,8 +192,17 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     _focusNode.addListener(_onFocusChange);
     _searchController = widget.searchController ?? TextEditingController();
     if (widget.tagsAbleScroll) _scrollController = ScrollController();
+    _textEditingController = widget.controller ?? TextEditingController();
+    if (widget.initialValue != null && widget.initialValue!.isNotEmpty) {
+      if (widget.isSelectOne) {
+        _textEditingController.text = widget.initialValue!.first.label;
+        _selectedItem = MapEntry(widget.initialValue!.first.key, widget.initialValue!.first);
+      } else {
+        _selectedItems.addAll(Map.fromEntries(widget.initialValue!.map((e) => MapEntry(e.key, e))));
+      }
+    }
     WidgetsBinding.instance.addPostFrameCallback(
-          (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
+      (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
     );
   }
 
@@ -269,9 +279,8 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
               name: widget.name,
               size: widget.size,
               width: widget.width,
-              controller: widget.controller,
+              controller: _textEditingController,
               focusNode: _focusNode,
-              initialValue: widget.initialValue,
               textAlign: widget.textAlign,
               textAlignVertical: widget.textAlignVertical,
               textInputAction: widget.textInputAction,
@@ -285,7 +294,15 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
               autoValidateMode: widget.autoValidateMode,
               validator: widget.validator,
               inputFormatters: widget.inputFormatters,
-              valueTransformer: widget.valueTransformer,
+              valueTransformer: (value) {
+                if (widget.isSelectOne) {
+                  if (_selectedItem == null) return widget.valueTransformer?.call(null);
+                  return widget.valueTransformer?.call([_selectedItem!.value]);
+                } else {
+                  if (_selectedItems.isEmpty) return widget.valueTransformer?.call(null);
+                  return widget.valueTransformer?.call(_selectedItems.values.toList());
+                }
+              },
               onChanged: widget.onChanged,
               onTap: widget.onTap,
               onEditingComplete: widget.onEditingComplete,
@@ -390,6 +407,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
                           onPressed: () {
                             if (widget.isSelectOne) {
                               if (_selectedItem?.key != _menuChildren[index].key) {
+                                _textEditingController.text = item.label;
                                 setState(
                                   () => _selectedItem = MapEntry(
                                     _menuChildren[index].key,
@@ -398,6 +416,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
                                 );
                               } else {
                                 setState(() => _selectedItem = null);
+                                _textEditingController.clear();
                               }
                             } else {
                               if (_selectedItems[_menuChildren[index].key] != null) {
