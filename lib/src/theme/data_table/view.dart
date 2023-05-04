@@ -9,6 +9,7 @@ class BasicDataTable<T> extends StatefulWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
+    this.headerIntoRowWidget,
     required this.handleChangeData,
     this.optionUI,
     this.headerOption,
@@ -24,6 +25,7 @@ class BasicDataTable<T> extends StatefulWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
+  final HeaderIntoRowWidget<T>? headerIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
   final DataTableOptionUI? optionUI;
   final DataTableHeaderOption? headerOption;
@@ -70,12 +72,15 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       'Tất cả các đối tượng dataSources phải có thuộc tính id dạng int và là số dương',
     );
     assert(
-      _webDataTableController.initTableColumns.every((element) =>
-          element.fixedColumn == FixedColumn.none ||
-          (element.fixedColumn != FixedColumn.none &&
-              widget.topContent == null &&
-              widget.bottomContent == null &&
-              widget.showerMoreContentIntoRowWidget == null)),
+      _webDataTableController.initTableColumns.every(
+        (element) =>
+            element.fixedColumn == FixedColumn.none ||
+            (element.fixedColumn != FixedColumn.none &&
+                widget.topContent == null &&
+                widget.bottomContent == null &&
+                widget.showerMoreContentIntoRowWidget == null &&
+                widget.headerIntoRowWidget == null),
+      ),
       'Nếu DataTable có FixedColumn thí sẽ không được thêm top hoặc bottom hoặc showMoreContent content',
     );
     assert(

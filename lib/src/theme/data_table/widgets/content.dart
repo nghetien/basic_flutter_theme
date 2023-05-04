@@ -9,6 +9,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentRowWidget,
+    this.headerIntoRowWidget,
     this.verticalScrollState,
     required this.rowOption,
     required this.checkBoxOption,
@@ -20,6 +21,7 @@ class DataTableContentWidget<T> extends StatefulWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
+  final HeaderIntoRowWidget<T>? headerIntoRowWidget;
   final BasicVerticalScrollState? verticalScrollState;
   final DataTableRowOption<T> rowOption;
   final DataTableCheckBoxOption<T> checkBoxOption;
@@ -135,6 +137,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
               isShowMore: _isShowMore(index),
               onPressed: () => _handleClickContent(index, rowData),
               showerMoreContentRowWidget: widget.showerMoreContentRowWidget,
+              headerIntoRowWidget: widget.headerIntoRowWidget,
               rowOption: widget.rowOption,
               checkBoxOption: widget.checkBoxOption,
             ),

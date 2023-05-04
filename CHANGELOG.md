@@ -1,3 +1,5 @@
+## 0.4.0
+* Add 'HeaderIntoRowWidget'
 ## 0.3.9
 * Add 'digitsWithDotAndComma'
 ## 0.3.8

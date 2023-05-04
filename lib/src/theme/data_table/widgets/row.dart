@@ -10,6 +10,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
     required this.rowData,
     this.isShowMore = false,
     this.showerMoreContentRowWidget,
+    this.headerIntoRowWidget,
     required this.onPressed,
     this.height,
     required this.rowOption,
@@ -24,15 +25,21 @@ class DataTableRowWidget<T> extends StatelessWidget {
   final bool isShowMore;
   final VoidCallback onPressed;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentRowWidget;
+  final HeaderIntoRowWidget<T>? headerIntoRowWidget;
   final double? height;
   final DataTableRowOption<T> rowOption;
   final DataTableCheckBoxOption<T> checkBoxOption;
 
   @override
   Widget build(BuildContext context) {
+    final Widget? headerRowWidget = headerIntoRowWidget?.call(rowData);
     if (fixedColumn != FixedColumn.none) {
       return Column(
         children: <Widget>[
+          if (headerRowWidget != null)
+            _wrapHeaderIntoRowWidget(
+              child: headerRowWidget,
+            ),
           _wrapContent(
             child: IntrinsicHeight(
               child: Row(
@@ -73,6 +80,10 @@ class DataTableRowWidget<T> extends StatelessWidget {
         },
         child: Column(
           children: <Widget>[
+            if (headerRowWidget != null)
+              _wrapHeaderIntoRowWidget(
+                child: headerRowWidget,
+              ),
             _wrapContent(
               child: IntrinsicHeight(
                 child: Row(
@@ -157,5 +168,16 @@ class DataTableRowWidget<T> extends StatelessWidget {
           ),
           child: child,
         ),
+      );
+
+  Widget _wrapHeaderIntoRowWidget({required Widget child}) => Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+            right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+            left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
+          ),
+        ),
+        child: child,
       );
 }

@@ -2,6 +2,8 @@ part of '../data_table.dart';
 
 typedef ShowerMoreContentIntoRowWidget<T> = Widget Function(T rowData);
 
+typedef HeaderIntoRowWidget<T> = Widget? Function(T rowData);
+
 typedef OptionContentTable = Widget Function(List<DataTableColumn> columns);
 
 enum DataTableSortType { asc, desc }

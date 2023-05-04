@@ -7,6 +7,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
     this.topContent,
     this.bottomContent,
     this.showerMoreContentIntoRowWidget,
+    this.headerIntoRowWidget,
     required this.handleChangeData,
     required this.headerOption,
     required this.rowOption,
@@ -19,6 +20,7 @@ class DefaultDataTableWidget<T> extends StatefulWidget {
   final OptionContentTable? topContent;
   final OptionContentTable? bottomContent;
   final ShowerMoreContentIntoRowWidget<T>? showerMoreContentIntoRowWidget;
+  final HeaderIntoRowWidget<T>? headerIntoRowWidget;
   final AsyncDataSource<T> handleChangeData;
   final DataTableHeaderOption headerOption;
   final DataTableRowOption<T> rowOption;
@@ -87,6 +89,7 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
                                 topContent: widget.topContent,
                                 bottomContent: widget.bottomContent,
                                 showerMoreContentRowWidget: widget.showerMoreContentIntoRowWidget,
+                                headerIntoRowWidget: widget.headerIntoRowWidget,
                                 checkBoxOption: widget.checkBoxOption,
                                 rowOption: widget.rowOption,
                               ),
