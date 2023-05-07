@@ -10,8 +10,8 @@ class BasicFormValidatorMessageError {
   String _required = 'This field is required';
   String Function(Object)? _equal = (Object value) => 'Value must be equal to $value';
   String Function(Object)? _notEqual = (Object value) => 'Value must not be equal to $value';
-  String Function(num)? _min = (num min) => 'Value must be greater than $min';
-  String Function(num)? _max = (num max) => 'Value must be less than $max';
+  String Function(String)? _min = (String min) => 'Value must be greater than $min';
+  String Function(String)? _max = (String max) => 'Value must be less than $max';
   String Function(int)? _minLength =
       (int minLength) => 'Value must be at least $minLength characters';
   String Function(int)? _maxLength =
@@ -35,9 +35,9 @@ class BasicFormValidatorMessageError {
 
   String Function(Object)? get notEqual => _notEqual;
 
-  String Function(num)? get min => _min;
+  String Function(String)? get min => _min;
 
-  String Function(num)? get max => _max;
+  String Function(String)? get max => _max;
 
   String Function(int)? get minLength => _minLength;
 
@@ -71,9 +71,9 @@ class BasicFormValidatorMessageError {
 
   void setNotEqual(String Function(Object)? value) => _notEqual = value;
 
-  void setMin(String Function(num)? value) => _min = value;
+  void setMin(String Function(String)? value) => _min = value;
 
-  void setMax(String Function(num)? value) => _max = value;
+  void setMax(String Function(String)? value) => _max = value;
 
   void setMinLength(String Function(int)? value) => _minLength = value;
 

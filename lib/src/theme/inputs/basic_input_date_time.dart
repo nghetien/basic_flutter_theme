@@ -298,7 +298,7 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
         autoValidateMode: widget.autoValidateMode,
         validator: widget.validator ?? BasicFormValidator.compose([_getValidator()]),
         inputFormatters: widget.inputFormatters ?? [_getFormatter()],
-        valueTransformer: (value){
+        valueTransformer: (value) {
           if (value == null || value.isEmpty) return null;
           return value.toDateTimeFromFormat(_getDateTimeValidator());
         },

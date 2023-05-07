@@ -48,8 +48,8 @@ class BasicLoadingWidgetState extends State<BasicLoadingWidget>
         RotationTransition(
           turns: Tween(begin: 0.0, end: 1.0).animate(_animationController),
           child: SizedBox(
-            width: 38,
-            height: 38,
+            width: 37,
+            height: 37,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

@@ -67,7 +67,7 @@ class BasicFormValidator {
         assert(valueCandidate is num || valueCandidate is String);
         final number = BasicNumberTransformer.currencyToNumber(valueCandidate.toString());
         if (number != null && (inclusive ? number < min : number <= min)) {
-          return errorText ?? BasicFormValidatorMessageError().min!(min);
+          return errorText ?? BasicFormValidatorMessageError().min!('$min');
         }
       }
       return null;
@@ -83,7 +83,7 @@ class BasicFormValidator {
         assert(valueCandidate is num || valueCandidate is String);
         final number = BasicNumberTransformer.currencyToNumber(valueCandidate.toString());
         if (number != null && (inclusive ? number > max : number >= max)) {
-          return errorText ?? BasicFormValidatorMessageError().max!(max);
+          return errorText ?? BasicFormValidatorMessageError().max!('$max');
         }
       }
       return null;

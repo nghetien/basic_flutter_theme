@@ -1,3 +1,5 @@
+## 0.4.1
+* Update `BasicFormValidator`
 ## 0.4.0
 * Add 'HeaderIntoRowWidget'
 ## 0.3.9
