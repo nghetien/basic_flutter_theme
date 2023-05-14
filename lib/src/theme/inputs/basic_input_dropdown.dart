@@ -134,10 +134,10 @@ class BasicInputDropdown<T> extends StatefulWidget {
   final TextStyle? errorStyle;
 
   @override
-  State<BasicInputDropdown<T>> createState() => _BasicInputDropdownState<T>();
+  State<BasicInputDropdown<T>> createState() => BasicInputDropdownState<T>();
 }
 
-class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
+class BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     with SingleTickerProviderStateMixin {
   final MenuController _menuController = MenuController();
   late final FocusNode _focusNode;
@@ -214,6 +214,19 @@ class _BasicInputDropdownState<T> extends State<BasicInputDropdown<T>>
     } else {
       _animationController.reverse();
     }
+  }
+
+  void resetCurrentData(String? value) {
+    if (value == null || value.isEmpty) {
+      _currentSelected = null;
+      _controller.clear();
+      setState(() {});
+      return;
+    }
+    _currentSelected =
+        _menuChildren.firstWhereOrNull((element) => element.value.toString() == value);
+    _controller.text = _currentSelected?.label ?? '';
+    setState(() {});
   }
 
   @override

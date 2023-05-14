@@ -3,6 +3,7 @@ export 'convert_type.dart';
 export 'debounce.dart';
 export 'extensions/extensions.dart';
 export 'form_field/form_field.dart';
+export 'is_equal.dart';
 export 'load_env.dart';
 export 'logger.dart';
 export 'platform.dart';

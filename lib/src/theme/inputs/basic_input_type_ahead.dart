@@ -212,9 +212,30 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     super.dispose();
   }
 
-  void clearSelected() {
-    _selectedItem = null;
-    _selectedItems.clear();
+  void resetCurrentData(List<String> values) {
+    if (values.isEmpty) {
+      _selectedItem = null;
+      _selectedItems.clear();
+      _textEditingController.clear();
+      return;
+    }
+    if (widget.isSelectOne) {
+      final find = _menuChildren.firstWhereOrNull((element) => element.key == values.first);
+      if (find != null) {
+        _selectedItem = MapEntry(values.first, find);
+        _textEditingController.text = _selectedItem!.value.label;
+      }
+    } else {
+      try {
+        _selectedItems.clear();
+        _selectedItems.addAll(Map.fromEntries(_menuChildren
+            .where((element) => values.contains(element.key))
+            .map((e) => MapEntry(e.key, e))));
+        _textEditingController.text = _selectedItems.values.map((e) => e.label).join(', ');
+      } catch (e) {
+        BasicLogger.errorLog('BasicInputTypeAhead resetCurrentData $e');
+      }
+    }
   }
 
   void _onFocusChange() {
@@ -505,16 +526,16 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       child: Wrap(
         runSpacing: BasicPaddings.p8,
         spacing: BasicPaddings.p8,
-        children: _selectedItems.values.map(
-              (item) {
+        children: _selectedItems.keys.map(
+          (key) {
             return BasicDynamicTag(
-              textContent: item.label,
+              textContent: _selectedItems[key]?.label,
               whenClose: () {
-                _selectedItems.remove(item);
                 widget.onSelected.call(
-                  item,
+                  _selectedItems[key]!,
                   _selectedItems.values.toList(),
                 );
+                _selectedItems.remove(key);
                 setState(() {});
               },
             );

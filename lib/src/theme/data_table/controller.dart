@@ -34,6 +34,7 @@ class DataTableController<T> extends ChangeNotifier {
       numberNextPage: numberNextPage,
       currentPage: currentPage,
     );
+    notifyListeners();
   }
 
   void clearDataTable() {

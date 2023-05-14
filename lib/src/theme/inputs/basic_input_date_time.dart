@@ -69,7 +69,7 @@ class BasicInputDateTime extends StatefulWidget {
   final String? name;
   final BasicInputDateTimeType type;
   final bool autoOpenSelectDate;
-  final String? initialValue;
+  final DateTime? initialValue;
   final Function(DateTime?)? onDateChanged;
   final DateTime? initialDate;
   final DateTime? firstDate;
@@ -123,10 +123,10 @@ class BasicInputDateTime extends StatefulWidget {
   final TextStyle? errorStyle;
 
   @override
-  State<BasicInputDateTime> createState() => _BasicInputDateTimeState();
+  State<BasicInputDateTime> createState() => BasicInputDateTimeState();
 }
 
-class _BasicInputDateTimeState extends State<BasicInputDateTime> {
+class BasicInputDateTimeState extends State<BasicInputDateTime> {
   bool _isShowSelectDate = false;
 
   void setIsShowSelectDate(bool value) => _isShowSelectDate = value;
@@ -143,13 +143,47 @@ class _BasicInputDateTimeState extends State<BasicInputDateTime> {
     widget.onFocusChange?.call(_focusNode.hasFocus);
   }
 
+  void resetCurrentData(DateTime? value) {
+    if (value == null) {
+      _controller.clear();
+      return;
+    }
+    switch (widget.type) {
+      case BasicInputDateTimeType.date:
+        _controller.text = value.dateStr;
+        break;
+      case BasicInputDateTimeType.time:
+        _controller.text = value.timeStr;
+        break;
+      case BasicInputDateTimeType.dateTime:
+        _controller.text = value.dateTimeStr;
+        break;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChange);
     _controller = widget.controller ?? TextEditingController();
-    if (widget.initialValue != null) _controller.text = widget.initialValue!;
+    try {
+      if (widget.initialValue != null) {
+        switch (widget.type) {
+          case BasicInputDateTimeType.date:
+            _controller.text = widget.initialValue!.dateStr;
+            break;
+          case BasicInputDateTimeType.time:
+            _controller.text = widget.initialValue!.timeStr;
+            break;
+          case BasicInputDateTimeType.dateTime:
+            _controller.text = widget.initialValue!.dateTimeStr;
+            break;
+        }
+      }
+    } catch (e) {
+      BasicLogger.errorLog('BasicInputDateTime $e');
+    }
   }
 
   @override

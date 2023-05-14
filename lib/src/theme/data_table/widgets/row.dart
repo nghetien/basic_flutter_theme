@@ -145,7 +145,9 @@ class DataTableRowWidget<T> extends StatelessWidget {
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
                 splashColor: Colors.transparent,
                 onTap: onPressed,
-                mouseCursor: isShowMore ? SystemMouseCursors.click : SystemMouseCursors.basic,
+                mouseCursor: rowOption.onPressRowItem != null
+                    ? SystemMouseCursors.click
+                    : SystemMouseCursors.basic,
                 child: child,
               ),
       );
@@ -171,11 +173,10 @@ class DataTableRowWidget<T> extends StatelessWidget {
       );
 
   Widget _wrapHeaderIntoRowWidget({required Widget child}) => Container(
+    width: double.infinity,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-            right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-            left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
           ),
         ),
         child: child,

@@ -1,3 +1,5 @@
+## 0.4.2
+* Add `BasicIsEqual` and update `BasicInput` and `BasicTable`
 ## 0.4.1
 * Update `BasicFormValidator`
 ## 0.4.0

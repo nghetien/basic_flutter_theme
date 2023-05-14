@@ -160,6 +160,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
         columnOption: _columnOption,
         paginationOption: _paginationOption,
         checkBoxOption: _checkBoxOption,
+        headerIntoRowWidget: widget.headerIntoRowWidget,
       );
     }
     return DefaultDataTableWidget<T>(
@@ -173,6 +174,7 @@ class BasicDataTableState<T> extends State<BasicDataTable<T>> {
       columnOption: _columnOption,
       paginationOption: _paginationOption,
       checkBoxOption: _checkBoxOption,
+      headerIntoRowWidget: widget.headerIntoRowWidget,
     );
   }
 }
