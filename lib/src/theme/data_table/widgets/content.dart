@@ -76,26 +76,29 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
       children: <Widget>[
         if (widget.topContent != null)
           Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                right: BorderSide(width: 0, color: BasicAppColors.greyOpacity04),
+                left: BorderSide(width: 0, color: BasicAppColors.greyOpacity04),
               ),
             ),
-            child: widget.topContent!(widget.controller.initTableColumns),
+            child: widget.topContent!(widget.controller.initTableColumns,
+                widget.controller.mapKeyToWidthOfEachColumnContent),
           ),
         _contents(),
         if (widget.bottomContent != null)
           Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
-                right: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
-                left: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity01),
+                right: BorderSide(width: 0, color: BasicAppColors.greyOpacity04),
+                left: BorderSide(width: 0, color: BasicAppColors.greyOpacity04),
               ),
             ),
-            child: widget.bottomContent!(widget.controller.initTableColumns),
+            child: widget.bottomContent!(widget.controller.initTableColumns,
+                widget.controller.mapKeyToWidthOfEachColumnContent),
           ),
       ],
     );

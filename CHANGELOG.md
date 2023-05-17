@@ -1,3 +1,5 @@
+## 0.4.3
+* Update `OptionContentTable` and `HeaderIntoRowWidget` of `BasicDataTable`
 ## 0.4.2
 * Add `BasicIsEqual` and update `BasicInput` and `BasicTable`
 ## 0.4.1

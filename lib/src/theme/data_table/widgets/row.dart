@@ -32,7 +32,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget? headerRowWidget = headerIntoRowWidget?.call(rowData);
+    final Widget? headerRowWidget = headerIntoRowWidget?.call(rowData, controller.mapKeyToWidthOfEachColumnContent);
     if (fixedColumn != FixedColumn.none) {
       return Column(
         children: <Widget>[
