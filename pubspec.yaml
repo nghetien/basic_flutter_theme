@@ -19,7 +19,7 @@ dependencies:
   shimmer: ^2.0.0
   flutter_dotenv: ^5.0.2
   flutter_form_builder: ^8.0.0 # Update lên là hẹo
-  collection: any # Update lên là hẹo
+  collection: ^1.17.0 # Update lên là hẹo
 
 dev_dependencies:
   flutter_test:
