@@ -1,3 +1,5 @@
+## 0.4.5
+* Add `AppStream` and `PrefsService`
 ## 0.4.4
 * Add `BasicJsonFileHelpers`
 ## 0.4.3

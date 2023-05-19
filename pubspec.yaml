@@ -1,6 +1,6 @@
 name: basic_flutter_theme
 description: Flutter basic theme.
-version: 0.4.4
+version: 0.4.5
 homepage: https://github.com/nghetien/basic_flutter_theme
 
 environment:
@@ -20,6 +20,8 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_form_builder: ^8.0.0 # Update lên là hẹo
   collection: ^1.17.0 # Update lên là hẹo
+  equatable: ^2.0.5
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:
