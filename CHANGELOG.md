@@ -1,19 +1,21 @@
+## 0.4.6
+* Update `Basic Tags` and add grey color 0.2.
 ## 0.4.5
-* Add `AppStream` and `PrefsService`
+* Add `AppStream` and `PrefsService`.
 ## 0.4.4
-* Add `BasicJsonFileHelpers`
+* Add `BasicJsonFileHelpers`.
 ## 0.4.3
-* Update `OptionContentTable` and `HeaderIntoRowWidget` of `BasicDataTable`
+* Update `OptionContentTable` and `HeaderIntoRowWidget` of `BasicDataTable`.
 ## 0.4.2
-* Add `BasicIsEqual` and update `BasicInput` and `BasicTable`
+* Add `BasicIsEqual` and update `BasicInput` and `BasicTable`.
 ## 0.4.1
-* Update `BasicFormValidator`
+* Update `BasicFormValidator`.
 ## 0.4.0
-* Add 'HeaderIntoRowWidget'
+* Add `HeaderIntoRowWidget`.
 ## 0.3.9
-* Add 'digitsWithDotAndComma'
+* Add `digitsWithDotAndComma`.
 ## 0.3.8
-* Update `BasicInputTypeAheadDropdownItemModel` add 'valueTransformer' and 'initialValue'
+* Update `BasicInputTypeAheadDropdownItemModel` add `valueTransformer` and `initialValue`.
 ## 0.3.7
 * Hot fix.
 ## 0.3.6

@@ -65,9 +65,13 @@ class BasicAppColors {
   static const green = Color(0xFF4AB178);
 
   static final Color greyOpacity01 = grey.withOpacity(0.1);
+  static final Color greyOpacity02 = grey.withOpacity(0.2);
   static final Color greyOpacity04 = grey.withOpacity(0.4);
+  static final Color greyOpacity06 = grey.withOpacity(0.6);
+
   static final Color greenOpacity01 = green.withOpacity(0.1);
 
   static final Color primaryOpacity01 = primary.withOpacity(0.1);
+  static final Color primaryOpacity02 = primary.withOpacity(0.2);
   static final Color primaryOpacity04 = primary.withOpacity(0.4);
 }

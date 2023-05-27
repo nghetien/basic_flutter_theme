@@ -111,7 +111,7 @@ class BasicAppThemes {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.mainCornerBorder,
-        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+        side: BorderSide(color: BasicAppColors.greyOpacity02, width: BasicBorders.thin),
       ),
     ),
     menuTheme: MenuThemeData(
@@ -248,7 +248,7 @@ class BasicAppThemes {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BasicCorners.mainCornerBorder,
-        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+        side: BorderSide(color: BasicAppColors.greyOpacity02, width: BasicBorders.thin),
       ),
     ),
     menuTheme: MenuThemeData(
