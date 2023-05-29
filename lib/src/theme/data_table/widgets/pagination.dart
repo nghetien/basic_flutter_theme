@@ -78,8 +78,8 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
         decoration: BoxDecoration(
           color: BasicAppColors.primary,
           borderRadius: BorderRadius.only(
-            bottomLeft: BasicCorners.mainCornerRadius,
-            bottomRight: BasicCorners.mainCornerRadius,
+            bottomLeft: widget.paginationOption.borderRadius ?? BasicCorners.mainCornerRadius,
+            bottomRight: widget.paginationOption.borderRadius ?? BasicCorners.mainCornerRadius,
           ),
         ),
         child: widget.paginationOption.isShowPagination

@@ -114,11 +114,13 @@ class _DefaultDataTableWidgetState<T> extends State<DefaultDataTableWidget<T>> {
               ],
             ),
             if (scrollHorizontalWidget != null) scrollHorizontalWidget,
-            DataTablePaginationWidget<T>(
-              controller: widget.controller,
-              handleChangeData: widget.handleChangeData,
-              paginationOption: widget.paginationOption,
-            ),
+            if (widget.paginationOption.isShowPagination ||
+                widget.paginationOption.enableItemPerPage)
+              DataTablePaginationWidget<T>(
+                controller: widget.controller,
+                handleChangeData: widget.handleChangeData,
+                paginationOption: widget.paginationOption,
+              ),
           ],
         ),
       ),

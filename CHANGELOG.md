@@ -1,3 +1,5 @@
+## 0.4.7
+* Update `BasicDataTable`.
 ## 0.4.6
 * Update `Basic Tags` and add grey color 0.2.
 ## 0.4.5

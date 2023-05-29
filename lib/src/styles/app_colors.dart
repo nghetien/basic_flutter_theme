@@ -63,6 +63,7 @@ class BasicAppColors {
   static const yellow = Color(0xFFFFA000);
   static const blueLight = Colors.lightBlue;
   static const green = Color(0xFF4AB178);
+  static const pink = Color(0xFFc41d7f);
 
   static final Color greyOpacity01 = grey.withOpacity(0.1);
   static final Color greyOpacity02 = grey.withOpacity(0.2);

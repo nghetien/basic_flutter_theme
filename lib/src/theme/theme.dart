@@ -10,6 +10,7 @@ export 'expansions.dart';
 export 'icon_buttons/icon_buttons.dart';
 export 'images/images.dart';
 export 'inputs/inputs.dart';
+export 'line_dash.dart';
 export 'list_view_builder.dart';
 export 'loading/loading.dart';
 export 'measure_size.dart';

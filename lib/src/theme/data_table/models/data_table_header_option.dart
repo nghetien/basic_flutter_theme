@@ -8,6 +8,7 @@ class DataTableHeaderOption {
     this.heightOfHeaderItem,
     this.sortDataVoid,
     this.additionFilter = const {},
+    this.borderRadius,
   });
 
   final bool isShowSortFilter;
@@ -16,4 +17,5 @@ class DataTableHeaderOption {
   final double? heightOfHeaderItem;
   final SortDataVoid? sortDataVoid;
   final Map<String, List<PopupMenuItem<String>>> additionFilter;
+  final Radius? borderRadius;
 }
