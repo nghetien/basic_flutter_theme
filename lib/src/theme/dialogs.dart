@@ -53,6 +53,7 @@ class BasicDialogs {
     BorderRadiusGeometry? borderRadius,
     EdgeInsets? padding,
     required String title,
+    VoidCallback? onPressedToTitle,
     String? customizeOkText,
     String? customizeCancelText,
     VoidCallback? onOkPressed,
@@ -82,11 +83,22 @@ class BasicDialogs {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  BasicTitle(
-                    title,
-                    titleType: BasicTitleType.level5,
-                    color: BasicAppColors.primary,
-                  ),
+                  onPressedToTitle == null
+                      ? BasicTitle(
+                          title,
+                          titleType: BasicTitleType.level5,
+                          color: BasicAppColors.primary,
+                        )
+                      : BasicTextButton(
+                          onPressed: () {
+                            onPressedToTitle();
+                          },
+                          child: BasicTitle(
+                            title,
+                            titleType: BasicTitleType.level5,
+                            color: BasicAppColors.primary,
+                          ),
+                        ),
                   VSpace.mainSpace,
                   const BasicDivider(),
                   VSpace.p4,

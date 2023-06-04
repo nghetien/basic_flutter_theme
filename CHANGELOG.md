@@ -1,3 +1,5 @@
+## 0.4.8
+* Update `BasicDialogs`.
 ## 0.4.7
 * Update `BasicDataTable`.
 ## 0.4.6
