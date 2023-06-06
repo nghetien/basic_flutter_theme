@@ -1,7 +1,7 @@
 part of 'buttons.dart';
 
-class BasicInkwellButton extends StatelessWidget {
-  const BasicInkwellButton({
+class BasicButtonInkwell extends StatelessWidget {
+  const BasicButtonInkwell({
     Key? key,
     this.text,
     this.child,

@@ -7,7 +7,6 @@ export 'data_table/data_table.dart';
 export 'dialogs.dart';
 export 'divider.dart';
 export 'expansions.dart';
-export 'icon_buttons/icon_buttons.dart';
 export 'images/images.dart';
 export 'inputs/inputs.dart';
 export 'line_dash.dart';

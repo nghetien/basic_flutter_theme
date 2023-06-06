@@ -89,7 +89,8 @@ class BasicDialogs {
                           titleType: BasicTitleType.level5,
                           color: BasicAppColors.primary,
                         )
-                      : BasicTextButton(
+                      : BasicButtonGestureDetector(
+                          type: BasicButtonGestureDetectorType.customize,
                           onPressed: () {
                             onPressedToTitle();
                           },
@@ -133,7 +134,8 @@ class BasicDialogs {
               Positioned(
                 top: 0,
                 right: 0,
-                child: BasicIconButton(
+                child: BasicButtonGestureDetector(
+                  type: BasicButtonGestureDetectorType.icon,
                   onPressed: () {
                     onCancelPressed?.call();
                     context.popNavigator();

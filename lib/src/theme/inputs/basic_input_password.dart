@@ -109,7 +109,8 @@ class _BasicInputPasswordState extends State<BasicInputPassword> {
 
   Widget _getSuffixIcon() {
     if (widget.suffixIcon != null) return widget.suffixIcon!;
-    return BasicIconButton(
+    return BasicButtonGestureDetector(
+      type: BasicButtonGestureDetectorType.icon,
       icon: Icon(
         _isShowPassword ? Icons.visibility_rounded : Icons.visibility_off_rounded,
         color: widget.iconPasswordColor,
