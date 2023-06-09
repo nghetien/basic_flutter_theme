@@ -153,6 +153,7 @@ class DataTableRowWidget<T> extends StatelessWidget {
       );
 
   Widget _wrapShowMore({required Widget child}) => Container(
+    width: double.infinity,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(width: BasicBorders.thin, color: BasicAppColors.greyOpacity04),
@@ -164,12 +165,12 @@ class DataTableRowWidget<T> extends StatelessWidget {
           margin: EdgeInsets.all(BasicPaddings.p4),
           decoration: BoxDecoration(
             border: Border(
-              right: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
-              left: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
-            ),
-          ),
-          child: child,
+          right: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
+          left: BorderSide(width: BasicBorders.thick, color: BasicAppColors.primary),
         ),
+      ),
+      child: child,
+    ),
       );
 
   Widget _wrapHeaderIntoRowWidget({required Widget child}) => Container(

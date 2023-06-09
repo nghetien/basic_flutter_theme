@@ -8,23 +8,19 @@ enum FixedColumn {
   right,
 }
 
-typedef CustomizeTitleWidget = Widget Function(
-  BuildContext context,
-  String columnKey,
-  String columnName,
-  double? width,
-  List<BasicScreenDevice>? showOnScreens,
-);
+class FilterHeaderItem<T> {
+  const FilterHeaderItem({
+    this.offset,
+    required this.heightPopup,
+    required this.widthPopup,
+    required this.child,
+  });
 
-typedef TableItemWidget<T> = Widget Function(
-  BuildContext context,
-  dynamic value,
-  T rowData,
-  String columnKey,
-  String columnName,
-  double? width,
-  List<BasicScreenDevice>? showOnScreens,
-);
+  final Offset? offset;
+  final double heightPopup;
+  final double widthPopup;
+  final CustomizeFilterWidget<T> child;
+}
 
 class DataTableColumn<T> {
   DataTableColumn({
@@ -38,6 +34,10 @@ class DataTableColumn<T> {
     this.customizeTitleWidget,
     this.showOnScreens,
     this.customizeItemWidget,
+    this.isShowSort = false,
+    this.sortDataVoid,
+    this.isShowFilter = false,
+    this.customizeFilter,
   });
 
   final String key;
@@ -50,4 +50,8 @@ class DataTableColumn<T> {
   final CustomizeTitleWidget? customizeTitleWidget;
   final List<BasicScreenDevice>? showOnScreens;
   final TableItemWidget<T>? customizeItemWidget;
+  final bool isShowSort;
+  final SortDataVoid<T>? sortDataVoid;
+  final bool isShowFilter;
+  final FilterHeaderItem<T>? customizeFilter;
 }

@@ -69,6 +69,7 @@ class BasicAppColors {
   static final Color greyOpacity02 = grey.withOpacity(0.2);
   static final Color greyOpacity04 = grey.withOpacity(0.4);
   static final Color greyOpacity06 = grey.withOpacity(0.6);
+  static final Color greyOpacity08 = grey.withOpacity(0.8);
 
   static final Color greenOpacity01 = green.withOpacity(0.1);
 

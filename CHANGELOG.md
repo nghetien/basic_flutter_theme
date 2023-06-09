@@ -1,3 +1,5 @@
+## 1.0.1
+* Update filter for `BasicDataTable`.
 ## 1.0.0
 * Censorship and Update name Widget, release first version.
 ## 0.4.8

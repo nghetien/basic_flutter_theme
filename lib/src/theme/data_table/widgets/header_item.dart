@@ -1,6 +1,6 @@
 part of '../data_table.dart';
 
-class DataTableHeaderItemWidget<T> extends StatelessWidget {
+class DataTableHeaderItemWidget<T> extends StatefulWidget {
   const DataTableHeaderItemWidget({
     Key? key,
     required this.index,
@@ -10,6 +10,8 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
     required this.column,
     required this.headerOption,
     required this.checkBoxOption,
+    required this.sortType,
+    required this.onSelectSortType,
   }) : super(key: key);
 
   final int index;
@@ -19,18 +21,88 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
   final DataTableColumn<T> column;
   final DataTableHeaderOption headerOption;
   final DataTableCheckBoxOption<T> checkBoxOption;
+  final MapEntry<String, DataTableSortType> sortType;
+  final ValueChanged<MapEntry<String, DataTableSortType>> onSelectSortType;
+
+  @override
+  State<DataTableHeaderItemWidget<T>> createState() => _DataTableHeaderItemWidgetState<T>();
+}
+
+class _DataTableHeaderItemWidgetState<T> extends State<DataTableHeaderItemWidget<T>> {
+  final MenuController _menuController = MenuController();
+  bool _enableFilter = false;
+  bool _isShowMenu = false;
+
+  bool get enableFilter => _enableFilter;
+
+  bool get isShowMenu => _isShowMenu;
+
+  void _setEnableFilter(bool value) => setState(() => _enableFilter = value);
+
+  void _setIsShowMenu(bool value) => _isShowMenu = value;
+
+  void _handleChangeSortType() {
+    late DataTableSortType type;
+    if (widget.column.key != widget.sortType.key) {
+      type = DataTableSortType.asc;
+      widget.onSelectSortType(MapEntry(widget.column.key, DataTableSortType.asc));
+    } else {
+      switch (widget.sortType.value) {
+        case DataTableSortType.none:
+          type = DataTableSortType.asc;
+          widget.onSelectSortType(MapEntry(widget.column.key, DataTableSortType.asc));
+          break;
+        case DataTableSortType.asc:
+          type = DataTableSortType.desc;
+          widget.onSelectSortType(MapEntry(widget.column.key, DataTableSortType.desc));
+          break;
+        case DataTableSortType.desc:
+          type = DataTableSortType.none;
+          widget.onSelectSortType(MapEntry(widget.column.key, DataTableSortType.none));
+          break;
+      }
+    }
+    widget.column.sortDataVoid?.call(
+      widget.column.key,
+      type,
+      _handleFilterData,
+    );
+  }
+
+  void _handleChangeShowMenu(bool value) {
+    _setIsShowMenu(value);
+    if (value) {
+      _menuController.open();
+    } else {
+      _menuController.close();
+    }
+  }
+
+  void _handleFilterData({
+    required List<T> dataSources,
+    int? totalRecords,
+    int? currentPage,
+    int? itemsPerPage,
+    int? pageNumber,
+  }) {
+    widget.controller.setDataSources(dataSources);
+    if (totalRecords != null) widget.controller.setTotalRecords(totalRecords);
+    if (currentPage != null) widget.controller.setCurrentPage(currentPage);
+    if (itemsPerPage != null) widget.controller.setItemsPerPage(itemsPerPage);
+    if (pageNumber != null) widget.controller.setPageNumber(pageNumber);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: fixedColumn == FixedColumn.none
-          ? controller.mapKeyToWidthOfEachColumnContent[column.key]
-          : column.width,
-      height: headerOption.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader,
+      width: widget.fixedColumn == FixedColumn.none
+          ? widget.controller.mapKeyToWidthOfEachColumnContent[widget.column.key]
+          : widget.column.width,
+      height: widget.headerOption.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            right: index < lengthOfColumn - 1
+            right: widget.index < widget.lengthOfColumn - 1
                 ? BorderSide(
                     color: BasicAppColors.greyOpacity04,
                     width: BasicBorders.thin,
@@ -44,18 +116,18 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
   }
 
   Widget _getWidgetHeaderItem(BuildContext context) {
-    if (column.key == DataTableAdditionColumn.checkbox.toString()) {
+    if (widget.column.key == DataTableAdditionColumn.checkbox.toString()) {
       return SizedBox(
-        width: column.width,
+        width: widget.column.width,
         child: CheckBoxColumn(
-          controller: controller,
-          onSelectCheckBox: checkBoxOption.onSelectCheckBox,
+          controller: widget.controller,
+          onSelectCheckBox: widget.checkBoxOption.onSelectCheckBox,
         ),
       );
     }
-    if (column.key == DataTableAdditionColumn.numbered.toString()) {
+    if (widget.column.key == DataTableAdditionColumn.numbered.toString()) {
       return SizedBox(
-        width: column.width,
+        width: widget.column.width,
         child: Align(
           alignment: Alignment.center,
           child: Text(
@@ -69,24 +141,24 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
         ),
       );
     }
-    final double? widthOfRowItem = fixedColumn != FixedColumn.none
-        ? column.width
-        : controller.mapKeyToWidthOfEachColumnContent[column.key];
+    final double? widthOfRowItem = widget.fixedColumn != FixedColumn.none
+        ? widget.column.width
+        : widget.controller.mapKeyToWidthOfEachColumnContent[widget.column.key];
     return Stack(
       children: <Widget>[
-        column.customizeTitleWidget != null
-            ? column.customizeTitleWidget!(
+        widget.column.customizeTitleWidget != null
+            ? widget.column.customizeTitleWidget!(
                 context,
-                column.key,
-                column.name,
+                widget.column.key,
+                widget.column.name,
                 widthOfRowItem,
-                column.showOnScreens,
+                widget.column.showOnScreens,
               )
             : Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
                 child: Text(
-                  column.name,
+                  widget.column.name,
                   textAlign: TextAlign.center,
                   style: BasicTextStyles.body.copyWith(
                     fontWeight: FontWeight.bold,
@@ -94,61 +166,95 @@ class DataTableHeaderItemWidget<T> extends StatelessWidget {
                   ),
                 ),
               ),
-        if (headerOption.isShowSortFilter)
+        if (widget.column.isShowSort || widget.column.isShowFilter)
           Positioned(
             right: 0,
             top: 0,
             bottom: 0,
-            child: CustomPopupMenuButton<String>(
-              itemBuilder: (BuildContext context) {
-                return <PopupMenuEntry<String>>[
-                  PopupMenuItem<String>(
-                    value: DataTableSortType.desc.toString(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(headerOption.customizeSortDesc),
-                        HSpace.p8,
-                        const Icon(Icons.arrow_downward_rounded),
-                      ],
-                    ),
-                    onTap: () => headerOption.sortDataVoid?.call(
-                      keyColumn: column.key,
-                      typeSort: DataTableSortType.desc,
-                    ),
-                  ),
-                  PopupMenuItem<String>(
-                    value: DataTableSortType.asc.toString(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(headerOption.customizeSortAsc),
-                        HSpace.p8,
-                        const Icon(Icons.arrow_upward_rounded),
-                      ],
-                    ),
-                    onTap: () => headerOption.sortDataVoid?.call(
-                      keyColumn: column.key,
-                      typeSort: DataTableSortType.asc,
-                    ),
-                  ),
-                  if (headerOption.additionFilter[column.key] != null)
-                    ...headerOption.additionFilter[column.key]!,
-                ];
-              },
-              offset: Offset(
-                  0, headerOption.heightOfHeaderItem ?? DataTableHeaderWidget.defaultHeightHeader),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
-                child: Icon(
-                  Icons.menu_rounded,
-                  color: BasicAppColors.white,
-                  size: BasicIconSizes.s18,
-                ),
-              ),
+            child: Row(
+              children: <Widget>[
+                if (widget.column.isShowSort) _sortWidget(),
+                if (widget.column.isShowFilter) _filterWidget(context),
+              ],
             ),
           ),
       ],
+    );
+  }
+
+  Widget _sortWidget() {
+    return BasicButtonGestureDetector(
+      onPressed: _handleChangeSortType,
+      type: BasicButtonGestureDetectorType.customize,
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: BasicPaddings.p8),
+            child: Icon(
+              Icons.arrow_drop_up_rounded,
+              size: BasicIconSizes.s24,
+              color: (widget.sortType.value == DataTableSortType.asc &&
+                      widget.sortType.key == widget.column.key)
+                  ? BasicAppColors.white
+                  : BasicAppColors.grey,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: BasicPaddings.p8),
+            child: Icon(
+              Icons.arrow_drop_down_rounded,
+              size: BasicIconSizes.s24,
+              color: (widget.sortType.value == DataTableSortType.desc &&
+                      widget.sortType.key == widget.column.key)
+                  ? BasicAppColors.white
+                  : BasicAppColors.grey,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _filterWidget(BuildContext context) {
+    return MenuAnchor(
+      crossAxisUnconstrained: false,
+      controller: _menuController,
+      alignmentOffset: widget.column.customizeFilter!.offset ?? const Offset(0, 10),
+      style: MenuStyle(
+        fixedSize: MaterialStateProperty.all(
+          Size(
+            widget.column.customizeFilter!.widthPopup,
+            widget.column.customizeFilter!.heightPopup,
+          ),
+        ),
+        visualDensity: VisualDensity.comfortable,
+      ),
+      menuChildren: [
+        widget.column.customizeFilter!.child(
+          context,
+          widget.column.key,
+          widget.column.name,
+          enableFilter,
+          isShowMenu,
+          _setEnableFilter,
+          _handleChangeShowMenu,
+          _handleFilterData,
+        ),
+      ],
+      builder: (context, controller, child) {
+        return Padding(
+          padding: EdgeInsets.only(right: BasicPaddings.p8),
+          child: BasicButtonGestureDetector(
+            onPressed: () => _handleChangeShowMenu(!_menuController.isOpen),
+            type: BasicButtonGestureDetectorType.customize,
+            child: Icon(
+              Icons.filter_list_rounded,
+              size: BasicIconSizes.s24,
+              color: enableFilter ? BasicAppColors.white : BasicAppColors.grey,
+            ),
+          ),
+        );
+      },
     );
   }
 }

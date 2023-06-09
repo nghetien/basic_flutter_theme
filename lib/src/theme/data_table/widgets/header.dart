@@ -1,6 +1,6 @@
 part of '../data_table.dart';
 
-class DataTableHeaderWidget<T> extends StatelessWidget {
+class DataTableHeaderWidget<T> extends StatefulWidget {
   const DataTableHeaderWidget({
     Key? key,
     required this.tableColumns,
@@ -19,44 +19,57 @@ class DataTableHeaderWidget<T> extends StatelessWidget {
   static final double defaultHeightHeader = 40.scaleSize;
 
   @override
+  State<DataTableHeaderWidget<T>> createState() => _DataTableHeaderWidgetState<T>();
+}
+
+class _DataTableHeaderWidgetState<T> extends State<DataTableHeaderWidget<T>> {
+  MapEntry<String, DataTableSortType> _sortType = const MapEntry('', DataTableSortType.none);
+
+  MapEntry<String, DataTableSortType> get sortType => _sortType;
+
+  void _setSortType(MapEntry<String, DataTableSortType> value) => setState(() => _sortType = value);
+
+  @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (_, __) => _generateHeaderItem(),
       );
 
   Radius _getRadiusRight() {
-    if (controller.haveFixedColumnsRight && fixedColumn == FixedColumn.none) {
+    if (widget.controller.haveFixedColumnsRight && widget.fixedColumn == FixedColumn.none) {
       return Radius.zero;
     }
-    if (fixedColumn == FixedColumn.left) {
+    if (widget.fixedColumn == FixedColumn.left) {
       return Radius.zero;
     }
-    return headerOption.borderRadius ?? BasicCorners.mainCornerRadius;
+    return widget.headerOption.borderRadius ?? BasicCorners.mainCornerRadius;
   }
 
   Radius _getRadiusLeft() {
-    if (controller.haveFixedColumnsLeft && fixedColumn == FixedColumn.none) {
+    if (widget.controller.haveFixedColumnsLeft && widget.fixedColumn == FixedColumn.none) {
       return Radius.zero;
     }
-    if (fixedColumn == FixedColumn.right) {
+    if (widget.fixedColumn == FixedColumn.right) {
       return Radius.zero;
     }
-    return headerOption.borderRadius ?? BasicCorners.mainCornerRadius;
+    return widget.headerOption.borderRadius ?? BasicCorners.mainCornerRadius;
   }
 
   Widget _generateHeaderItem() {
     final List<Widget> headers = [];
-    for (int index = 0; index < tableColumns.length; index++) {
-      if (isShowInScreen(tableColumns[index].showOnScreens)) {
+    for (int index = 0; index < widget.tableColumns.length; index++) {
+      if (isShowInScreen(widget.tableColumns[index].showOnScreens)) {
         headers.add(
           DataTableHeaderItemWidget(
-            key: ValueKey(tableColumns[index].key),
+            key: ValueKey(widget.tableColumns[index].key),
             index: index,
-            lengthOfColumn: tableColumns.length,
-            controller: controller,
-            column: tableColumns[index],
-            fixedColumn: fixedColumn,
-            headerOption: headerOption,
-            checkBoxOption: checkBoxOption,
+            lengthOfColumn: widget.tableColumns.length,
+            controller: widget.controller,
+            column: widget.tableColumns[index],
+            fixedColumn: widget.fixedColumn,
+            headerOption: widget.headerOption,
+            checkBoxOption: widget.checkBoxOption,
+            sortType: sortType,
+            onSelectSortType: _setSortType,
           ),
         );
       }
