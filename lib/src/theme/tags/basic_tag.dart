@@ -10,7 +10,7 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      tag(
+      _tag(
         value,
         height: height,
         padding: padding,
@@ -26,7 +26,7 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      tag(
+      _tag(
         value,
         height: height,
         padding: padding,
@@ -42,7 +42,7 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      tag(
+      _tag(
         value,
         height: height,
         padding: padding,
@@ -58,7 +58,7 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      tag(
+      _tag(
         value,
         height: height,
         padding: padding,
@@ -74,7 +74,7 @@ class BasicTags {
     BorderRadiusGeometry? borderRadius,
     TextStyle? textStyle,
   }) =>
-      tag(
+      _tag(
         value,
         height: height,
         padding: padding,
@@ -83,7 +83,7 @@ class BasicTags {
         color: BasicAppColors.grey,
       );
 
-  static Widget tag(
+  static Widget _tag(
     String value, {
     double? height,
     EdgeInsetsGeometry? padding,

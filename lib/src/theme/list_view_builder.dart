@@ -24,6 +24,7 @@ class BasicListView<T> extends StatelessWidget {
     this.addSemanticIndexes = true,
     this.cacheExtent,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -49,8 +50,7 @@ class BasicListView<T> extends StatelessWidget {
   final bool addSemanticIndexes;
   final double? cacheExtent;
   final DragStartBehavior dragStartBehavior;
-  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
-      ScrollViewKeyboardDismissBehavior.manual;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final String? restorationId;
   final Clip clipBehavior;
   final MainAxisAlignment mainAxisAlignment;

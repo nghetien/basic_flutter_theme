@@ -1,3 +1,5 @@
+## 1.0.2
+* Update color for `BasicCheckBoxForm`.
 ## 1.0.1
 * Update filter for `BasicDataTable`.
 ## 1.0.0

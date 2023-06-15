@@ -92,10 +92,13 @@ class BasicCheckBoxForm extends StatelessWidget {
         initialValue: initValue,
         selected: selected,
         onChanged: onChanged,
-        activeColor: activeColor ?? type.style.activeColor,
-        checkColor: checkColor ?? type.style.checkColor,
+        activeColor: enabled ? (activeColor ?? type.style.activeColor) : BasicAppColors.grey,
+        checkColor: enabled ? (checkColor ?? type.style.checkColor) : BasicAppColors.grey,
         shape: type.style.shape,
-        side: BorderSide(width: BasicBorders.med, color: BasicAppColors.primary),
+        side: BorderSide(
+          width: BasicBorders.med,
+          color: enabled ? BasicAppColors.primary : BasicAppColors.grey,
+        ),
         onReset: () => onChanged!(false),
         decoration: basicInputDecoration(
           context,
