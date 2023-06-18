@@ -7,8 +7,9 @@ class DataTableLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BasicCorners.cornerBorder8,
-          color: context.theme.colorScheme.background.withOpacity(0.5)),
+        borderRadius: BasicCorners.cornerBorder8,
+        color: context.theme.colorScheme.background.withOpacity(0.5),
+      ),
       child: const BasicLoadingWidget(),
     );
   }

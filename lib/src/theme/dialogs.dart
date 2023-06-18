@@ -60,6 +60,7 @@ class BasicDialogs {
     VoidCallback? onCancelPressed,
     required Widget content,
     bool showFooter = true,
+    Widget? customizeFooter,
   }) {
     final widthDefault = min<double>(context.widthScreen, 420.scaleSize);
     final heightDefault = min<double>(context.heightScreen, 500.scaleSize);
@@ -107,18 +108,19 @@ class BasicDialogs {
                   if (showFooter)
                     Padding(
                       padding: EdgeInsets.only(top: BasicPaddings.p4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          BasicButton(
-                            onPressed: () {
-                              onCancelPressed?.call();
-                              context.popNavigator();
-                            },
-                            size: BasicButtonSize.large,
-                            text: customizeCancelText ?? 'Cancel',
-                            textColor: BasicAppColors.primary,
-                          ),
+                      child: customizeFooter ??
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              BasicButton(
+                                onPressed: () {
+                                  onCancelPressed?.call();
+                                  context.popNavigator();
+                                },
+                                size: BasicButtonSize.large,
+                                text: customizeCancelText ?? 'Cancel',
+                                textColor: BasicAppColors.primary,
+                              ),
                           HSpace.mainSpace,
                           BasicButton(
                             onPressed: onOkPressed ?? () {},
