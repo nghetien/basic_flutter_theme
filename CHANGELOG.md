@@ -1,3 +1,5 @@
+## 1.0.5
+* Update `BasicMapStringToDynamicExtension`.
 ## 1.0.4
 * Update `BasicDialogs`.
 ## 1.0.3
