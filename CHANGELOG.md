@@ -1,3 +1,5 @@
+## 1.0.6
+* Update `Scroll` and `DataTable`.
 ## 1.0.5
 * Update `BasicMapStringToDynamicExtension`.
 ## 1.0.4

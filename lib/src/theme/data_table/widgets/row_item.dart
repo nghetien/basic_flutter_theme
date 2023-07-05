@@ -76,8 +76,9 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
         ),
       );
     }
-    return Padding(
+    return Container(
       padding: rowOption.paddingOfRowItem ?? EdgeInsets.all(BasicPaddings.p4),
+      alignment: column.defaultTextAlignment ?? Alignment.center,
       child: _defaultRowItem(
         value: (rowData as dynamic).toJson()[column.key],
         rowData: rowData,
@@ -85,7 +86,10 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
     );
   }
 
-  Widget _defaultRowItem({required dynamic value, required T rowData}) => Text(value.toString());
+  Widget _defaultRowItem({required dynamic value, required T rowData}) => Text(
+        value != null ? value.toString() : '',
+        style: BasicTextStyles.body,
+      );
 
   Widget _numberedRowItem() {
     return Container(

@@ -61,8 +61,8 @@ class BasicVerticalScrollState extends State<BasicVerticalScroll> {
   void didUpdateWidget(BasicVerticalScroll oldWidget) {
     if (oldWidget.maxScroll != widget.maxScroll && widget.maxScroll != null) {
       _maxScroll = widget.maxScroll ?? BasicSizeOfDevice.deviceHeight;
-      calculateScroll();
     }
+    calculateScroll();
     super.didUpdateWidget(oldWidget);
   }
 

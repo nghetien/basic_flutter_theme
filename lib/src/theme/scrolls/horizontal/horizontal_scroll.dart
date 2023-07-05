@@ -58,8 +58,8 @@ class CustomHorizontalState extends State<BasicHorizontalScroll> {
   void didUpdateWidget(covariant BasicHorizontalScroll oldWidget) {
     if (oldWidget.maxScroll != widget.maxScroll && widget.maxScroll != null) {
       _maxScroll = widget.maxScroll ?? BasicSizeOfDevice.deviceWidth;
-      calculateScroll();
     }
+    calculateScroll();
     super.didUpdateWidget(oldWidget);
   }
 

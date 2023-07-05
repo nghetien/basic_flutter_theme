@@ -38,6 +38,7 @@ class DataTableColumn<T> {
     this.sortDataVoid,
     this.isShowFilter = false,
     this.customizeFilter,
+    this.defaultTextAlignment,
   });
 
   final String key;
@@ -54,4 +55,5 @@ class DataTableColumn<T> {
   final SortDataVoid<T>? sortDataVoid;
   final bool isShowFilter;
   final FilterHeaderItem<T>? customizeFilter;
+  final AlignmentGeometry? defaultTextAlignment;
 }
