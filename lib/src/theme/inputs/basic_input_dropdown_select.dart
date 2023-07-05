@@ -39,7 +39,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
     this.autoValidateMode,
     this.validator,
     this.inputFormatters,
-    // this.valueTransformer, // ẩn tạm vì chưa dùng tới
+    this.valueTransformer,
     this.onChanged,
     this.onTap,
     this.onEditingComplete,
@@ -103,7 +103,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
 
-  // final ValueTransformer<BasicInputDropdownItemModel<T>?>? valueTransformer;
+  final ValueTransformer<List<BasicInputDropdownItemModel<T>>?>? valueTransformer;
   final ValueChanged<String?>? onChanged;
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
@@ -252,7 +252,9 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
               autoValidateMode: widget.autoValidateMode,
               validator: widget.validator,
               inputFormatters: widget.inputFormatters,
-              // valueTransformer: , // tạm thời chưa dùng đến ẩn
+              valueTransformer: (value) {
+                return widget.valueTransformer?.call(_menuChildrenSelected);
+              },
               onChanged: widget.onChanged,
               onTap: widget.onTap,
               onEditingComplete: widget.onEditingComplete,

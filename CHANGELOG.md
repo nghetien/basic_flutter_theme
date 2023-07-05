@@ -1,3 +1,5 @@
+## 1.0.7
+* Update `BasicInputDropdownSelect`.
 ## 1.0.6
 * Update `Scroll` and `DataTable`.
 ## 1.0.5
