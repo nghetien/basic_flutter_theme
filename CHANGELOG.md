@@ -1,3 +1,5 @@
+## 1.0.10
+* Update README.md and add Documents.
 ## 1.0.9
 * Update `DataTable` for Mobile UI.
 ## 1.0.8
