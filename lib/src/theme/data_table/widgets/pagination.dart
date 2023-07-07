@@ -122,13 +122,14 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        IconButton(
-          onPressed: () => _handleChangeDataPageLeft(true),
-          icon: const Icon(
-            Icons.keyboard_double_arrow_left_rounded,
-            color: BasicAppColors.white,
+        if (!BasicPlatform.isMobile)
+          IconButton(
+            onPressed: () => _handleChangeDataPageLeft(true),
+            icon: const Icon(
+              Icons.keyboard_double_arrow_left_rounded,
+              color: BasicAppColors.white,
+            ),
           ),
-        ),
         IconButton(
           onPressed: () => _handleChangeDataPageLeft(false),
           icon: const Icon(
@@ -202,13 +203,14 @@ class _DataTablePaginationWidgetState extends State<DataTablePaginationWidget> {
             color: BasicAppColors.white,
           ),
         ),
-        IconButton(
-          onPressed: () => _handleChangeDataPageRight(true),
-          icon: const Icon(
-            Icons.keyboard_double_arrow_right_rounded,
-            color: BasicAppColors.white,
+        if (!BasicPlatform.isMobile)
+          IconButton(
+            onPressed: () => _handleChangeDataPageRight(true),
+            icon: const Icon(
+              Icons.keyboard_double_arrow_right_rounded,
+              color: BasicAppColors.white,
+            ),
           ),
-        ),
       ],
     );
   }

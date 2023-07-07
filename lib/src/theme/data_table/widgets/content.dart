@@ -120,6 +120,7 @@ class DataTableContentWidgetState<T> extends State<DataTableContentWidget<T>> {
         shrinkWrap: true,
         primary: false,
         itemCount: widget.controller.dataSources.length,
+        padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           T rowData = widget.controller.dataSources[index];
           return Container(
