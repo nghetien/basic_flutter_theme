@@ -2,13 +2,11 @@ part of 'inputs.dart';
 
 class BasicInputTypeAheadDropdownItemModel<T> extends BasicInputDropdownItemModel<T> {
   const BasicInputTypeAheadDropdownItemModel({
-    required this.key,
+    required super.keyValue,
     required super.value,
     required super.label,
     super.child,
   });
-
-  final String key;
 }
 
 class BasicInputTypeAhead<T> extends StatefulWidget {
@@ -158,6 +156,7 @@ class BasicInputTypeAhead<T> extends StatefulWidget {
 
 class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<FormBuilderFieldState> _key = GlobalKey<FormBuilderFieldState>();
   final MenuController _menuController = MenuController();
   final FocusNode _searchFocusNode = FocusNode();
   final BasicLoadingController _loading = BasicLoadingController();
@@ -196,13 +195,14 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
     if (widget.initialValue != null && widget.initialValue!.isNotEmpty) {
       if (widget.isSelectOne) {
         _textEditingController.text = widget.initialValue!.first.label;
-        _selectedItem = MapEntry(widget.initialValue!.first.key, widget.initialValue!.first);
+        _selectedItem = MapEntry(widget.initialValue!.first.keyValue!, widget.initialValue!.first);
       } else {
-        _selectedItems.addAll(Map.fromEntries(widget.initialValue!.map((e) => MapEntry(e.key, e))));
+        _selectedItems
+            .addAll(Map.fromEntries(widget.initialValue!.map((e) => MapEntry(e.keyValue!, e))));
       }
     }
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
+          (_) => widget.initMenuChildren().then((value) => setState(() => _menuChildren = value)),
     );
   }
 
@@ -220,7 +220,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       return;
     }
     if (widget.isSelectOne) {
-      final find = _menuChildren.firstWhereOrNull((element) => element.key == values.first);
+      final find = _menuChildren.firstWhereOrNull((element) => element.keyValue == values.first);
       if (find != null) {
         _selectedItem = MapEntry(values.first, find);
         _textEditingController.text = _selectedItem!.value.label;
@@ -229,8 +229,8 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       try {
         _selectedItems.clear();
         _selectedItems.addAll(Map.fromEntries(_menuChildren
-            .where((element) => values.contains(element.key))
-            .map((e) => MapEntry(e.key, e))));
+            .where((element) => values.contains(element.keyValue))
+            .map((e) => MapEntry(e.keyValue!, e))));
         _textEditingController.text = _selectedItems.values.map((e) => e.label).join(', ');
       } catch (e) {
         BasicLogger.errorLog('BasicInputTypeAhead resetCurrentData $e');
@@ -268,8 +268,61 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
   }
 
   bool _isSelected(int index) => widget.isSelectOne
-      ? _selectedItem?.key == _menuChildren[index].key
-      : _selectedItems[_menuChildren[index].key] != null;
+      ? _selectedItem?.key == _menuChildren[index].keyValue
+      : _selectedItems[_menuChildren[index].keyValue] != null;
+
+  void _handleSelectItem(int index) {
+    final BasicInputTypeAheadDropdownItemModel<T> item = _menuChildren[index];
+    if (widget.isSelectOne) {
+      if (_selectedItem?.key != _menuChildren[index].keyValue) {
+        _textEditingController.text = item.label;
+        _selectedItem = MapEntry(
+          _menuChildren[index].keyValue!,
+          _menuChildren[index],
+        );
+        _key.currentState!.setValue(item.label);
+      } else {
+        _selectedItem = null;
+        _textEditingController.clear();
+        _key.currentState!.setValue(null);
+      }
+    } else {
+      if (_selectedItems[_menuChildren[index].keyValue] != null) {
+        _selectedItems.remove(_menuChildren[index].keyValue);
+      } else {
+        _selectedItems[_menuChildren[index].keyValue!] = _menuChildren[index];
+      }
+      if (_selectedItems.isEmpty) {
+        _key.currentState!.setValue(null);
+      } else {
+        _key.currentState!.setValue(
+          _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList(),
+        );
+      }
+    }
+    widget.onSelected.call(
+      _menuChildren[index],
+      widget.isSelectOne ? [] : _selectedItems.values.toList(),
+    );
+    if (widget.closeDropdownAfterSelect) _menuController.close();
+    setState(() {});
+  }
+
+  void _handleRemoveItem(String key) {
+    widget.onSelected.call(
+      _selectedItems[key]!,
+      _selectedItems.values.toList(),
+    );
+    if (_selectedItems.isEmpty) {
+      _key.currentState!.setValue(null);
+    } else {
+      _key.currentState!.setValue(
+        _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList(),
+      );
+    }
+    _selectedItems.remove(key);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +335,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
             if (widget.reloadMenuChildrenEachOpen) {
               _loading.show();
               widget.initMenuChildren().then(
-                (value) {
+                    (value) {
                   _loading.dismiss();
                   setState(() => _menuChildren = value);
                 },
@@ -297,6 +350,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
           menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
+              keyFormState: _key,
               name: widget.name,
               size: widget.size,
               width: widget.width,
@@ -399,14 +453,14 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
               onRefresh: () {
                 _searchController.clear();
                 widget.onRefreshMenuChildren().then(
-                  (value) {
+                      (value) {
                     _refreshController.refreshCompleted();
                     setState(() => _menuChildren = value);
                   },
                 );
               },
               onLoading: () => widget.onLoadingMenuChildren().then(
-                (value) {
+                    (value) {
                   _refreshController.loadComplete();
                   setState(() => _menuChildren.addAll(value));
                 },
@@ -425,35 +479,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
                             top: BasicPaddings.p4,
                             bottom: BasicPaddings.p4,
                           ),
-                          onPressed: () {
-                            if (widget.isSelectOne) {
-                              if (_selectedItem?.key != _menuChildren[index].key) {
-                                _textEditingController.text = item.label;
-                                setState(
-                                  () => _selectedItem = MapEntry(
-                                    _menuChildren[index].key,
-                                    _menuChildren[index],
-                                  ),
-                                );
-                              } else {
-                                setState(() => _selectedItem = null);
-                                _textEditingController.clear();
-                              }
-                            } else {
-                              if (_selectedItems[_menuChildren[index].key] != null) {
-                                _selectedItems.remove(_menuChildren[index].key);
-                                setState(() {});
-                              } else {
-                                _selectedItems[_menuChildren[index].key] = _menuChildren[index];
-                                setState(() {});
-                              }
-                            }
-                            if (widget.closeDropdownAfterSelect) _menuController.close();
-                            widget.onSelected.call(
-                              _menuChildren[index],
-                              widget.isSelectOne ? [] : _selectedItems.values.toList(),
-                            );
-                          },
+                          onPressed: () => _handleSelectItem(index),
                           alignment: Alignment.centerLeft,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(0)),
@@ -527,17 +553,10 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
         runSpacing: BasicPaddings.p8,
         spacing: BasicPaddings.p8,
         children: _selectedItems.keys.map(
-          (key) {
+              (key) {
             return BasicDynamicTag(
               textContent: _selectedItems[key]?.label,
-              whenClose: () {
-                widget.onSelected.call(
-                  _selectedItems[key]!,
-                  _selectedItems.values.toList(),
-                );
-                _selectedItems.remove(key);
-                setState(() {});
-              },
+              whenClose: () => _handleRemoveItem(key),
             );
           },
         ).toList(),

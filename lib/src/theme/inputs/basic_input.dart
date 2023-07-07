@@ -87,6 +87,7 @@ class BasicInputStyle {
 class BasicInput extends StatelessWidget {
   const BasicInput({
     Key? key,
+    this.keyFormState,
     this.name,
     this.size,
     this.width,
@@ -135,6 +136,7 @@ class BasicInput extends StatelessWidget {
     this.errorStyle,
   }) : super(key: key);
 
+  final GlobalKey? keyFormState;
   final String? name;
   final BasicInputSize? size;
   final double? width;
@@ -201,6 +203,7 @@ class BasicInput extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: width,
     child: FormBuilderTextField(
+          key: keyFormState,
           controller: controller,
           focusNode: focusNode,
           initialValue: initialValue,

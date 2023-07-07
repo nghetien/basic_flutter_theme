@@ -1,3 +1,5 @@
+## 1.0.8
+* Update `BasicInputDropdownSelect` and `BasicInputTypeAhead` add save value support for validator.
 ## 1.0.7
 * Update `BasicInputDropdownSelect`.
 ## 1.0.6

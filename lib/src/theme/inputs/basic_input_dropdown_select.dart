@@ -134,6 +134,7 @@ class BasicInputDropdownSelect<T> extends StatefulWidget {
 
 class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T>>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<FormBuilderFieldState> _key = GlobalKey<FormBuilderFieldState>();
   final MenuController _menuController = MenuController();
   late final FocusNode _focusNode;
   late final TextEditingController _searchController;
@@ -154,7 +155,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
   void _listenOnChangeInput() {
     if (_searchController.text.isNotEmpty) {
       setState(
-        () => _menuChildren = widget.filterOption(_searchController.text, widget.menuChildren),
+            () => _menuChildren = widget.filterOption(_searchController.text, widget.menuChildren),
       );
     } else {
       setState(() => _menuChildren = widget.menuChildren);
@@ -198,6 +199,43 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
     }
   }
 
+  void _handleSelectItem(BasicInputDropdownItemModel<T> item) {
+    if (_menuChildrenSelected.contains(item)) {
+      _menuChildrenSelected.remove(item);
+    } else {
+      _menuChildrenSelected.add(item);
+    }
+    if (_menuChildrenSelected.isEmpty) {
+      _key.currentState!.setValue(null);
+    } else {
+      _key.currentState!.setValue(
+        _menuChildrenSelected.map((e) => e.keyValue ?? '').toList().join(','),
+      );
+    }
+    widget.onSelected.call(
+      item,
+      _menuChildrenSelected,
+    );
+    if (widget.closeDropdownAfterSelect) _menuController.close();
+    setState(() {});
+  }
+
+  void _handleRemoveItem(BasicInputDropdownItemModel<T> item) {
+    _menuChildrenSelected.remove(item);
+    if (_menuChildrenSelected.isEmpty) {
+      _key.currentState!.setValue(null);
+    } else {
+      _key.currentState!.setValue(
+        _menuChildrenSelected.map((e) => e.keyValue ?? '').toList().join(','),
+      );
+    }
+    widget.onSelected.call(
+      item,
+      _menuChildrenSelected,
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -233,6 +271,7 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
           menuChildren: _generateMenuChildren(),
           builder: (context, controller, child) {
             return BasicInput(
+              keyFormState: _key,
               controller: widget.controller,
               name: widget.name,
               size: widget.size,
@@ -300,24 +339,12 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
         ),
       ),
       ..._menuChildren.map(
-        (item) {
+            (item) {
           final bool isSelected = _menuChildrenSelected.contains(item);
           return BasicButton(
             width: double.infinity,
             size: BasicButtonSize.large,
-            onPressed: () {
-              if (_menuChildrenSelected.contains(item)) {
-                _menuChildrenSelected.remove(item);
-              } else {
-                _menuChildrenSelected.add(item);
-              }
-              widget.onSelected.call(
-                item,
-                _menuChildrenSelected,
-              );
-              if (widget.closeDropdownAfterSelect) _menuController.close();
-              setState(() {});
-            },
+            onPressed: () => _handleSelectItem(item),
             alignment: Alignment.centerLeft,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(0)),
@@ -331,8 +358,8 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
                 item.child != null
                     ? item.child!(item.value, item.label)
                     : Flexible(
-                        child: Text(item.label),
-                      ),
+                  child: Text(item.label),
+                ),
                 if (isSelected)
                   widget.iconSelected ??
                       const Icon(
@@ -354,17 +381,10 @@ class _BasicInputDropdownSelectState<T> extends State<BasicInputDropdownSelect<T
         runSpacing: BasicPaddings.p8,
         spacing: BasicPaddings.p8,
         children: _menuChildrenSelected.map(
-          (item) {
+              (item) {
             return BasicDynamicTag(
               textContent: item.label,
-              whenClose: () {
-                _menuChildrenSelected.remove(item);
-                widget.onSelected.call(
-                  item,
-                  _menuChildrenSelected,
-                );
-                setState(() {});
-              },
+              whenClose: () => _handleRemoveItem(item),
             );
           },
         ).toList(),

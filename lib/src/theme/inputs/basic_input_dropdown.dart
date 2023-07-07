@@ -3,11 +3,13 @@ part of 'inputs.dart';
 class BasicInputDropdownItemModel<T> {
   const BasicInputDropdownItemModel({
     required this.value,
+    this.keyValue,
     required this.label,
     this.child,
   });
 
   final T value;
+  final String? keyValue;
   final String label;
   final Widget Function(T, String)? child;
 }
