@@ -27,4 +27,26 @@ extension BasicDateTimeExtension on DateTime {
   String get dateTimeStr => DateFormat('dd/MM/yyyy HH:mm').format(this);
 
   String get dayOfMonthOfYear => DateFormat.yMMMEd().format(this);
+
+  DateTime get firstDayOfWeek {
+    int days = weekday - DateTime.monday;
+    if (days < 0) days += DateTime.daysPerWeek;
+
+    return DateTime(
+      year,
+      month,
+      day - days,
+    );
+  }
+
+  DateTime get lastDayOfWeek {
+    int days = DateTime.monday - 1 - weekday;
+    if (days < 0) days += DateTime.daysPerWeek;
+
+    return DateTime(
+      year,
+      month,
+      day + days,
+    );
+  }
 }

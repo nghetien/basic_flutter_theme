@@ -1,16 +1,16 @@
 name: basic_flutter_theme
 description: Flutter basic theme.
-version: 1.0.10
+version: 1.0.11
 homepage: https://github.com/nghetien/basic_flutter_theme
 
 environment:
-  sdk: '>=2.18.6 <3.0.0'
+  sdk: '>=3.0.5 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.17.0 # Update lên là hẹo
+  intl: ^0.18.0 # Update lên là hẹo
   fluttertoast: ^8.2.2
   logger: ^1.4.0
   cached_network_image: ^3.2.3
@@ -18,8 +18,8 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
   shimmer: ^3.0.0
   flutter_dotenv: ^5.1.0
-  flutter_form_builder: ^8.0.0 # Update lên là hẹo
-  collection: ^1.17.0 # Update lên là hẹo
+  flutter_form_builder: ^9.0.0
+  collection: ^1.17.1 # Update lên là hẹo
   equatable: ^2.0.5
   shared_preferences: ^2.2.0
 
