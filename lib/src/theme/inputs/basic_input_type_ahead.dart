@@ -296,7 +296,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
         _key.currentState!.setValue(null);
       } else {
         _key.currentState!.setValue(
-          _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList(),
+          _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList().join(','),
         );
       }
     }
@@ -317,7 +317,7 @@ class BasicInputTypeAheadState<T> extends State<BasicInputTypeAhead<T>>
       _key.currentState!.setValue(null);
     } else {
       _key.currentState!.setValue(
-        _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList(),
+        _selectedItems.values.map<String>((value) => value.keyValue ?? '').toList().join(','),
       );
     }
     _selectedItems.remove(key);

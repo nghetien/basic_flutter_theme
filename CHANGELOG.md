@@ -1,3 +1,5 @@
+## 1.0.13
+* Fix bug basic input type ahead.
 ## 1.0.12
 * Update UI date time picker.
 ## 1.0.11
