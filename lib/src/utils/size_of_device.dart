@@ -4,8 +4,8 @@ class BasicSizeOfDevice {
   const BasicSizeOfDevice._();
 
   static final double deviceWidth =
-      MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
+      MediaQueryData.fromView(WidgetsBinding.instance.window).size.width;
 
   static final double deviceHeight =
-      MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height;
+      MediaQueryData.fromView(WidgetsBinding.instance.window).size.height;
 }

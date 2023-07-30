@@ -1,3 +1,5 @@
+## 1.0.12
+* Update UI date time picker.
 ## 1.0.11
 * Update dependencies.
 ## 1.0.10

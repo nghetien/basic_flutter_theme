@@ -126,6 +126,24 @@ class BasicAppThemes {
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
     ),
+    datePickerTheme: DatePickerThemeData(
+      headerBackgroundColor: BasicAppColors.primary,
+      // màu bên phải date picker
+      backgroundColor: BasicAppColors.bgSecondaryThemeLight,
+      // màu chọn ngày
+      headerForegroundColor: BasicAppColors.white,
+      // màu chữ
+      surfaceTintColor: BasicAppColors.bgSecondaryThemeLight,
+      rangePickerShape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+      dayStyle: BasicTextStyles.body,
+    ),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{
         TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -262,6 +280,24 @@ class BasicAppThemes {
         borderRadius: BasicCorners.mainCornerBorder,
         side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
       ),
+    ),
+    datePickerTheme: DatePickerThemeData(
+      headerBackgroundColor: BasicAppColors.primary,
+      // màu bên phải date picker
+      backgroundColor: BasicAppColors.bgSecondaryThemeDark,
+      // màu chọn ngày
+      headerForegroundColor: BasicAppColors.white,
+      // màu chữ
+      surfaceTintColor: BasicAppColors.bgSecondaryThemeDark,
+      rangePickerShape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BasicCorners.mainCornerBorder,
+        side: BorderSide(color: BasicAppColors.greyOpacity01, width: BasicBorders.thin),
+      ),
+      dayStyle: BasicTextStyles.body,
     ),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: <TargetPlatform, PageTransitionsBuilder>{
