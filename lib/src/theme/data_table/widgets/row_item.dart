@@ -82,13 +82,20 @@ class DataTableRowItemWidget<T> extends StatelessWidget {
       child: _defaultRowItem(
         value: (rowData as dynamic).toJson()[column.key],
         rowData: rowData,
+        maxLines: column.defaultTextMaxLines,
       ),
     );
   }
 
-  Widget _defaultRowItem({required dynamic value, required T rowData}) => Text(
+  Widget _defaultRowItem({
+    required dynamic value,
+    required T rowData,
+    int? maxLines,
+  }) =>
+      Text(
         value != null ? value.toString() : '',
         style: BasicTextStyles.body,
+        maxLines: maxLines,
       );
 
   Widget _numberedRowItem() {

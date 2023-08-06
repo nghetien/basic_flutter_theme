@@ -139,6 +139,8 @@ class DataTableController<T> extends ChangeNotifier {
 
   Map<int, T> get dataSelected => _state.dataSelected;
 
+  bool get isWidthColumnLargeThanWidthTable => _state.isWidthColumnLargeThanWidthTable;
+
   void setDataSources(List<T> dataSources) {
     _state.dataSources = dataSources;
     notifyListeners();
@@ -290,6 +292,12 @@ class DataTableController<T> extends ChangeNotifier {
         );
         return;
       }
+      if (isWidthColumnLargeThanWidthTable) {
+        _state.mapKeyToWidthOfEachColumnContent[element.key] = element.minWidth!;
+        cloneWidthOfAllColumns -= element.minWidth!;
+        sumOfAllFlex -= element.flex ?? 1;
+        continue;
+      }
       final double preCalculatedWidth = cloneWidthOfAllColumns * (element.flex ?? 1) / sumOfAllFlex;
       if (element.maxWidth != null && element.minWidth != null) {
         final double width = preCalculatedWidth.clamp(element.minWidth!, element.maxWidth!);
@@ -320,11 +328,13 @@ class DataTableController<T> extends ChangeNotifier {
 
   void setWidthOfColumnsContent(double value) {
     final double? widthOfAllContent = getWidthOfColumn(tableColumnsContent);
+    _state.isWidthColumnLargeThanWidthTable = false;
     if (widthOfAllContent == null) {
       _state.widthOfColumnsContent = value;
     } else if (widthOfAllContent <= value) {
       _state.widthOfColumnsContent = value;
     } else {
+      _state.isWidthColumnLargeThanWidthTable = true;
       _state.widthOfColumnsContent = widthOfAllContent;
     }
   }
