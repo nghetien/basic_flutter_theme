@@ -21,6 +21,7 @@ class BasicButtonGestureDetector extends StatelessWidget {
     this.color,
     this.icon,
     this.cursor = SystemMouseCursors.click,
+    this.maxLines,
   }) : super(key: key);
 
   final BasicButtonGestureDetectorType type;
@@ -35,6 +36,7 @@ class BasicButtonGestureDetector extends StatelessWidget {
   final Color? color;
   final Widget? icon;
   final MouseCursor cursor;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,7 @@ class BasicButtonGestureDetector extends StatelessWidget {
             fontWeight: textFontWeight,
             height: 0,
           ),
+          maxLines: maxLines,
         );
       case BasicButtonGestureDetectorType.customize:
         return child ?? defaultWidget;
