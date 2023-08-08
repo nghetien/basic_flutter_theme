@@ -155,8 +155,9 @@ class _DataTableHeaderItemWidgetState<T> extends State<DataTableHeaderItemWidget
                 widget.column.showOnScreens,
               )
             : Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
+                alignment: widget.headerOption.alignment ?? Alignment.center,
+                padding: widget.headerOption.padding ??
+                    EdgeInsets.symmetric(horizontal: BasicPaddings.p8),
                 child: Text(
                   widget.column.name,
                   textAlign: TextAlign.center,
